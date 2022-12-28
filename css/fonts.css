@@ -11,3 +11,201 @@
   font-style: normal;
   font-weight: normal;
 }
+
+/* Остальной иконочный шрифт */
+
+@font-face {
+  font-family: "font-icon";
+  src: url("/vsevn/fonts/FontIcon/font-icon.eot?38m2wd");
+  src: url("/vsevn/fonts/FontIcon/font-icon.eot?38m2wd#iefix") format("embedded-opentype"),
+        url("/vsevn/fonts/FontIcon/font-icon.ttf?38m2wd") format("truetype"),
+        url("/vsevn/fonts/FontIcon/font-icon.woff?38m2wd") format("woff"),
+        url("/vsevn/fonts/FontIcon/font-icon.svg?38m2wd#font-icon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+[class^="icon-"]::before,
+[class*="icon-"]::before {
+  font-family: "font-icon" !important;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-profile::before {
+  content: "\e92a";
+}
+
+.icon-quotes-end::before {
+  content: "\e929";
+}
+
+.icon-arrow-back::before {
+  content: "\e928";
+}
+
+.icon-heart::before {
+  content: "\e926";
+}
+
+.icon-heart-full::before {
+  content: "\e927";
+}
+
+.icon-arrow-circle::before {
+  content: "\e900";
+}
+
+.icon-bell::before {
+  content: "\e901";
+}
+
+.icon-bin::before {
+  content: "\e902";
+}
+
+.icon-building-with-tree::before {
+  content: "\e903";
+}
+
+.icon-calendar-empty::before {
+  content: "\e904";
+}
+
+.icon-checkbox::before {
+  content: "\e905";
+}
+
+.icon-chevron-down::before {
+  content: "\e906";
+}
+
+.icon-clock::before {
+  content: "\e907";
+}
+
+.icon-clock-arrow::before {
+  content: "\e908";
+}
+
+.icon-close::before {
+  content: "\e909";
+}
+
+.icon-c-values-bus::before {
+  content: "\e90a";
+}
+
+.icon-c-values-car::before {
+  content: "\e90b";
+}
+
+.icon-c-values-cook-hat::before {
+  content: "\e90c";
+}
+
+.icon-c-values-food::before {
+  content: "\e90d";
+}
+
+.icon-c-values-healthcare::before {
+  content: "\e90e";
+}
+
+.icon-c-values-heart::before {
+  content: "\e90f";
+}
+
+.icon-c-values-homeoffice::before {
+  content: "\e910";
+}
+
+.icon-c-values-percent::before {
+  content: "\e911";
+}
+
+.icon-c-values-schedule::before {
+  content: "\e912";
+}
+
+.icon-c-values-study::before {
+  content: "\e913";
+}
+
+.icon-c-values-up::before {
+  content: "\e914";
+}
+
+.icon-dot::before {
+  content: "\e915";
+}
+
+.icon-filter::before {
+  content: "\e916";
+}
+
+.icon-link-share::before {
+  content: "\e917";
+}
+
+.icon-location::before {
+  content: "\e918";
+}
+
+.icon-lock::before {
+  content: "\e919";
+}
+
+.icon-man::before {
+  content: "\e91a";
+}
+
+.icon-minus-circle::before {
+  content: "\e91b";
+}
+
+.icon-pencil::before {
+  content: "\e91c";
+}
+
+.icon-plus::before {
+  content: "\e91d";
+}
+
+.icon-plus-circle::before {
+  content: "\e91e";
+}
+
+.icon-portfolio::before {
+  content: "\e91f";
+}
+
+.icon-printer::before {
+  content: "\e920";
+}
+
+.icon-search::before {
+  content: "\e921";
+}
+
+.icon-share::before {
+  content: "\e922";
+}
+
+.icon-star::before {
+  content: "\e923";
+}
+
+.icon-star-full::before {
+  content: "\e924";
+}
+
+.icon-woman::before {
+  content: "\e925";
+}
