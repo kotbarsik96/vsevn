@@ -1,0 +1,13 @@
+@font-face {
+  font-family: "ZabraProRegular";
+  src: url("../fonts/ZabraPro/ZabraProTest3-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "ZabraProMedium";
+  src: url("../fonts/ZabraPro/ZabraProTest3-Medium.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
