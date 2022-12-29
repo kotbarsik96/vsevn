@@ -3163,292 +3163,201 @@
                     <section class="forms__container">
                         <h2 class="forms__title">Личные данные</h2>
                         <div class="forms__fields-group">
-                            <div class="forms__fields-item field">
-                                <label class="field__name" for="name">Имя</label>
-                                <input class="field__wrapper field__input" id="name" data-complete-length="1, 25"
-                                    aria-label="Имя" placeholder="Имя" type="text" name="name">
-                                <p class="forms__fields-uncompleted __mobile">
-                                    Пожалуйста, укажите имя.
+                            <div class="text-field text-field--standard forms__fields-item">
+                                <label for="name" class="field-label">Имя</label>
+                                <input type="text" class="text-field__input" id="name" name="name" placeholder="Имя" data-complete-length="1, 25" aria-label="Имя">
+                            </div>
+                            <div class="text-field text-field--standard forms__fields-item">
+                                <label for="patronymic" class="field-label">Отчество</label>
+                                <input type="text" class="text-field__input" id="patronymic" name="patronymic" placeholder="Отчество" data-complete-length="1, 25" aria-label="Отчество">
+                            </div>
+                        </div>
+                        <div class="forms__fields-group">
+                            <div class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                                <label for="surname" class="field-label">Фамилия</label>
+                                <input type="text" class="text-field__input" id="surname" name="surname" placeholder="Фамилия" data-complete-length="1, 25" aria-label="Фамилия">
+                                <p class="field__uncompleted">
+                                    Пожалуйста, укажите вашу фамилию
                                 </p>
                             </div>
-                            <div class="forms__fields-item field">
-                                <label class="field__name" for="patronymic">Отчество</label>
-                                <input class="field__wrapper field__input" id="patronymic" data-complete-length="1, 25"
-                                    aria-label="Отчество" placeholder="Отчество" type="text" name="patronymic">
-                                <p class="forms__fields-uncompleted __mobile">
-                                    Пожалуйста, укажите отчество.
-                                </p>
+                        </div>
+                        <div class="forms__fields-group">
+                            <div class="text-field text-field--standard forms__fields-item">
+                                <label for="phone-number" class="field-label">Телефон</label>
+                                <input type="text" class="text-field__input" id="phone-number" name="phone-number" placeholder="Телефон" data-mask="+7 (___) ___ - __ - __" data-numbers-only aria-label="Телефон">
+                            </div>
+                            <div class="text-field text-field--standard forms__fields-item">
+                                <label for="email" class="field-label">Email</label>
+                                <input type="text" class="text-field__input" id="email" name="email" placeholder="Email" aria-label="Email" data-complete-length="4, 25">
                             </div>
                         </div>
                         <div class="forms__fields-group">
-                            <div class="forms__fields-item field">
-                                <label class="field__name" for="surname">Фамилия</label>
-                                <input class="field__wrapper field__input" id="surname" data-complete-length="1, 25"
-                                    aria-label="Фамилия" placeholder="Фамилия" type="text" name="surname">
-                                <p class="forms__fields-uncompleted">Пожалуйста, укажите вашу фамилию.</p>
+                            <p class="field__name">Пол</p>
+                            <div class="field__selection">
+                                <div class="field__wrapper field__selection-option">
+                                    <input class="field__selection-input" name="gender" type="radio" id="gender-male">
+                                    <label class="field__selection-label" for="gender-male">
+                                        <span class="field__selection-icon icon-man"></span>
+                                        Мужской
+                                    </label>
+                                </div>
+                                <div class="field__wrapper field__selection-option">
+                                    <input class="field__selection-input" name="gender" type="radio" id="gender-female">
+                                    <label class="field__selection-label" for="gender-female">
+                                        <span class="field__selection-icon icon-woman"></span>
+                                        Женский
+                                    </label>
+                                </div>
                             </div>
+                            <p class="forms__fields-uncompleted">Пожалуйста, укажите ваш пол.</p>
                         </div>
                         <div class="forms__fields-group">
-                            <div class="forms__fields-item field">
-                                <label class="field__name" for="phone-number">Телефон</label>
-                                <input class="field__wrapper field__input" id="phone-number"
-                                    data-mask="+7 (___) ___ - __ - __" data-numbers-only aria-label="Телефон"
-                                    type="text" name="phone-number">
-                            </div>
-                            <div class="forms__fields-item field">
-                                <label class="field__name" for="email">Email</label>
-                                <input class="field__wrapper field__input" id="email" data-complete-length="4"
-                                    aria-label="Email" placeholder="Email" type="text" name="email">
-                            </div>
-                        </div>
-                        <div class="forms__fields-group">
-                            <div class="forms__fields-item field">
-                                <p class="field__name">Пол</p>
-                                <div class="field__selection">
-                                    <div class="field__wrapper field__selection-option">
-                                        <input class="field__selection-input" name="gender" type="radio"
-                                            id="gender-male">
-                                        <label class="field__selection-label" for="gender-male">
-                                            <span class="field__selection-icon icon-man"></span>
-                                            Мужской
-                                        </label>
+                            <div class="multiselect forms__fields-item forms__fields-item--full">
+                                <label class="field-label">
+                                    Ваш статус
+                                </label>
+                                <div class="selectBox">
+                                    <div class="selectBox_wrapper">
+                                        <div class="selectBox_value-text">Статус</div>
+                                        <div class="overSelect"></div>
                                     </div>
-                                    <div class="field__wrapper field__selection-option">
-                                        <input class="field__selection-input" name="gender" type="radio"
-                                            id="gender-female">
-                                        <label class="field__selection-label" for="gender-female">
-                                            <span class="field__selection-icon icon-woman"></span>
-                                            Женский
-                                        </label>
-                                    </div>
-                                </div>
-                                <p class="forms__fields-uncompleted">Пожалуйста, укажите ваш пол.</p>
-                            </div>
-                        </div>
-                        <div class="forms__fields-group">
-                            <div class="forms__fields-item field">
-                                <p class="field__name">Статус</p>
-                                <div class="field__wrapper select">
-                                    <div class="select__value icon-chevron-down">
-                                        Ваш статус
-                                    </div>
-                                    <ul class="select__options">
-                                        <li class="select__option">
-                                            <label class="select__option-label">
-                                                <input type="radio" name="status" aria-label="Статус"
-                                                    value="Работаю, но открыт(а) для предложений">
-                                            </label>
-                                        </li>
-                                        <li class="select__option">
-                                            <label class="select__option-label">
-                                                <input type="radio" name="status" value="Безработный/безработная">
-                                            </label>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <p class="forms__fields-uncompleted">Пожалуйста, укажите статус.</p>
-                            </div>
-                        </div>
-                        <div class="forms__fields-group">
-                            <div class="forms__fields-item field" style="flex: 0 1 auto;">
-                                <p class="field__name">Дата рождения</p>
-                                <div class="field__wrapper field__input-multi field__input--date field-init--birthdate"
-                                    data-name="birthdate">
-                                    <input type="text" name="birthday" style="width: 1.5em;" maxlength="2"
-                                        placeholder="дд" data-numbers-only>
-                                    <span class="field__delimeter">.</span>
-                                    <input type="text" name="birthmonth" style="width: 1.5em;" maxlength="2"
-                                        placeholder="мм" data-numbers-only>
-                                    <span class="field__delimeter">.</span>
-                                    <input type="text" name="birthyear" placeholder="гггг" style="width: 3em;"
-                                        maxlength="4" data-numbers-only>
-                                </div>
-                                <p class="forms__fields-uncompleted">Пожалуйста, укажите корректную дату рождения.
-                                    Минимальный год: <span class="birthdate-min-year"></span>, максимальный год: <span
-                                        class="birthdate-max-year"></span>.</p>
-                            </div>
-                            <div class="forms__fields-item field forms__fields-item--zodiac">
-                                <label class="field__name" for="zodiac">Знак зодиака</label>
-                                <input class="field__wrapper field__input field__input--zodiac" disabled id="zodiac"
-                                    data-complete-length="1" aria-label="Знак зодиака" placeholder="Знак зодиака"
-                                    type="text" name="zodiac">
-                                <p class="forms__fields-uncompleted">Пожалуйста, укажите знак зодиака.</p>
-                            </div>
-                            <div class="forms__fields-item field field--hint forms__fields-item--age">
-                                <label class="field__name" for="age">Возраст</label>
-                                <input class="field__wrapper field__input field__input--age" id="age" data-mask="__"
-                                    data-numbers-only name="age" disabled aria-label="Возраст" type="text">
-                                <span class="field__hint-text">лет</span>
-                                <p class="forms__fields-uncompleted">Пожалуйста, укажите возраст.</p>
-                            </div>
-                        </div>
-                        <div class="forms__fields-group">
-                            <div class="forms__fields-item field">
-                                <p class="field__name">Семейное положение</p>
-                                <div class="field__wrapper select">
-                                    <div class="select__value icon-chevron-down">
-                                        Ваше семейное положение
-                                    </div>
-                                    <ul class="select__options">
-                                        <li class="select__option">
-                                            <label class="select__option-label">
-                                                <input type="radio" name="marital" aria-label="Семейное положение"
-                                                    value="Женат/замужем">
-                                            </label>
-                                        </li>
-                                        <li class="select__option">
-                                            <label class="select__option-label">
-                                                <input type="radio" name="marital" value="Живу в гражданском браке">
-                                            </label>
-                                        </li>
-                                        <li class="select__option">
-                                            <label class="select__option-label">
-                                                <input type="radio" name="marital" value="В разводе">
-                                            </label>
-                                        </li>
-                                        <li class="select__option">
-                                            <label class="select__option-label">
-                                                <input type="radio" name="marital" value="Холост/не замужем">
-                                            </label>
-                                        </li>
-                                        <li class="select__option">
-                                            <label class="select__option-label">
-                                                <input type="radio" name="marital" value="Вдовец/вдова">
-                                            </label>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <p class="forms__fields-uncompleted">Пожалуйста, укажите семейное положение.</p>
-                            </div>
-                        </div>
-                        <div class="forms__fields-group">
-                            <div class="forms__fields-item field">
-                                <p class="field__name add-field__title">Наличие детей</p>
-                                <div class="field__wrapper select field-init--select-children">
-                                    <div class="select__value icon-chevron-down">
-                                        Наличие детей
-                                    </div>
-                                    <ul class="select__options">
-                                        <li class="select__option">
-                                            <label class="select__option-label">
-                                                <input type="radio" name="children" aria-label="Наличие детей"
-                                                    value="Есть">
-                                            </label>
-                                        </li>
-                                        <li class="select__option">
-                                            <label class="select__option-label">
-                                                <input type="radio" name="children" value="Нет"
-                                                    aria-label="Наличие детей">
-                                            </label>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="field__wrapper add-field">
-                                    <div class="add-field__icon icon-plus"></div>
-                                    <p class="add-field__text">
-                                        Указать возраст ребенка
-                                    </p>
-                                </div>
-                                <p class="forms__fields-uncompleted">Пожалуйста, укажите наличие детей.</p>
-                                <div class="forms__fields-group children-group" data-add-group>
-                                    <div class="forms__fields-item field">
-                                        <label class="field__name">Возраст</label>
-                                        <div class="field__wrapper select">
-                                            <div class="select__value icon-chevron-down">
-                                                Возраст ребенка
-                                            </div>
-                                            <ul class="select__options">
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="children-age" value="Меньше года">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="children-age" value="1">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="children-age" value="2">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="children-age" value="3">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="children-age" value="4">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="children-age" value="5">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="children-age" value="6">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="children-age" value="7">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="children-age" value="8">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="children-age" value="9">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="children-age" value="10">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="children-age" value="11">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="children-age" value="12">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="children-age" value="13">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="children-age" value="14">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="children-age" value="15">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="children-age" value="16">
-                                                    </label>
-                                                </li>
-                                            </ul>
+                                    <div class="selctexit_btn">
+                                        <div class="exitlin_wrapper">
+                                            <div class="exit_line"></div>
+                                            <div class="exit_line"></div>
                                         </div>
-                                        <p class="forms__fields-uncompleted">Пожалуйста, укажите возраст ребенка.</p>
+                                        <div class="selctexit_btn_hint">
+                                            Очистить поле?
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="checkboxes">
+                                    <label class="multiselect__label">
+                                        <input class="checrkradio_hidden" type="radio" name="employer-status"
+                                            value="no-work" data-mselect-value="Безработный(ая)">
+                                        Работаю, но открыт(а) для предложений
+                                    </label>
+                                    <label class="multiselect__label">
+                                        <input class="checrkradio_hidden" type="radio" name="employer-status"
+                                            value="works" data-mselect-value="Работает">
+                                        Безработный(ая)
+                                    </label>
+                                </div>
                             </div>
+                            <p class="field__uncompleted">Пожалуйста, укажите ваш статус.</p>
+                        </div>
+                        <div class="forms__fields-group forms__fields-group--birthdate">
+                            <div class="text-field--birthdate forms__fields-item">
+                                <label for="birthday" class="field-label">Дата рождения</label>
+                                <div class="text-field__input-multi">
+                                    <input class="text-field__input-subfield" maxlength="2" type="text" name="birthday" id="birthday" placeholder="дд">
+                                    <span class="text-field__input-multi-delimiter">.</span>
+                                    <input class="text-field__input-subfield" maxlength="2" type="text" name="birthmonth" id="birthmonth" placeholder="мм">
+                                    <span class="text-field__input-multi-delimiter">.</span>
+                                    <input class="text-field__input-subfield" maxlength="4" type="text" name="birthyear" id="birthyear" placeholder="гггг">
+                                </div>
+                                <input type="hidden" class="text-field__input" id="birthdate" name="birthdate" placeholder="Дата рождения" data-complete-length="1, 25" aria-label="Дата рождения">
+                            </div>
+                            <p class="field__uncompleted">
+                                Пожалуйста, укажите корректную дату рождения. Минимальный год: 
+                                <span class="birthdate-min-year"></span>, 
+                                максимальный год: 
+                                <span class="birthdate-max-year"></span>.
+                            </p>
+                            <div class="text-field text-field--standard text-field--zodiac forms__fields-item">
+                                <label for="zodiac" class="field-label">Знак зодиака</label>
+                                <input type="text" disabled class="text-field__input" id="zodiac" name="zodiac" placeholder="Знак зодиака" aria-label="Знак зодиака">
+                            </div>
+                            <div class="text-field text-field--standard text-field--age forms__fields-item">
+                                <label for="age" class="field-label">Возраст</label>
+                                <input type="text" disabled class="text-field__input" id="age" name="age" placeholder="__" data-complete-length="1, 25" aria-label="Возраст">
+                                лет
+                            </div>
+                        </div>
+                        <div class="forms__fields-group">
+                            <div class="multiselect forms__fields-item forms__fields-item--full">
+                                <label class="field-label">
+                                    Семейное положение
+                                </label>
+                                <div class="selectBox">
+                                    <div class="selectBox_wrapper">
+                                        <div class="selectBox_value-text">Семейное положение</div>
+                                        <div class="overSelect"></div>
+                                    </div>
+                                    <div class="selctexit_btn">
+                                        <div class="exitlin_wrapper">
+                                            <div class="exit_line"></div>
+                                            <div class="exit_line"></div>
+                                        </div>
+                                        <div class="selctexit_btn_hint">
+                                            Очистить поле?
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="checkboxes">
+                                    <label class="multiselect__label">
+                                        <input class="checrkradio_hidden" type="radio" name="marital"
+                                            value="married" data-mselect-value="Женат/замужем">
+                                        Женат/замужем
+                                    </label>
+                                    <label class="multiselect__label">
+                                        <input class="checrkradio_hidden" type="radio" name="marital"
+                                            value="civil-marriage" data-mselect-value="Живу в гражданском браке">
+                                        Живу в гражданском браке
+                                    </label>
+                                    <label class="multiselect__label">
+                                        <input class="checrkradio_hidden" type="radio" name="marital"
+                                            value="divorced" data-mselect-value="В разводе">
+                                        В разводе
+                                    </label>
+                                    <label class="multiselect__label">
+                                        <input class="checrkradio_hidden" type="radio" name="marital"
+                                            value="single" data-mselect-value="Холост/не замужем">
+                                        Холост/не замужем
+                                    </label>
+                                    <label class="multiselect__label">
+                                        <input class="checrkradio_hidden" type="radio" name="marital"
+                                            value="widow" data-mselect-value="Вдовец/вдова">
+                                        Вдовец/вдова
+                                    </label>
+                                </div>
+                            </div>
+                            <p class="field__uncompleted">Пожалуйста, укажите ваше семейное положение.</p>
+                        </div>
+                        <div class="forms__fields-group">
+                            <div class="multiselect forms__fields-item forms__fields-item--full">
+                                <label class="field-label">
+                                    Наличие детей
+                                </label>
+                                <div class="selectBox">
+                                    <div class="selectBox_wrapper">
+                                        <div class="selectBox_value-text">Наличие детей</div>
+                                        <div class="overSelect"></div>
+                                    </div>
+                                    <div class="selctexit_btn">
+                                        <div class="exitlin_wrapper">
+                                            <div class="exit_line"></div>
+                                            <div class="exit_line"></div>
+                                        </div>
+                                        <div class="selctexit_btn_hint">
+                                            Очистить поле?
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="checkboxes">
+                                    <label class="multiselect__label">
+                                        <input class="checrkradio_hidden" type="radio" name="has-children"
+                                            value="yes" data-mselect-value="Есть">
+                                        Есть
+                                    </label>
+                                    <label class="multiselect__label">
+                                        <input class="checrkradio_hidden" type="radio" name="has-children"
+                                            value="no" data-mselect-value="Нет">
+                                        Нет
+                                    </label>
+                                </div>
+                            </div>
+                            <p class="field__uncompleted">Пожалуйста, укажите наличие детей.</p>
                         </div>
                     </section>
                     <section class="forms__container">
@@ -3461,13 +3370,10 @@
                             <h4 class="forms__title">Образование в школе, гимназии</h4>
                             <div class="add-field__container bordered-field" data-add-group>
                                 <div class="forms__fields-group">
-                                    <div class="forms__fields-item field">
-                                        <label class="field__name" for="education-school_city">Город</label>
-                                        <input class="field__wrapper field__input" id="education-school_city"
-                                            data-complete-length="1, 25" aria-label="Город обучения в школе, гимназии"
-                                            placeholder="Город обучения в школе, гимназии" type="text"
-                                            name="education-school_city">
-                                        <p class="forms__fields-uncompleted">Пожалуйста, укажите город.</p>
+                                    <div class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                                        <label for="education-school_city" class="field-label">Город</label>
+                                        <input type="text" class="text-field__input" id="education-school_city" name="education-school_city" placeholder="Город" data-complete-length="1, 25" aria-label="Город">
+                                        <p class="field__uncompleted">Пожалуйста, укажите город</p>
                                     </div>
                                 </div>
                                 <div class="forms__fields-group forms__fields-group-margin">
@@ -3506,41 +3412,50 @@
                                     <p class="forms__fields-uncompleted">Пожалуйста, укажите период обучения.</p>
                                 </div>
                                 <div class="forms__fields-group">
-                                    <div class="forms__fields-item field">
-                                        <label class="field__name" for="school-number-title">Номер и название
-                                            школы</label>
-                                        <input class="field__wrapper field__input" id="school-number-title"
-                                            data-complete-length="1, 25" aria-label="Номер и название школы"
-                                            placeholder="например: ООШ №20" type="text" name="school-number-title">
-                                        <p class="forms__fields-uncompleted">Пожалуйста, укажите номер и название школы.
-                                        </p>
+                                    <div class="text-field text-field--standard forms__fields-item">
+                                        <label for="school-number_title" class="field-label">Номер и название школы</label>
+                                        <input type="text" class="text-field__input" id="school-number_title" name="school-number_title" placeholder="Например: ООШ №20" data-complete-length="1, 25" aria-label="Номер и название школы">
+                                        <p class="field__uncompleted">Пожалуйста, укажите номер и название школы</p>
                                     </div>
                                     <div class="forms__fields-item field">
-                                        <p class="field__name">Наличие медали</p>
-                                        <div class="field__wrapper select">
-                                            <div class="select__value icon-chevron-down">
+                                        <div class="multiselect forms__fields-item forms__fields-item--full">
+                                            <label class="field-label">
                                                 Наличие медали
+                                            </label>
+                                            <div class="selectBox">
+                                                <div class="selectBox_wrapper">
+                                                    <div class="selectBox_value-text">Наличие медали</div>
+                                                    <div class="overSelect"></div>
+                                                </div>
+                                                <div class="selctexit_btn">
+                                                    <div class="exitlin_wrapper">
+                                                        <div class="exit_line"></div>
+                                                        <div class="exit_line"></div>
+                                                    </div>
+                                                    <div class="selctexit_btn_hint">
+                                                        Очистить поле?
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <ul class="select__options">
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="school-medal"
-                                                            aria-label="Форма обучения" value="Нет">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="school-medal" value="Золотая">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="school-medal" value="Серебряная">
-                                                    </label>
-                                                </li>
-                                            </ul>
+                                            <div class="checkboxes">
+                                                <label class="multiselect__label">
+                                                    <input class="checrkradio_hidden" type="radio" name="school-medal"
+                                                        value="no" data-mselect-value="Нет">
+                                                    Нет
+                                                </label>
+                                                <label class="multiselect__label">
+                                                    <input class="checrkradio_hidden" type="radio" name="school-medal"
+                                                        value="gold" data-mselect-value="Золотая">
+                                                    Золотая
+                                                </label>
+                                                <label class="multiselect__label">
+                                                    <input class="checrkradio_hidden" type="radio" name="school-medal"
+                                                        value="silver" data-mselect-value="Серебряная">
+                                                    Серебряная
+                                                </label>
+                                            </div>
                                         </div>
-                                        <p class="forms__fields-uncompleted">Пожалуйста, наличие медали.</p>
+                                        <p class="field__uncompleted">Пожалуйста, укажите наличие медали.</p>
                                     </div>
                                 </div>
                             </div>
@@ -3557,24 +3472,19 @@
                                 колледж)</h4>
                             <div class="add-field__container bordered-field" data-add-group>
                                 <div class="forms__fields-group">
-                                    <div class="forms__fields-item field">
-                                        <label class="field__name" for="education-sec-title">Название учебного
-                                            заведения</label>
-                                        <input class="field__wrapper field__input" id="education-sec-title"
-                                            data-complete-length="1, 25" aria-label="Название учебного зваедения"
-                                            placeholder="Название учебного заведения" type="text"
-                                            name="education-sec-title">
-                                        <p class="forms__fields-uncompleted">Пожалуйста, название учебного заведения.
-                                        </p>
+                                    <div class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                                        <label for="education-sec-title" class="field-label">Название учебного заведения</label>
+                                        <input type="text" class="text-field__input" id="education-sec-title" name="education-sec-title" placeholder="Название учебного заведения" data-complete-length="1, 25" aria-label="Название учебного заведения">
+                                        <p class="field__uncompleted">Пожалуйста, укажите название учебного заведения</p>
                                     </div>
                                 </div>
                                 <div class="forms__fields-group">
-                                    <div class="forms__fields-item field">
-                                        <label class="field__name" for="education-sec-speciality">Специальность</label>
-                                        <input class="field__wrapper field__input" id="education-sec-speciality"
-                                            data-complete-length="1, 25" aria-label="Название учебного зваедения"
-                                            placeholder="Специальность" type="text" name="education-sec-speciality">
-                                        <p class="forms__fields-uncompleted">Пожалуйста, укажите специальность.</p>
+                                    <div class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                                        <label for="education-sec-speciality" class="field-label">Специальность</label>
+                                        <input type="text" class="text-field__input" id="education-sec-speciality" name="education-sec-speciality" placeholder="Специальность" data-complete-length="1, 25" aria-label="Специальность">
+                                        <p class="field__uncompleted">
+                                            Пожалуйста, укажите специальность
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="forms__fields-group forms__fields-group-margin">
@@ -3607,71 +3517,89 @@
                                     <p class="forms__fields-uncompleted">Пожалуйста, укажите период обучения.</p>
                                 </div>
                                 <div class="forms__fields-group">
-                                    <div class="forms__fields-item field">
-                                        <p class="field__name">Форма обучения</p>
-                                        <div class="field__wrapper select">
-                                            <div class="select__value icon-chevron-down">
-                                                Форма обучения
+                                    <div class="multiselect forms__fields-item forms__fields-item--full">
+                                        <label class="field-label">
+                                            Форма обучения
+                                        </label>
+                                        <div class="selectBox">
+                                            <div class="selectBox_wrapper">
+                                                <div class="selectBox_value-text">Форма обучения</div>
+                                                <div class="overSelect"></div>
                                             </div>
-                                            <ul class="select__options">
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="education-sec-form"
-                                                            aria-label="Форма обучения" value="Очная">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="education-sec-form" value="Заочная">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="education-sec-form"
-                                                            value="Очно-заочная">
-                                                    </label>
-                                                </li>
-                                            </ul>
+                                            <div class="selctexit_btn">
+                                                <div class="exitlin_wrapper">
+                                                    <div class="exit_line"></div>
+                                                    <div class="exit_line"></div>
+                                                </div>
+                                                <div class="selctexit_btn_hint">
+                                                    Очистить поле?
+                                                </div>
+                                            </div>
                                         </div>
-                                        <p class="forms__fields-uncompleted">Пожалуйста, укажите форму обучения.</p>
+                                        <div class="checkboxes">
+                                            <label class="multiselect__label">
+                                                <input class="checrkradio_hidden" type="radio" name="education-sec-form"
+                                                    value="full-time" data-mselect-value="Очная">
+                                                Очная
+                                            </label>
+                                            <label class="multiselect__label">
+                                                <input class="checrkradio_hidden" type="radio" name="education-sec-form"
+                                                    value="extramural" data-mselect-value="Заочная">
+                                                Заочная
+                                            </label>
+                                            <label class="multiselect__label">
+                                                <input class="checrkradio_hidden" type="radio" name="education-sec-form"
+                                                    value="combined" data-mselect-value="Очно-заочная">
+                                                Очно-заочная
+                                            </label>
+                                        </div>
                                     </div>
+                                    <p class="field__uncompleted">Пожалуйста, укажите форму обучения.</p>
                                 </div>
                                 <div class="forms__fields-group">
-                                    <div class="forms__fields-item field">
-                                        <label class="field__name" for="education-sec-qualification">Квалификация,
-                                            профессия</label>
-                                        <input class="field__wrapper field__input" id="education-sec-qualification"
-                                            data-complete-length="1, 25" aria-label="Квалификация, профессия"
-                                            placeholder="Квалификация, профессия" type="text"
-                                            name="education-sec-qualification">
-                                        <p class="forms__fields-uncompleted">Пожалуйста, укажите квалификацию,
-                                            профессию.
+                                    <div class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                                        <label for="education-sec-qualification" class="field-label">Квалификация, профессия</label>
+                                        <input type="text" class="text-field__input" id="education-sec-qualification" name="education-sec-qualification" placeholder="Квалификация, профессия" data-complete-length="1, 25" aria-label="Квалификация,
+                                            профессия">
+                                        <p class="field__uncompleted">
+                                            Пожалуйста, укажите квалификацию, профессию
                                         </p>
                                     </div>
                                 </div>
                                 <div class="forms__fields-group">
-                                    <div class="forms__fields-item field">
-                                        <p class="field__name">Наличие красного диплома</p>
-                                        <div class="field__wrapper select">
-                                            <div class="select__value icon-chevron-down">
-                                                Наличие красного диплома
+                                    <div class="multiselect forms__fields-item forms__fields-item--full">
+                                        <label class="field-label">
+                                            Наличие красного диплома
+                                        </label>
+                                        <div class="selectBox">
+                                            <div class="selectBox_wrapper">
+                                                <div class="selectBox_value-text">Наличие красного диплома</div>
+                                                <div class="overSelect"></div>
                                             </div>
-                                            <ul class="select__options">
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="education-sec-form"
-                                                            aria-label="Наличие красного диплома" value="Нет">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="education-sec-form" value="Есть">
-                                                    </label>
-                                                </li>
-                                            </ul>
+                                            <div class="selctexit_btn">
+                                                <div class="exitlin_wrapper">
+                                                    <div class="exit_line"></div>
+                                                    <div class="exit_line"></div>
+                                                </div>
+                                                <div class="selctexit_btn_hint">
+                                                    Очистить поле?
+                                                </div>
+                                            </div>
                                         </div>
-                                        <p class="forms__fields-uncompleted">Пожалуйста, укажите форму обучения.</p>
+                                        <div class="checkboxes">
+                                            <label class="multiselect__label">
+                                                <input class="checrkradio_hidden" type="radio" name="red diploma"
+                                                    value="yes" data-mselect-value="Есть">
+                                                Есть
+                                            </label>
+                                            <label class="multiselect__label">
+                                                <input class="checrkradio_hidden" type="radio" name="red diploma"
+                                                    value="no" data-mselect-value="Нет">
+                                                Нет
+                                            </label>
+                                        </div>
                                     </div>
+                                    <p class="field__uncompleted">Пожалуйста, укажите наличие красного диплома.</p>
                                 </div>
                             </div>
                         </div>
@@ -3688,25 +3616,19 @@
                                 университет, академия)</h4>
                             <div class="add-field__container bordered-field" data-add-group>
                                 <div class="forms__fields-group">
-                                    <div class="forms__fields-item field">
-                                        <label class="field__name" for="education-higher-title">Название учебного
-                                            заведения</label>
-                                        <input class="field__wrapper field__input" id="education-higher-title"
-                                            data-complete-length="1, 25" aria-label="Название учебного зваедения"
-                                            placeholder="Название учебного заведения" type="text"
-                                            name="education-higher-title">
-                                        <p class="forms__fields-uncompleted">Пожалуйста, название учебного заведения.
-                                        </p>
+                                    <div class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                                        <label for="education-higher-title" class="field-label">Название учебного заведения</label>
+                                        <input type="text" class="text-field__input" id="education-higher-title" name="education-higher-title" placeholder="Название учебного заведения" data-complete-length="1, 25" aria-label="Название учебного заведения">
+                                        <p class="field__uncompleted">Пожалуйста, укажите название учебного заведения</p>
                                     </div>
                                 </div>
                                 <div class="forms__fields-group">
-                                    <div class="forms__fields-item field">
-                                        <label class="field__name"
-                                            for="education-higher-speciality">Специальность</label>
-                                        <input class="field__wrapper field__input" id="education-higher-speciality"
-                                            data-complete-length="1, 25" aria-label="Название учебного зваедения"
-                                            placeholder="Специальность" type="text" name="education-higher-speciality">
-                                        <p class="forms__fields-uncompleted">Пожалуйста, укажите специальность.</p>
+                                    <div class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                                        <label for="education-higher-speciality" class="field-label">Специальность</label>
+                                        <input type="text" class="text-field__input" id="education-higher-speciality" name="education-higher-speciality" placeholder="Специальность" data-complete-length="1, 25" aria-label="Специальность">
+                                        <p class="field__uncompleted">
+                                            Пожалуйста, укажите специальность
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="forms__fields-group forms__fields-group-margin">
@@ -3739,90 +3661,119 @@
                                     <p class="forms__fields-uncompleted">Пожалуйста, укажите период обучения.</p>
                                 </div>
                                 <div class="forms__fields-group">
-                                    <div class="forms__fields-item field">
-                                        <p class="field__name">Форма обучения</p>
-                                        <div class="field__wrapper select">
-                                            <div class="select__value icon-chevron-down">
-                                                Форма обучения
+                                    <div class="multiselect forms__fields-item forms__fields-item--full">
+                                        <label class="field-label">
+                                            Форма обучения
+                                        </label>
+                                        <div class="selectBox">
+                                            <div class="selectBox_wrapper">
+                                                <div class="selectBox_value-text">Форма обучения</div>
+                                                <div class="overSelect"></div>
                                             </div>
-                                            <ul class="select__options">
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="education-higher-form"
-                                                            aria-label="Форма обучения" value="Очная">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="education-higher-form"
-                                                            value="Заочная">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="education-higher-form"
-                                                            value="Очно-заочная">
-                                                    </label>
-                                                </li>
-                                            </ul>
+                                            <div class="selctexit_btn">
+                                                <div class="exitlin_wrapper">
+                                                    <div class="exit_line"></div>
+                                                    <div class="exit_line"></div>
+                                                </div>
+                                                <div class="selctexit_btn_hint">
+                                                    Очистить поле?
+                                                </div>
+                                            </div>
                                         </div>
-                                        <p class="forms__fields-uncompleted">Пожалуйста, укажите форму обучения.</p>
+                                        <div class="checkboxes">
+                                            <label class="multiselect__label">
+                                                <input class="checrkradio_hidden" type="radio" name="education-highest-form"
+                                                    value="full-time" data-mselect-value="Очная">
+                                                Очная
+                                            </label>
+                                            <label class="multiselect__label">
+                                                <input class="checrkradio_hidden" type="radio" name="education-highest-form"
+                                                    value="extramural" data-mselect-value="Заочная">
+                                                Заочная
+                                            </label>
+                                            <label class="multiselect__label">
+                                                <input class="checrkradio_hidden" type="radio" name="education-highest-form"
+                                                    value="combined" data-mselect-value="Очно-заочная">
+                                                Очно-заочная
+                                            </label>
+                                        </div>
                                     </div>
+                                    <p class="field__uncompleted">Пожалуйста, укажите форму обучения.</p>
                                 </div>
                                 <div class="forms__fields-group">
-                                    <div class="forms__fields-item field">
-                                        <p class="field__name">Квалификация высшего образования</p>
-                                        <div class="field__wrapper select">
-                                            <div class="select__value icon-chevron-down">
-                                                Квалификация высшего образования
+                                    <div class="multiselect forms__fields-item forms__fields-item--full">
+                                        <label class="field-label">
+                                            Квалификация высшего образования
+                                        </label>
+                                        <div class="selectBox">
+                                            <div class="selectBox_wrapper">
+                                                <div class="selectBox_value-text">Квалификация высшего образования</div>
+                                                <div class="overSelect"></div>
                                             </div>
-                                            <ul class="select__options">
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="education-higher-form"
-                                                            aria-label="Наличие красного диплома" value="Бакалавр">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="education-higher-form"
-                                                            value="Специалист">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="education-higher-form"
-                                                            value="Магистр">
-                                                    </label>
-                                                </li>
-                                            </ul>
+                                            <div class="selctexit_btn">
+                                                <div class="exitlin_wrapper">
+                                                    <div class="exit_line"></div>
+                                                    <div class="exit_line"></div>
+                                                </div>
+                                                <div class="selctexit_btn_hint">
+                                                    Очистить поле?
+                                                </div>
+                                            </div>
                                         </div>
-                                        <p class="forms__fields-uncompleted">Пожалуйста, укажите форму обучения.</p>
+                                        <div class="checkboxes">
+                                            <label class="multiselect__label">
+                                                <input class="checrkradio_hidden" type="radio" name="education-highest-qualification"
+                                                    value="full-time" data-mselect-value="Бакалавр">
+                                                Бакалавр
+                                            </label>
+                                            <label class="multiselect__label">
+                                                <input class="checrkradio_hidden" type="radio" name="education-highest-qualification"
+                                                    value="extramural" data-mselect-value="Специалист">
+                                                Специалист
+                                            </label>
+                                            <label class="multiselect__label">
+                                                <input class="checrkradio_hidden" type="radio" name="education-highest-qualification"
+                                                    value="combined" data-mselect-value="Магистр">
+                                                Магистр
+                                            </label>
+                                        </div>
                                     </div>
+                                    <p class="field__uncompleted">Пожалуйста, укажите квалификацию.</p>
                                 </div>
                                 <div class="forms__fields-group">
-                                    <div class="forms__fields-item field">
-                                        <p class="field__name">Наличие красного диплома</p>
-                                        <div class="field__wrapper select">
-                                            <div class="select__value icon-chevron-down">
-                                                Наличие красного диплома
+                                    <div class="multiselect forms__fields-item forms__fields-item--full">
+                                        <label class="field-label">
+                                            Наличие красного диплома
+                                        </label>
+                                        <div class="selectBox">
+                                            <div class="selectBox_wrapper">
+                                                <div class="selectBox_value-text">Наличие красного диплома</div>
+                                                <div class="overSelect"></div>
                                             </div>
-                                            <ul class="select__options">
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="education-sec-form"
-                                                            aria-label="Наличие красного диплома" value="Нет">
-                                                    </label>
-                                                </li>
-                                                <li class="select__option">
-                                                    <label class="select__option-label">
-                                                        <input type="radio" name="education-sec-form" value="Есть">
-                                                    </label>
-                                                </li>
-                                            </ul>
+                                            <div class="selctexit_btn">
+                                                <div class="exitlin_wrapper">
+                                                    <div class="exit_line"></div>
+                                                    <div class="exit_line"></div>
+                                                </div>
+                                                <div class="selctexit_btn_hint">
+                                                    Очистить поле?
+                                                </div>
+                                            </div>
                                         </div>
-                                        <p class="forms__fields-uncompleted">Пожалуйста, укажите форму обучения.</p>
+                                        <div class="checkboxes">
+                                            <label class="multiselect__label">
+                                                <input class="checrkradio_hidden" type="radio" name="red diploma"
+                                                    value="yes" data-mselect-value="Есть">
+                                                Есть
+                                            </label>
+                                            <label class="multiselect__label">
+                                                <input class="checrkradio_hidden" type="radio" name="red diploma"
+                                                    value="no" data-mselect-value="Нет">
+                                                Нет
+                                            </label>
+                                        </div>
                                     </div>
+                                    <p class="field__uncompleted">Пожалуйста, укажите наличие красного диплома.</p>
                                 </div>
                             </div>
                         </div>
@@ -3830,65 +3781,78 @@
                     <section class="forms__container">
                         <h3 class="forms__title">Место жительства и гражданство</h3>
                         <div class="forms__fields-group">
-                            <div class="forms__fields-item field">
-                                <label class="field__name" for="region">Регион проживания</label>
-                                <input class="field__wrapper field__input" id="region" data-complete-length="1, 25"
-                                    aria-label="Регион" placeholder="Регион" type="text" name="region">
-                                <p class="forms__fields-uncompleted">Пожалуйста, укажите регион вашего проживания.</p>
+                            <div class="text-field text-field--standard forms__fields-item">
+                                <label for="region" class="field-label">Регион проживания</label>
+                                <input type="text" class="text-field__input" id="region" name="region" placeholder="Регион проживания" data-complete-length="1, 25" aria-label="Регион проживания">
+                                <p class="field__uncompleted">
+                                    Пожалуйста, укажите регион вашего проживания
+                                </p>
                             </div>
-                            <div class="forms__fields-item field">
-                                <label class="field__name" for="locality">Населенный пункт проживания</label>
-                                <input class="field__wrapper field__input" id="locality" data-complete-length="1, 25"
-                                    aria-label="Населенный пункт" placeholder="Населенный пункт" type="text"
-                                    name="locality">
-                                <p class="forms__fields-uncompleted">Пожалуйста, укажите населенный пункт вашего
-                                    проживания.
+                            <div class="text-field text-field--standard forms__fields-item">
+                                <label for="locality" class="field-label">Населенный пункт проживания</label>
+                                <input type="text" class="text-field__input" id="locality" name="locality" placeholder="Населенный пункт проживания" data-complete-length="1, 25" aria-label="Населенный пункт проживания">
+                                <p class="field__uncompleted">
+                                    Пожалуйста, укажите населенный пункт вашего проживания
                                 </p>
                             </div>
                         </div>
                         <div class="forms__fields-group">
-                            <div class="forms__fields-item field">
-                                <label class="field__name" for="street">Улица</label>
-                                <input class="field__wrapper field__input" id="street" data-complete-length="1, 25"
-                                    aria-label="Улица" placeholder="Улица" type="text" name="street">
-                                <p class="forms__fields-uncompleted">Пожалуйста, укажите улицу.</p>
+                            <div class="text-field text-field--standard forms__fields-item">
+                                <label for="street" class="field-label">Улица</label>
+                                <input type="text" class="text-field__input" id="street" name="street" placeholder="Улица" data-complete-length="1, 25" aria-label="Улица">
+                                <p class="field__uncompleted">
+                                    Пожалуйста, укажите улицу.
+                                </p>
                             </div>
-                            <div class="forms__fields-item field">
-                                <label class="field__name" for="house">Дом</label>
-                                <input class="field__wrapper field__input" id="house" data-complete-length="1, 25"
-                                    aria-label="Дом" placeholder="Дом" type="text" name="house">
-                                <p class="forms__fields-uncompleted">Пожалуйста, укажите дом.</p>
+                            <div class="text-field text-field--standard forms__fields-item">
+                                <label for="street" class="field-label">Дом</label>
+                                <input type="text" class="text-field__input" id="street" name="street" placeholder="Дом" data-complete-length="1, 25" aria-label="Дом">
+                                <p class="field__uncompleted">
+                                    Пожалуйста, укажите дом.
+                                </p>
                             </div>
-                            <div class="forms__fields-item field">
-                                <label class="field__name" for="district">Район</label>
-                                <input class="field__wrapper field__input" id="district" data-complete-length="1, 25"
-                                    aria-label="Район" placeholder="Район" type="text" name="district">
-                                <p class="forms__fields-uncompleted">Пожалуйста, укажите район вашего проживания.</p>
+                            <div class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                                <label for="district" class="field-label">Район</label>
+                                <input type="text" class="text-field__input" id="district" name="district" placeholder="Район" data-complete-length="1, 25" aria-label="Район">
+                                <p class="field__uncompleted">
+                                    Пожалуйста, укажите район вашего проживания.
+                                </p>
                             </div>
                         </div>
                         <div class="forms__fields-group">
-                            <div class="forms__fields-item field">
-                                <p class="field__name">Гражданство</p>
-                                <div class="field__wrapper select">
-                                    <div class="select__value icon-chevron-down">
-                                        Ваше гражданство
+                            <div class="multiselect forms__fields-item forms__fields-item--full">
+                                <label class="field-label">
+                                    Гражданство
+                                </label>
+                                <div class="selectBox">
+                                    <div class="selectBox_wrapper">
+                                        <div class="selectBox_value-text">Гражданство</div>
+                                        <div class="overSelect"></div>
                                     </div>
-                                    <ul class="select__options">
-                                        <li class="select__option">
-                                            <label class="select__option-label">
-                                                <input type="radio" name="citizenship" aria-label="Гражданство"
-                                                    value="РФ">
-                                            </label>
-                                        </li>
-                                        <li class="select__option">
-                                            <label class="select__option-label">
-                                                <input type="radio" name="citizenship" value="Не РФ">
-                                            </label>
-                                        </li>
-                                    </ul>
+                                    <div class="selctexit_btn">
+                                        <div class="exitlin_wrapper">
+                                            <div class="exit_line"></div>
+                                            <div class="exit_line"></div>
+                                        </div>
+                                        <div class="selctexit_btn_hint">
+                                            Очистить поле?
+                                        </div>
+                                    </div>
                                 </div>
-                                <p class="forms__fields-uncompleted">Пожалуйста, укажите ваше гражданство.</p>
+                                <div class="checkboxes">
+                                    <label class="multiselect__label">
+                                        <input class="checrkradio_hidden" type="radio" name="employer-status"
+                                            value="russian_federation" data-mselect-value="РФ">
+                                        РФ
+                                    </label>
+                                    <label class="multiselect__label">
+                                        <input class="checrkradio_hidden" type="radio" name="not-russian_federation"
+                                            value="works" data-mselect-value="Не РФ">
+                                        Не РФ
+                                    </label>
+                                </div>
                             </div>
+                            <p class="field__uncompleted">Пожалуйста, укажите ваше гражданство.</p>
                         </div>
                     </section>
                     <section class="forms__container">
@@ -3903,21 +3867,21 @@
                         <h4 class="forms__title" data-add-group="skip:1">Последующее место работы</h4>
                         <div class="add-field__container bordered-field" data-add-group>
                             <div class="forms__fields-group">
-                                <div class="forms__fields-item field">
-                                    <label class="field__name" for="company-title">Название компании</label>
-                                    <input class="field__wrapper field__input" id="company-title"
-                                        data-complete-length="1, 25" aria-label="Название компании"
-                                        placeholder="Название компании" type="text" name="company-title">
-                                    <p class="forms__fields-uncompleted">Пожалуйста, укажите название компании.</p>
+                                <div class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                                    <label for="company-title" class="field-label">Название компании</label>
+                                    <input type="text" class="text-field__input" id="company-title" name="company-title" placeholder="Название компании" data-complete-length="1, 25" aria-label="Название компании">
+                                    <p class="field__uncompleted">
+                                        Пожалуйста, укажите название компании.
+                                    </p>
                                 </div>
                             </div>
                             <div class="forms__fields-group">
-                                <div class="forms__fields-item field">
-                                    <label class="field__name" for="company-post">Должность</label>
-                                    <input class="field__wrapper field__input" id="company-post"
-                                        data-complete-length="1, 25" aria-label="Название компании"
-                                        placeholder="Название компании" type="text" name="company-post">
-                                    <p class="forms__fields-uncompleted">Пожалуйста, укажите должность.</p>
+                                <div class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                                    <label for="company-post" class="field-label">Должность</label>
+                                    <input type="text" class="text-field__input" id="company-post" name="company-post" placeholder="Должность" data-complete-length="1, 25" aria-label="Должность">
+                                    <p class="field__uncompleted">
+                                        Пожалуйста, укажите должность.
+                                    </p>
                                 </div>
                             </div>
                             <div class="forms__fields-group">
@@ -4157,15 +4121,14 @@
                                     Telegram
                                 </label>
                             </div>
-                            <div class="forms__fields-item field" data-add-group="telegram-link">
-                                <label class="field__name" for="telegram-account-link">Ссылка на аккаунт
-                                    Telegram</label>
-                                <input class="field__wrapper field__input" id="telegram-account-link"
-                                    data-complete-length="1, 25" aria-label="Ссылка на аккаунт Telegram"
-                                    placeholder="Ссылка на аккаунт Telegram" type="text" name="telegram-account-link">
-                                <p class="forms__fields-uncompleted">Пожалуйста, укажите ссылку на аккаунт Telegram.</p>
+                            <div class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                                <label for="telegram-link" class="field-label">Ссылка на аккаунт Telegram</label>
+                                <input type="text" class="text-field__input" id="telegram-link" name="telegram-link" placeholder="Ссылка на аккаунт Telegram" data-complete-length="1, 25" aria-label="Ссылка на аккаунт Telegram">
+                                <p class="field__uncompleted">
+                                    Пожалуйста, укажите название ссылку на аккаунт Telegram.
+                                </p>
                             </div>
-                            <p class="forms__fields-uncompleted">Пожалуйста, укажите минимум один из удобных способов
+                            <p class="field__uncompleted">Пожалуйста, укажите минимум один из удобных способов
                                 связи.
                             </p>
                         </div>
@@ -4320,7 +4283,7 @@
                             </p>
                         </div>
                     </div>
-                    <input class="forms__submit button" id="submit-button" type="submit" value="Отправить отклик">
+                    <input class="forms__submit button" id="submit-button" type="submit" value="Добавить резюме">
                 </form>
             </div>
         </main>

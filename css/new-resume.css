@@ -162,7 +162,7 @@ h6 {
   padding: 24px 15px 40px 15px;
   padding-top: 24px;
   padding-bottom: 40px;
-  background: #f4f4f4;
+  background: #fffef4;
 }
 
 .page-title {
@@ -276,74 +276,55 @@ h6 {
   -webkit-box-align: start;
   -ms-flex-align: start;
   align-items: flex-start;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  gap: 5px 15px;
+  margin-top: 12px;
+}
+
+.forms__fields-group--birthdate,
+.forms__fields-group .forms__fields-group--birthdate {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.forms__fields-group--birthdate .field__uncompleted {
+  grid-column: 1 / -1;
+}
+
+.forms__fields-group--birthdate .text-field--birthdate {
+  grid-column: 1 / -1;
+}
+
+.forms__fields-group--birthdate .text-field--date .text-field__input {
+  width: auto;
+}
+
+.forms__fields-group--birthdate .text-field--age .text-field__input {
+  text-align: center;
+  display: inline-block;
+  width: 2.5em;
+  margin-right: 5px;
 }
 
 .forms__fields-group-margin {
   margin-top: 10px;
 }
 
-/* Элемент группы полей (field) */
+/* Элемент группы полей (поле) */
 
 .forms__fields-item {
-  -webkit-box-flex: 1;
-  -ms-flex: 1 0 50%;
-  flex: 1 0 50%;
-}
-
-.forms__fields-item:nth-child(2n) {
-  padding-right: 0;
-}
-
-.forms__fields-item:last-child {
-  padding-right: 0;
-}
-
-.field {
-  padding-top: 12px;
-  padding-right: 8px;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 48%;
+  flex: 0 0 48%;
   position: relative;
 }
 
-.field-selects {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-}
-
-.field-selects .field__wrapper {
-  -webkit-box-flex: 0;
-  -ms-flex: 0 1 48%;
-  flex: 0 1 48%;
-}
-
-.field__delimeter {
-  font-weight: 500;
-  font-size: 20px;
-}
-
-.field--hint {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-}
-
-.field--hint>.field__name {
+.forms__fields-item--full {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 100%;
   flex: 0 0 100%;
-}
-
-.field--hint>.field__hint-text {
-  margin: 10px 0 0 10px;
-  -ms-flex-item-align: center;
-  align-self: center;
 }
 
 /* Поле с несколькими input */
@@ -389,22 +370,12 @@ input[name*="year"] {
   background: #f5f7f7;
 }
 
-.field__name {
-  color: var(--dim_color);
-  font-size: 14px;
-  display: block;
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 100%;
-  flex: 0 0 100%;
-}
-
 .field__wrapper {
   margin-top: 4px;
   padding: 15px 12px;
   border: 1px solid var(--input_border_color);
   border-radius: 3px;
   display: block;
-  background: #fff;
   font-size: 100%;
   width: 100%;
 }
@@ -566,6 +537,11 @@ input[name*="year"] {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  gap: 15px;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .field__selection-option {
@@ -582,10 +558,6 @@ input[name*="year"] {
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
   padding: 0;
-}
-
-.field__selection-option:not(:last-child) {
-  margin-right: 8px;
 }
 
 .field__selection-input {
@@ -646,7 +618,7 @@ input[name*="year"] {
 
 .field__selection-icon::before {
   color: #fff;
-  text-shadow: 1px 0px 1px var(--input_border_color), 0px 1px 1px var(--input_border_color), -1px 0px 1px var(--input_border_color), 0px -1px 1px var(--input_border_color);
+  text-shadow: 1px 0px 0.5px var(--dim_color), 0px 1px 0.5px var(--dim_color), -1px 0px 0.5px var(--dim_color), 0px -1px 0.5px var(--dim_color);
 }
 
 .field__input {
@@ -684,11 +656,19 @@ input[name*="year"] {
   text-align: center;
 }
 
+.text-field--zodiac {
+  position: relative;
+}
+
+.zodiac-icon + .text-field__input {
+  padding-left: 40px;
+}
+
 .zodiac-icon {
   position: absolute;
   width: 25px;
   height: 25px;
-  bottom: 19px;
+  bottom: 13px;
   left: 10px;
 }
 
@@ -806,104 +786,93 @@ input[name*="year"] {
   background: #f5f7f7;
 }
 
-/* Селекты */
+/* Текстовые поля */
 
-.select {
-  cursor: pointer;
-  position: relative;
+.text-field.__uncompleted .text-field__input,
+.text-field.__uncompleted .text-field__input-multi {
+  border-color: var(--uncomplete_border_color);
 }
 
-.select input {
-  display: none;
+.text-field--birthdate {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
 }
 
-.select.__shown>.select__options {
-  opacity: 1;
-  visibility: visible;
+.text-field--birthdate .text-field__input-multi {
+  max-width: 137px;
 }
 
-.select.__shown .select__value::before {
-  -webkit-transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
-  transform: rotate(180deg);
+.field-label {
+  display: block;
+  color: var(--dim_color);
+  font-size: 16px;
+  display: block;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 100%;
+  flex: 0 0 100%;
 }
 
-.select__value {
+.text-field__input,
+.text-field__input-multi {
+  border: 1px solid var(--input_border_color);
+  padding: 11px 10px 15px;
+  font-size: 19px;
+  width: 100%;
+  margin-top: 4px;
+  background: transparent;
+}
+
+.text-field__input-multi {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
 }
 
-.select__value::-moz-selection {
+.text-field__input-subfield {
   background: transparent;
-}
-
-.select__value::selection {
-  background: transparent;
-}
-
-.select__value::before {
-  -webkit-box-ordinal-group: 3;
-  -ms-flex-order: 2;
-  order: 2;
-  display: inline-block;
-  -webkit-transition: -webkit-transform 0.2s;
-  transition: -webkit-transform 0.2s;
-  -o-transition: transform 0.2s;
-  transition: transform 0.2s;
-  transition: transform 0.2s, -webkit-transform 0.2s;
-}
-
-.select__options {
-  position: absolute;
-  top: calc(100% + 1px);
-  left: 0;
-  width: 100%;
-  z-index: 100;
-  background: #fff;
-  -webkit-box-shadow: 0.25rem 0 0.5rem -0.25rem #7c8797 4d, -0.25rem 0 0.5rem -0.25rem #7c8797 4d, 0 0.25rem 0.5rem -0.25rem #7c8797 4d;
-  box-shadow: 0.25rem 0 0.5rem -0.25rem #7c8797 4d, -0.25rem 0 0.5rem -0.25rem #7c8797 4d, 0 0.25rem 0.5rem -0.25rem #7c8797 4d;
-  overflow: auto;
-  max-height: 20em;
-  opacity: 0;
-  visibility: hidden;
-}
-
-.select__option-label {
-  cursor: pointer;
-  display: block;
-  width: 100%;
-  height: 100%;
-  padding: 12px 8px;
-}
-
-.select__option-label:hover {
-  background: #f5f7f7;
+  text-align: center;
+  font-size: inherit;
 }
 
 /* Текст, появляющийся в случае незаполненных полей */
 
-.forms__fields-uncompleted {
+.field__uncompleted {
   color: var(--uncomplete_text_color);
-  margin-top: 8px;
+  margin-top: 4px;
+  font-size: 18px;
   -webkit-box-flex: 0;
   -ms-flex: 0 0 100%;
   flex: 0 0 100%;
-  opacity: 0;
-  visibility: hidden;
-  max-height: 0;
+  display: none;
 }
 
-.forms__fields-group.__uncomplete>.forms__fields-uncompleted {
-  opacity: 1;
-  visibility: visible;
-  max-height: 200px;
+.forms__fields-group.__uncompleted>.field__uncompleted,
+.forms__fields-item.__uncompleted>.field__uncompleted {
+  display: block;
+}
+
+.multiselect {
+  margin-top: 4px;
+}
+
+.multiselect .selectBox {
+  padding: 4px 4px 3px 4px;
+}
+
+.multiselect .field__uncompleted {
+  position: absolute;
+  top: 100%;
 }
 
 /* Случай, если поле не заполнено */
@@ -1214,11 +1183,11 @@ input[name*="year"] {
   opacity: 0;
 }
 
-input[type="checkbox"]:checked + .checkbox__value .checkbox__icon {
+input[type="checkbox"]:checked+.checkbox__value .checkbox__icon {
   border-color: #ff0000;
 }
 
-input[type="checkbox"]:checked + .checkbox__value .checkbox__icon::before {
+input[type="checkbox"]:checked+.checkbox__value .checkbox__icon::before {
   opacity: 1;
 }
 

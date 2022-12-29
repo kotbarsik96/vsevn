@@ -741,6 +741,7 @@ class Spoiler {
     }
 }
 
+// в отдельных файлах (например, new-resume.js) создаются такие же массивы, которые затем через .concat "сращиваются" с inittingSelectors, что позволяет инициализировать их в inittedInputs
 let inittingSelectors = [
     { selector: "[data-popup-fullimage]", classInstance: FullImagePopup },
     { selector: "[data-dynamic-adaptive]", classInstance: DynamicAdaptive },
@@ -766,7 +767,9 @@ function initInputs() {
             );
             if (isAlreadyInitted) return;
 
-            inittedInputs.push(new seldata.classInstance(node));
+            let inputClass = new seldata.classInstance(node);
+            inputClass.instanceFlag = seldata.instanceFlag;
+            inittedInputs.push(inputClass);
         });
     });
 }
@@ -775,3 +778,36 @@ let inputElementsObserver = new MutationObserver((mutlist) => {
     initInputs();
 });
 inputElementsObserver.observe(document.body, { childList: true, subtree: true });
+
+function findInittedInput(selector, isAll = false, instanceFlag = null) {
+    // isAll == true: вернет array, isAll == false: вернет первый найденный по селектору элемент
+    const selectorNodes = Array.from(document.querySelectorAll(selector));
+    if (!isAll) {
+        const input = inittedInputs.find(arrayHandler);
+        return input || null;
+    } else {
+        const inputs = inittedInputs.filter(arrayHandler);
+        return inputs || null;
+    }
+
+    function arrayHandler(inpClass) {
+        let matches = selectorNodes.includes(inpClass.rootElem);
+        if (instanceFlag) matches = matches && inpClass.instanceFlag === instanceFlag;
+        return matches;
+    }
+}
+function findInittedInputByFlag(instanceFlag, isAll = false) {
+    // isAll == true: вернет array, isAll == false: вернет первый найденный по флагу элемент
+    if (isAll) {
+        const inputs = inittedInputs.filter(arrayHandler);
+        return inputs;
+    } else {
+        const input = inittedInputs.find(arrayHandler);
+        return input;
+    }
+
+    function arrayHandler(inpClass){
+        let matches = inpClass.instanceFlag === instanceFlag;
+        return matches;
+    }
+}
