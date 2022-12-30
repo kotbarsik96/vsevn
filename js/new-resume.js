@@ -20,19 +20,29 @@ function documentHandlers() {
 }
 documentHandlers();
 
+function dispatchCompletionCheckEvent(preventEvent) {
+    const completionCheckEvent = new CustomEvent("completion-check");
+    if (!preventEvent) this.rootElem.dispatchEvent(completionCheckEvent);
+}
+
 // группа полей
 class FieldsGroup {
     constructor(node) {
         this.checkCompletion = this.checkCompletion.bind(this);
 
         this.rootElem = node;
-        this.fields = findInittedInputByFlag("new-resume", true)
-            .filter(inpClass => inpClass.rootElem.closest(".forms__fields-group") === this.rootElem);
 
-        this.createUncompletedMessage();
-        this.fields.forEach(inpClass => {
-            inpClass.rootElem.addEventListener("completion-check", this.checkCompletion);
-        });
+        setTimeout(() => {
+            this.fields = findInittedInputByFlag("new-resume", true)
+                .filter(inpClass => {
+                    if (inpClass.rootElem === this.rootElem) return;
+                    return inpClass.rootElem.closest(".forms__fields-group") === this.rootElem;
+                });
+            this.createUncompletedMessage();
+            this.fields.forEach(inpClass => {
+                inpClass.rootElem.addEventListener("completion-check", this.checkCompletion);
+            });
+        }, 100);
     }
     createUncompletedMessage() {
         let inputsHaveMessage = Boolean(
@@ -314,7 +324,7 @@ class Multiselect {
         let isCompleted = Boolean(checkedInput);
         this.isCompleted = isCompleted;
 
-        if (!preventEvent) this.rootElem.dispatchEvent(new CustomEvent("completion-check"));
+        dispatchCompletionCheckEvent.call(this, preventEvent);
         return isCompleted;
     }
 }
@@ -434,7 +444,7 @@ class TextField {
         if (isCompleted) this.rootElem.classList.remove("__uncompleted");
         else this.rootElem.classList.add("__uncompleted");
 
-        if (!preventEvent) this.rootElem.dispatchEvent(new CustomEvent("completion-check"));
+        dispatchCompletionCheckEvent.call(this, preventEvent);
 
         this.isCompleted = isCompleted;
         return isCompleted;
@@ -452,15 +462,16 @@ class TextFieldMulti extends TextField {
         super(node);
         this.typeNumberOnly = this.typeNumberOnly.bind(this);
         this.setValue = this.setValue.bind(this);
+        this.onKeydown = this.onKeydown.bind(this);
 
         this.inputs = Array.from(this.rootElem.querySelectorAll(".text-field__input-subfield"));
-
         this.inputs.forEach(input => {
             if (input.hasAttribute("data-numbers-only"))
                 input.addEventListener("input", this.typeNumberOnly);
             input.addEventListener("input", this.setValue);
             input.addEventListener("change", this.onChange);
             input.addEventListener("blur", this.onChange);
+            input.addEventListener("keydown", this.onKeydown);
 
             let maxlength = input.getAttribute("maxlength");
             if (maxlength) {
@@ -481,40 +492,54 @@ class TextFieldMulti extends TextField {
             if (nextInput) nextInput.focus();
         }
     }
+    onKeydown(event) {
+        super.onChange(event);
+        const input = event.target;
+        const inputIndex = this.inputs.findIndex(i => i === input);
+        alert(event.code + ", " + event.key);
+        console.log(event);
+        if (event.inputType === "deleteContentBackward") {
+            if (!input.value) {
+                const prevInput = this.inputs[inputIndex - 1];
+                if (prevInput) prevInput.focus();
+            }
+        }
+    }
 }
 
 class TextFieldDate extends TextFieldMulti {
     constructor(node) {
         super(node);
+
         this.inputDay = this.inputs[0];
         this.inputMonth = this.inputs[1];
         this.inputYear = this.inputs[2];
-        this.fieldsGroup = this.rootElem.closest(".forms__fields-group");
-        this.inputs.forEach(inp => inp.addEventListener("input", this.onChange));
-    }
-    validate() {
-        let biggestMonths = [1, 3, 5, 7, 8, 10, 12];
-
-        let day = parseInt(this.inputDay.value);
-        let month = parseInt(this.inputMonth.value);
-        let year = parseInt(this.inputYear.value);
-
-        let isCorrectDay = day >= 1 && day <= 31;
-        let isCorrectMonth = month >= 1 && month <= 12;
-        let isCorrectYear = year >= 1900;
-
-        if (month === 2 && year % 4 === 0) {
-            if (year % 4 === 0) isCorrectDay = day >= 1 && day <= 29;
-            if (year % 4 !== 0) isCorrectDay = day >= 1 && day <= 28;
-        } else if (!biggestMonths.includes(month)) isCorrectDay = day >= 1 && day <= 30;
-
-        let isValidDate = isCorrectDay && isCorrectMonth && isCorrectYear;
-        let age = this.currentYear - year;
-
-        return { day, month, year, age, isValidDate, isCorrectDay, isCorrectMonth, isCorrectYear };
+        this.fieldsGroup = findInittedInput(".forms__fields-group", true)
+            .find(fg => fg.rootElem.querySelector("[class*='text-field--']") === this.rootElem);
     }
     checkCompletion(preventEvent = false) {
+        let biggestMonths = [1, 3, 5, 7, 8, 10, 12];
 
+        this.day = parseInt(this.inputDay.value);
+        this.month = parseInt(this.inputMonth.value);
+        this.year = parseInt(this.inputYear.value);
+
+        let isCorrectDay = this.day >= 1 && this.day <= 31;
+        let isCorrectMonth = this.month >= 1 && this.month <= 12;
+        let isCorrectYear = this.year >= 1900;
+
+        if (this.month === 2 && this.year % 4 === 0) {
+            if (this.year % 4 === 0) isCorrectDay = this.day >= 1 && this.day <= 29;
+            if (this.year % 4 !== 0) isCorrectDay = this.day >= 1 && this.day <= 28;
+        } else if (!biggestMonths.includes(this.month)) isCorrectDay = this.day >= 1 && this.day <= 30;
+
+        let isValidDate = isCorrectDay && isCorrectMonth && isCorrectYear;
+
+        if (isValidDate) this.isCompleted = true;
+        else this.isCompleted = false;
+
+        dispatchCompletionCheckEvent.call(this, preventEvent);
+        return this.isCompleted;
     }
 }
 
@@ -522,6 +547,7 @@ class TextFieldBirthDate extends TextFieldDate {
     constructor(node) {
         super(node);
 
+        this.getAgeAndZodiacClasses();
         this.zodiacSigngs = [
             { name: "Водолей", startMonth: 1, startDay: 21, endDay: 18, iconName: "aquarius" },
             { name: "Рыбы", startMonth: 2, startDay: 19, endDay: 20, iconName: "pisces" },
@@ -547,11 +573,59 @@ class TextFieldBirthDate extends TextFieldDate {
         this.minYearSpan.textContent = this.minYear.toString();
         this.maxYearSpan.textContent = this.maxYear.toString();
     }
-    checkCompletion() {
-
+    getAgeAndZodiacClasses() {
+        setTimeout(() => {
+            this.ageClass = this.fieldsGroup.fields
+                .find(fd => fd.input.getAttribute("name") === "age");
+            this.zodiacClass = this.fieldsGroup.fields
+                .find(fd => fd.input.getAttribute("name") === "zodiac");
+            this.ageInput = this.ageClass.input;
+            this.zodiacInput = this.zodiacClass.input;
+        }, 150);
     }
-    validate() {
+    checkCompletion(preventEvent) {
+        super.checkCompletion(preventEvent);
+        if (!this.isCompleted) {
+            this.unsetZodiacAndAge();
+            return;
+        }
 
+        this.setZodiacAndAge();
+        dispatchCompletionCheckEvent.call(this, preventEvent);
+        return this.isCompleted;
+    }
+    setZodiacAndAge() {
+        const zodiac = this.zodiacSigngs
+            .filter(zs => zs.startMonth == this.month || zs.startMonth + 1 == this.month)
+            .find((zs, index, array) => {
+                const nextZs = array[index + 1];
+                if (nextZs) {
+                    if (this.day >= zs.startDay && this.day <= nextZs.endDay) return true;
+                    if (this.day < zs.startDay) return true;
+                } else return true;
+            });
+        const zodiacValue = zodiac ? zodiac.name : "";
+        const age = new Date().getFullYear() - this.year;
+
+        this.ageClass.checkCompletion(true);
+        this.zodiacClass.checkCompletion(true);
+
+        if (this.ageInput) this.ageInput.value = age;
+        if (this.zodiacInput) {
+            const zodiacIconInner = `<svg><use xlink:href="#${zodiac.iconName}"></use></svg>`;
+            const zodiacIcon = createElement("span", "zodiac-icon", zodiacIconInner);
+
+            const oldZodiacIcons = this.zodiacInput.parentNode.querySelectorAll(".zodiac-icon");
+            oldZodiacIcons.forEach(zi => zi ? zi.remove() : false);
+            this.zodiacInput.before(zodiacIcon);
+            this.zodiacInput.value = zodiacValue;
+        }
+    }
+    unsetZodiacAndAge() {
+        this.ageInput.value = "";
+        this.zodiacInput.value = "";
+        let zodiacIcon = findClosest(this.zodiacInput, ".zodiac-icon");
+        if (zodiacIcon) zodiacIcon.remove();
     }
 }
 
@@ -581,13 +655,13 @@ class Forms {
 }
 
 let inittingNewResumeSelectors = [
+    { selector: ".forms__fields-group", classInstance: FieldsGroup, instanceFlag: "new-resume" },
     { selector: ".range-block", classInstance: Range },
     { selector: ".multiselect", classInstance: Multiselect, instanceFlag: "new-resume" },
     { selector: ".text-field--standard", classInstance: TextField, instanceFlag: "new-resume" },
     { selector: ".text-field--multi", classInstance: TextFieldMulti, instanceFlag: "new-resume" },
     { selector: ".text-field--date", classInstance: TextFieldDate, instanceFlag: "new-resume" },
     { selector: ".text-field--birthdate", classInstance: TextFieldBirthDate, instanceFlag: "new-resume" },
-    { selector: ".forms__fields-group", classInstance: FieldsGroup, instanceFlag: "new-resume" },
     { selector: ".forms", classInstance: Forms },
 ];
 

@@ -94,9 +94,10 @@ function findClosest(node, selector) {
     let element = node.querySelector(selector);
     if (!element) {
         do {
+            if(!node.parentNode) break;
             element = node.parentNode.querySelector(selector);
             node = node.parentNode;
-        } while (!element)
+        } while (!element && node)
     }
     return element;
 }
