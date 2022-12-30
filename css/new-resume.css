@@ -283,6 +283,30 @@ h6 {
   margin-top: 12px;
 }
 
+.forms__fields-group--flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  gap: 0 10px;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.forms__fields-group--flex .field__name {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 100%;
+  flex: 0 0 100%;
+}
+
+.forms__fields-group--flex .forms__fields-item {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 48%;
+  flex: 0 0 48%;
+}
+
 .forms__fields-group--birthdate,
 .forms__fields-group .forms__fields-group--birthdate {
   display: grid;
@@ -752,6 +776,17 @@ input[name*="year"] {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 137px;
   flex: 0 0 137px;
+}
+
+.text-field--select .checkboxes {
+  max-height: 320px;
+  overflow: auto;
+}
+
+.text-field--select .multiselect__label {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 
 /* Текстовое поле с селектами */
@@ -2178,7 +2213,12 @@ input[type="checkbox"]:checked+.checkbox__value .checkbox__icon::before {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 100%;
     flex: 0 0 100%;
-    padding: 0 0 10px 0;
+  }
+
+  .forms__fields-group--flex .forms__fields-item {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
   }
 
   .forms__fields-uncompleted.__mobile {
