@@ -496,12 +496,17 @@ class TextFieldMulti extends TextField {
         super.onChange(event);
         const input = event.target;
         const inputIndex = this.inputs.findIndex(i => i === input);
-        alert(event.code + ", " + event.key);
-        console.log(event);
-        if (event.inputType === "deleteContentBackward") {
-            if (!input.value) {
-                const prevInput = this.inputs[inputIndex - 1];
-                if (prevInput) prevInput.focus();
+        const nextInput = this.inputs[inputIndex + 1];
+        const prevInput = this.inputs[inputIndex - 1];
+        if (event.code === "Backspace") {
+            if (!input.value && prevInput) prevInput.focus();
+        }
+        if (event.code.includes("Arrow") && (input.selectionStart === input.selectionEnd)) {
+            if (event.code === "ArrowRight" && input.selectionEnd === input.value.length && nextInput) {
+                nextInput.focus();
+            }
+            if (event.code === "ArrowLeft" && input.selectionStart === 0 && prevInput) {
+                prevInput.focus();
             }
         }
     }
@@ -510,12 +515,19 @@ class TextFieldMulti extends TextField {
 class TextFieldDate extends TextFieldMulti {
     constructor(node) {
         super(node);
+        this.onLastInputKeydown = this.onLastInputKeydown.bind(this);
 
         this.inputDay = this.inputs[0];
         this.inputMonth = this.inputs[1];
         this.inputYear = this.inputs[2];
         this.fieldsGroup = findInittedInput(".forms__fields-group", true)
             .find(fg => fg.rootElem.querySelector("[class*='text-field--']") === this.rootElem);
+        this.inputs.forEach((input, index, arr) => {
+            if(index === arr.length - 1) input.addEventListener("keydown", this.onLastInputKeydown);
+        });
+    }
+    onLastInputKeydown(event){
+        this.moveToLeft(event);
     }
     checkCompletion(preventEvent = false) {
         let biggestMonths = [1, 3, 5, 7, 8, 10, 12];
@@ -539,7 +551,37 @@ class TextFieldDate extends TextFieldMulti {
         else this.isCompleted = false;
 
         dispatchCompletionCheckEvent.call(this, preventEvent);
+        this.toggleUncompleteClass();
         return this.isCompleted;
+    }
+    toggleUncompleteClass(){
+        this.isCompleted 
+            ? this.rootElem.classList.remove("__uncompleted")
+            : this.rootElem.classList.add("__uncompleted")
+    }
+    moveToLeft(event) {
+        const input = event.target;
+        const inputIndex = this.inputs.findIndex(i => i === input);
+        const prevInput = this.inputs[inputIndex - 1];
+        let totalValue = this.inputs.map(inp => inp.value).join("");
+        const prevInputs = this.inputs.filter((inp, index) => index < inputIndex);
+
+        if (event.key) {
+            totalValue += event.key;
+            const notFullPrevInput =
+                prevInputs.find(inp => inp.value.length < inp.getAttribute("maxlength"));
+            const needToMoveLeft =
+                input.value.length == input.getAttribute("maxlength")
+                && this.inputs.length - 1 === inputIndex
+                && prevInput
+                && notFullPrevInput;
+
+            if (needToMoveLeft) {
+                this.inputs[2].value = totalValue.slice(-4);
+                this.inputs[1].value = totalValue.slice(-6, -4);
+                this.inputs[0].value = totalValue.slice(-8, -6);
+            }
+        }
     }
 }
 

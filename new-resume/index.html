@@ -3266,7 +3266,7 @@
                             </p>
                             <div class="text-field text-field--standard text-field--zodiac forms__fields-item">
                                 <label for="zodiac" class="field-label">Знак зодиака</label>
-                                <input type="text" disabled class="text-field__input" id="zodiac" name="zodiac" placeholder="Знак зодиака" aria-label="Знак зодиака">
+                                <input type="text" disabled class="text-field__input" id="zodiac" name="zodiac" placeholder="Знак зодиака" aria-label="Знак зодиака" data-complete-length="1, 25">
                             </div>
                             <div class="text-field text-field--standard text-field--age forms__fields-item">
                                 <label for="age" class="field-label">Возраст</label>
@@ -3378,38 +3378,31 @@
                                 </div>
                                 <div class="forms__fields-group forms__fields-group-margin">
                                     <p class="field__name">Период обучения</p>
-                                    <div class="forms__fields-item field forms__fields-item--dates"
-                                        style="flex: 0 1 auto;">
-                                        <div class="forms__fields-item--dates-item">
-                                            <p class="field__name">Начало обучения</p>
-                                            <div class="field__wrapper field__input-multi field__input--date field-init--date"
-                                                data-name="school-start-date">
-                                                <input type="text" name="school-start-day" style="width: 1.5em;"
-                                                    maxlength="2" placeholder="дд" data-numbers-only>
-                                                <span class="field__delimeter">.</span>
-                                                <input type="text" name="school-start-month" style="width: 1.5em;"
-                                                    maxlength="2" placeholder="мм" data-numbers-only>
-                                                <span class="field__delimeter">.</span>
-                                                <input type="text" name="school-start-year" placeholder="гггг"
-                                                    style="width: 3em;" maxlength="4" data-numbers-only>
+                                    <div class="forms__fields-item field forms__fields-item--dates">
+                                        <div class="text-field--date forms__fields-item">
+                                            <label for="school-start-day" class="field-label">Начало обучения</label>
+                                            <div class="text-field__input-multi">
+                                                <input class="text-field__input-subfield" maxlength="2" type="text" name="school-start-day" id="school-start-day" placeholder="дд">
+                                                <span class="text-field__input-multi-delimiter">.</span>
+                                                <input class="text-field__input-subfield" maxlength="2" type="text" name="school-start-month" id="school-start-month" placeholder="мм">
+                                                <span class="text-field__input-multi-delimiter">.</span>
+                                                <input class="text-field__input-subfield" maxlength="4" type="text" name="school-start-year" id="school-start-year" placeholder="гггг">
                                             </div>
+                                            <input type="hidden" class="text-field__input" id="birthdate" name="birthdate" placeholder="Дата рождения" data-complete-length="1, 25" aria-label="Дата рождения">
                                         </div>
-                                        <div class="forms__fields-item--dates-item">
-                                            <p class="field__name">Окончание</p>
-                                            <div class="field__wrapper field__input-multi field__input--date field-init--date"
-                                                data-name="school-end-date">
-                                                <input type="text" name="school-end-day" style="width: 1.5em;"
-                                                    maxlength="2" placeholder="дд" data-numbers-only>
-                                                <span class="field__delimeter">.</span>
-                                                <input type="text" name="school-end-month" style="width: 1.5em;"
-                                                    maxlength="2" placeholder="мм" data-numbers-only>
-                                                <span class="field__delimeter">.</span>
-                                                <input type="text" name="school-end-year" placeholder="гггг"
-                                                    style="width: 3em;" maxlength="4" data-numbers-only>
+                                        <div class="text-field--date forms__fields-item">
+                                            <label for="school-end-day" class="field-label">Окончание</label>
+                                            <div class="text-field__input-multi">
+                                                <input class="text-field__input-subfield" maxlength="2" type="text" name="school-end-day" id="school-end-day" placeholder="дд">
+                                                <span class="text-field__input-multi-delimiter">.</span>
+                                                <input class="text-field__input-subfield" maxlength="2" type="text" name="school-end-month" id="school-end-month" placeholder="мм">
+                                                <span class="text-field__input-multi-delimiter">.</span>
+                                                <input class="text-field__input-subfield" maxlength="4" type="text" name="school-end-year" id="school-end-year" placeholder="гггг">
                                             </div>
+                                            <input type="hidden" class="text-field__input" id="birthdate" name="birthdate" placeholder="Дата рождения" data-complete-length="1, 25" aria-label="Дата рождения">
                                         </div>
                                     </div>
-                                    <p class="forms__fields-uncompleted">Пожалуйста, укажите период обучения.</p>
+                                    <p class="field__uncompleted">Пожалуйста, укажите период обучения.</p>
                                 </div>
                                 <div class="forms__fields-group">
                                     <div class="text-field text-field--standard forms__fields-item">
@@ -3489,32 +3482,31 @@
                                 </div>
                                 <div class="forms__fields-group forms__fields-group-margin">
                                     <p class="field__name">Период обучения</p>
-                                    <div class="forms__fields-item field forms__fields-item--dates"
-                                        style="flex: 0 1 auto;">
-                                        <div class="field__wrapper field__input-multi field__input--date field-init--date"
-                                            data-name="education-sec-start-date">
-                                            <input type="text" name="education-sec-start-day" style="width: 1.5em;"
-                                                maxlength="2" placeholder="дд" data-numbers-only>
-                                            <span class="field__delimeter">.</span>
-                                            <input type="text" name="education-sec-start-month" style="width: 1.5em;"
-                                                maxlength="2" placeholder="мм" data-numbers-only>
-                                            <span class="field__delimeter">.</span>
-                                            <input type="text" name="education-sec-start-year" placeholder="гггг"
-                                                style="width: 3em;" maxlength="4" data-numbers-only>
+                                    <div class="forms__fields-item field forms__fields-item--dates">
+                                        <div class="text-field--date forms__fields-item">
+                                            <label for="school-start-day" class="field-label">Начало обучения</label>
+                                            <div class="text-field__input-multi">
+                                                <input class="text-field__input-subfield" maxlength="2" type="text" name="education-sec-start-day" id="education-sec-start-day" placeholder="дд">
+                                                <span class="text-field__input-multi-delimiter">.</span>
+                                                <input class="text-field__input-subfield" maxlength="2" type="text" name="education-sec-start-month" id="education-sec-start-month" placeholder="мм">
+                                                <span class="text-field__input-multi-delimiter">.</span>
+                                                <input class="text-field__input-subfield" maxlength="4" type="text" name="education-sec-start-year" id="education-sec-start-year" placeholder="гггг">
+                                            </div>
+                                            <input type="hidden" class="text-field__input" id="birthdate" name="birthdate" placeholder="Дата рождения" data-complete-length="1, 25" aria-label="Дата рождения">
                                         </div>
-                                        <div class="field__wrapper field__input-multi field__input--date field-init--date"
-                                            data-name="education-sec-end-date">
-                                            <input type="text" name="education-sec-end-day" style="width: 1.5em;"
-                                                maxlength="2" placeholder="дд" data-numbers-only>
-                                            <span class="field__delimeter">.</span>
-                                            <input type="text" name="education-sec-end-month" style="width: 1.5em;"
-                                                maxlength="2" placeholder="мм" data-numbers-only>
-                                            <span class="field__delimeter">.</span>
-                                            <input type="text" name="education-sec-end-year" placeholder="гггг"
-                                                style="width: 3em;" maxlength="4" data-numbers-only>
+                                        <div class="text-field--date forms__fields-item">
+                                            <label for="education-sec-end-day" class="field-label">Окончание</label>
+                                            <div class="text-field__input-multi">
+                                                <input class="text-field__input-subfield" maxlength="2" type="text" name="education-sec-end-day" id="education-sec-end-day" placeholder="дд">
+                                                <span class="text-field__input-multi-delimiter">.</span>
+                                                <input class="text-field__input-subfield" maxlength="2" type="text" name="education-sec-end-month" id="education-sec-end-month" placeholder="мм">
+                                                <span class="text-field__input-multi-delimiter">.</span>
+                                                <input class="text-field__input-subfield" maxlength="4" type="text" name="education-sec-end-year" id="education-sec-end-year" placeholder="гггг">
+                                            </div>
+                                            <input type="hidden" class="text-field__input" id="birthdate" name="birthdate" placeholder="Дата рождения" data-complete-length="1, 25" aria-label="Дата рождения">
                                         </div>
                                     </div>
-                                    <p class="forms__fields-uncompleted">Пожалуйста, укажите период обучения.</p>
+                                    <p class="field__uncompleted">Пожалуйста, укажите период обучения.</p>
                                 </div>
                                 <div class="forms__fields-group">
                                     <div class="multiselect forms__fields-item forms__fields-item--full">
@@ -3633,32 +3625,31 @@
                                 </div>
                                 <div class="forms__fields-group forms__fields-group-margin">
                                     <p class="field__name">Период обучения</p>
-                                    <div class="forms__fields-item field forms__fields-item--dates"
-                                        style="flex: 0 1 auto;">
-                                        <div class="field__wrapper field__input-multi field__input--date field-init--date"
-                                            data-name="education-higher-start-date">
-                                            <input type="text" name="education-higher-start-day" style="width: 1.5em;"
-                                                maxlength="2" placeholder="дд" data-numbers-only>
-                                            <span class="field__delimeter">.</span>
-                                            <input type="text" name="education-higher-start-month" style="width: 1.5em;"
-                                                maxlength="2" placeholder="мм" data-numbers-only>
-                                            <span class="field__delimeter">.</span>
-                                            <input type="text" name="education-higher-start-year" placeholder="гггг"
-                                                style="width: 3em;" maxlength="4" data-numbers-only>
+                                    <div class="forms__fields-item field forms__fields-item--dates">
+                                        <div class="text-field--date forms__fields-item">
+                                            <label for="school-start-day" class="field-label">Начало обучения</label>
+                                            <div class="text-field__input-multi">
+                                                <input class="text-field__input-subfield" maxlength="2" type="text" name="education-higher-start-day" id="education-higher-start-day" placeholder="дд">
+                                                <span class="text-field__input-multi-delimiter">.</span>
+                                                <input class="text-field__input-subfield" maxlength="2" type="text" name="education-higher-start-month" id="education-higher-start-month" placeholder="мм">
+                                                <span class="text-field__input-multi-delimiter">.</span>
+                                                <input class="text-field__input-subfield" maxlength="4" type="text" name="education-higher-start-year" id="education-higher-start-year" placeholder="гггг">
+                                            </div>
+                                            <input type="hidden" class="text-field__input" id="birthdate" name="birthdate" placeholder="Начало обучения" data-complete-length="1, 25" aria-label="Начало обучения">
                                         </div>
-                                        <div class="field__wrapper field__input-multi field__input--date field-init--date"
-                                            data-name="education-higher-end-date">
-                                            <input type="text" name="education-higher-end-day" style="width: 1.5em;"
-                                                maxlength="2" placeholder="дд" data-numbers-only>
-                                            <span class="field__delimeter">.</span>
-                                            <input type="text" name="education-higher-end-month" style="width: 1.5em;"
-                                                maxlength="2" placeholder="мм" data-numbers-only>
-                                            <span class="field__delimeter">.</span>
-                                            <input type="text" name="education-higher-end-year" placeholder="гггг"
-                                                style="width: 3em;" maxlength="4" data-numbers-only>
+                                        <div class="text-field--date forms__fields-item">
+                                            <label for="education-higher-end-day" class="field-label">Окончание</label>
+                                            <div class="text-field__input-multi">
+                                                <input class="text-field__input-subfield" maxlength="2" type="text" name="education-higher-end-day" id="education-higher-end-day" placeholder="дд">
+                                                <span class="text-field__input-multi-delimiter">.</span>
+                                                <input class="text-field__input-subfield" maxlength="2" type="text" name="education-higher-end-month" id="education-higher-end-month" placeholder="мм">
+                                                <span class="text-field__input-multi-delimiter">.</span>
+                                                <input class="text-field__input-subfield" maxlength="4" type="text" name="education-higher-end-year" id="education-higher-end-year" placeholder="гггг">
+                                            </div>
+                                            <input type="hidden" class="text-field__input" id="education-higher" name="education-higher" placeholder="Окончание обучения" data-complete-length="1, 25" aria-label="Окончание обучения">
                                         </div>
                                     </div>
-                                    <p class="forms__fields-uncompleted">Пожалуйста, укажите период обучения.</p>
+                                    <p class="field__uncompleted">Пожалуйста, укажите период обучения.</p>
                                 </div>
                                 <div class="forms__fields-group">
                                     <div class="multiselect forms__fields-item forms__fields-item--full">
