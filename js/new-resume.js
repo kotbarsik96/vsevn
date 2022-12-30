@@ -877,6 +877,768 @@ class TextFieldTags extends TextField {
     }
 }
 
+// Добавить новую группу полей
+class AddField {
+    constructor(node) {
+        this.addField = this.addField.bind(this);
+        this.removeField = this.removeField.bind(this);
+
+        this.rootElem = node;
+        this.fieldTitle = this.rootElem.dataset.addField;
+        this.insertTo = this.rootElem.parentNode;
+        this.fields = [];
+        this.counter = 0;
+        this.titleBlock =
+            this.rootElem.parentNode.querySelector(`[data-add-field-title="${this.fieldTitle}"]`);
+        if (this.titleBlock) this.titleBlock.classList.add("__removed");
+
+        this.rootElem.addEventListener("click", this.addField);
+        setTimeout(() => this.setRange(), 0);
+    }
+    addField() {
+        if (this.fields.length >= this.maxFieldsAmount) return;
+
+        const field = createElement("div", "add-field__container bordered-field", this.fieldInner);
+        this.insertTo.append(field);
+        this.counter++;
+        field.dataset.addFieldId = this.counter;
+        const removeButton = this.createRemoveButton(field);
+        field.before(removeButton);
+        field.after(this.rootElem);
+        this.fields.push({ field, removeButton, id: this.counter });
+
+        if (this.titleBlock) this.titleBlock.classList.remove("__removed");
+        if (this.fields.length >= this.maxFieldsAmount) this.rootElem.classList.add("__removed");
+    }
+    createRemoveButton(field) {
+        const removeButton = createElement("div", "add-field__remove-button icon-bin", "Удалить блок");
+        removeButton.addEventListener("click", () => {
+            this.removeField({ field, removeButton, id: this.counter });
+        });
+        return removeButton;
+    }
+    removeField(fieldData) {
+        new ConfrimModal({
+            title: "Удалить блок?",
+            body: ["Будет удален выбранный блок"],
+            confirm: { text: "Удалить", callback: doRemove.bind(this) },
+            decline: { text: "Не удалять" }
+        });
+
+        function doRemove() {
+            fieldData.field.remove();
+            fieldData.removeButton.remove();
+            this.fields = this.fields.filter(fd => fd.field.closest("body"));
+            this.rootElem.classList.remove("__removed");
+            if (this.fields.length < 1) this.titleBlock.classList.add("__removed");
+        }
+    }
+    setRange() {
+        let addFieldsRange = this.rootElem.dataset.addFieldsRange;
+        if (!addFieldsRange) return;
+
+        addFieldsRange = addFieldsRange.split(", ");
+        this.minFieldsAmount = parseInt(addFieldsRange[0]);
+        this.maxFieldsAmount = parseInt(addFieldsRange[1]);
+
+        if (this.minFieldsAmount > 0) this.setMinFieldsAmount();
+    }
+    setMinFieldsAmount() {
+        for (let i = 0; i < this.minFieldsAmount; i++) {
+            this.addField();
+            this.fields[i].removeButton.remove();
+            delete this.fields[i].removeButton;
+        }
+    }
+}
+class AddFieldSchool extends AddField {
+    constructor(node) {
+        super(node);
+        this.fieldInner = `
+            <div class="forms__fields-group">
+                <div
+                    class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                    <label for="education-school_city" class="field-label">Город</label>
+                    <input type="text" class="text-field__input" id="education-school_city"
+                        name="education-school_city" placeholder="Город"
+                        data-complete-length="1, 25" aria-label="Город">
+                    <p class="field__uncompleted">Пожалуйста, укажите город</p>
+                </div>
+            </div>
+            <div class="forms__fields-group forms__fields-group-margin">
+                <p class="field__name">Период обучения</p>
+                <div class="forms__fields-item field forms__fields-item--dates">
+                    <div class="text-field--date forms__fields-item">
+                        <label for="school-start-day" class="field-label">Начало обучения</label>
+                        <div class="text-field__input-multi">
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="school-start-day" id="school-start-day" placeholder="дд">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="school-start-month" id="school-start-month" placeholder="мм">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="4" type="text"
+                                name="school-start-year" id="school-start-year" placeholder="гггг">
+                        </div>
+                        <input type="hidden" class="text-field__input" id="birthdate"
+                            name="birthdate" placeholder="Дата рождения"
+                            data-complete-length="1, 25" aria-label="Дата рождения">
+                    </div>
+                    <div class="text-field--date forms__fields-item">
+                        <label for="school-end-day" class="field-label">Окончание</label>
+                        <div class="text-field__input-multi">
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="school-end-day" id="school-end-day" placeholder="дд">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="school-end-month" id="school-end-month" placeholder="мм">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="4" type="text"
+                                name="school-end-year" id="school-end-year" placeholder="гггг">
+                        </div>
+                        <input type="hidden" class="text-field__input" id="birthdate"
+                            name="birthdate" placeholder="Дата рождения"
+                            data-complete-length="1, 25" aria-label="Дата рождения">
+                    </div>
+                </div>
+                <p class="field__uncompleted">Пожалуйста, укажите период обучения.</p>
+            </div>
+            <div class="forms__fields-group">
+                <div class="text-field text-field--standard forms__fields-item">
+                    <label for="school-number_title" class="field-label">Номер и название
+                        школы</label>
+                    <input type="text" class="text-field__input" id="school-number_title"
+                        name="school-number_title" placeholder="Например: ООШ №20"
+                        data-complete-length="1, 25" aria-label="Номер и название школы">
+                    <p class="field__uncompleted">Пожалуйста, укажите номер и название школы</p>
+                </div>
+                <div class="forms__fields-item field">
+                    <div class="multiselect forms__fields-item forms__fields-item--full">
+                        <label class="field-label">
+                            Наличие медали
+                        </label>
+                        <div class="selectBox">
+                            <div class="selectBox_wrapper">
+                                <div class="selectBox_value-text">Наличие медали</div>
+                                <div class="overSelect"></div>
+                            </div>
+                            <div class="selctexit_btn">
+                                <div class="exitlin_wrapper">
+                                    <div class="exit_line"></div>
+                                    <div class="exit_line"></div>
+                                </div>
+                                <div class="selctexit_btn_hint">
+                                    Очистить поле?
+                                </div>
+                            </div>
+                        </div>
+                        <div class="checkboxes">
+                            <label class="multiselect__label">
+                                <input class="checrkradio_hidden" type="radio" name="school-medal"
+                                    value="no" data-mselect-value="Нет">
+                                Нет
+                            </label>
+                            <label class="multiselect__label">
+                                <input class="checrkradio_hidden" type="radio" name="school-medal"
+                                    value="gold" data-mselect-value="Золотая">
+                                Золотая
+                            </label>
+                            <label class="multiselect__label">
+                                <input class="checrkradio_hidden" type="radio" name="school-medal"
+                                    value="silver" data-mselect-value="Серебряная">
+                                Серебряная
+                            </label>
+                        </div>
+                        <p class="field__uncompleted">Пожалуйста, укажите наличие медали.</p>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+}
+class AddFieldEducationSec extends AddField {
+    constructor(node) {
+        super(node);
+        this.fieldInner = `
+            <div class="forms__fields-group">
+                <div
+                    class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                    <label for="education-sec-title" class="field-label">Название учебного
+                        заведения</label>
+                    <input type="text" class="text-field__input" id="education-sec-title"
+                        name="education-sec-title" placeholder="Название учебного заведения"
+                        data-complete-length="1, 25" aria-label="Название учебного заведения">
+                    <p class="field__uncompleted">Пожалуйста, укажите название учебного заведения
+                    </p>
+                </div>
+            </div>
+            <div class="forms__fields-group">
+                <div
+                    class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                    <label for="education-sec-speciality" class="field-label">Специальность</label>
+                    <input type="text" class="text-field__input" id="education-sec-speciality"
+                        name="education-sec-speciality" placeholder="Специальность"
+                        data-complete-length="1, 25" aria-label="Специальность">
+                    <p class="field__uncompleted">
+                        Пожалуйста, укажите специальность
+                    </p>
+                </div>
+            </div>
+            <div class="forms__fields-group forms__fields-group-margin">
+                <p class="field__name">Период обучения</p>
+                <div class="forms__fields-item field forms__fields-item--dates">
+                    <div class="text-field--date forms__fields-item">
+                        <label for="school-start-day" class="field-label">Начало обучения</label>
+                        <div class="text-field__input-multi">
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="education-sec-start-day" id="education-sec-start-day"
+                                placeholder="дд">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="education-sec-start-month" id="education-sec-start-month"
+                                placeholder="мм">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="4" type="text"
+                                name="education-sec-start-year" id="education-sec-start-year"
+                                placeholder="гггг">
+                        </div>
+                        <input type="hidden" class="text-field__input" id="birthdate"
+                            name="birthdate" placeholder="Дата рождения"
+                            data-complete-length="1, 25" aria-label="Дата рождения">
+                    </div>
+                    <div class="text-field--date forms__fields-item">
+                        <label for="education-sec-end-day" class="field-label">Окончание</label>
+                        <div class="text-field__input-multi">
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="education-sec-end-day" id="education-sec-end-day"
+                                placeholder="дд">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="education-sec-end-month" id="education-sec-end-month"
+                                placeholder="мм">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="4" type="text"
+                                name="education-sec-end-year" id="education-sec-end-year"
+                                placeholder="гггг">
+                        </div>
+                        <input type="hidden" class="text-field__input" id="birthdate"
+                            name="birthdate" placeholder="Дата рождения"
+                            data-complete-length="1, 25" aria-label="Дата рождения">
+                    </div>
+                </div>
+                <p class="field__uncompleted">Пожалуйста, укажите период обучения.</p>
+            </div>
+            <div class="forms__fields-group">
+                <div class="multiselect forms__fields-item forms__fields-item--full">
+                    <label class="field-label">
+                        Форма обучения
+                    </label>
+                    <div class="selectBox">
+                        <div class="selectBox_wrapper">
+                            <div class="selectBox_value-text">Форма обучения</div>
+                            <div class="overSelect"></div>
+                        </div>
+                        <div class="selctexit_btn">
+                            <div class="exitlin_wrapper">
+                                <div class="exit_line"></div>
+                                <div class="exit_line"></div>
+                            </div>
+                            <div class="selctexit_btn_hint">
+                                Очистить поле?
+                            </div>
+                        </div>
+                    </div>
+                    <div class="checkboxes">
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="education-sec-form"
+                                value="full-time" data-mselect-value="Очная">
+                            Очная
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="education-sec-form"
+                                value="extramural" data-mselect-value="Заочная">
+                            Заочная
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="education-sec-form"
+                                value="combined" data-mselect-value="Очно-заочная">
+                            Очно-заочная
+                        </label>
+                    </div>
+                </div>
+                <p class="field__uncompleted">Пожалуйста, укажите форму обучения.</p>
+            </div>
+            <div class="forms__fields-group">
+                <div
+                    class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                    <label for="education-sec-qualification" class="field-label">Квалификация,
+                        профессия</label>
+                    <input type="text" class="text-field__input" id="education-sec-qualification"
+                        name="education-sec-qualification" placeholder="Квалификация, профессия"
+                        data-complete-length="1, 25" aria-label="Квалификация,
+                        профессия">
+                    <p class="field__uncompleted">
+                        Пожалуйста, укажите квалификацию, профессию
+                    </p>
+                </div>
+            </div>
+            <div class="forms__fields-group">
+                <div class="multiselect forms__fields-item forms__fields-item--full">
+                    <label class="field-label">
+                        Наличие красного диплома
+                    </label>
+                    <div class="selectBox">
+                        <div class="selectBox_wrapper">
+                            <div class="selectBox_value-text">Наличие красного диплома</div>
+                            <div class="overSelect"></div>
+                        </div>
+                        <div class="selctexit_btn">
+                            <div class="exitlin_wrapper">
+                                <div class="exit_line"></div>
+                                <div class="exit_line"></div>
+                            </div>
+                            <div class="selctexit_btn_hint">
+                                Очистить поле?
+                            </div>
+                        </div>
+                    </div>
+                    <div class="checkboxes">
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="red diploma"
+                                value="yes" data-mselect-value="Есть">
+                            Есть
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="red diploma"
+                                value="no" data-mselect-value="Нет">
+                            Нет
+                        </label>
+                    </div>
+                </div>
+                <p class="field__uncompleted">Пожалуйста, укажите наличие красного диплома.</p>
+            </div>
+        `;
+    }
+}
+class AddFieldEducationHigher extends AddField {
+    constructor(node) {
+        super(node);
+        this.fieldInner = `
+            <div class="forms__fields-group">
+                <div
+                    class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                    <label for="education-higher-title" class="field-label">Название учебного
+                        заведения</label>
+                    <input type="text" class="text-field__input" id="education-higher-title"
+                        name="education-higher-title" placeholder="Название учебного заведения"
+                        data-complete-length="1, 25" aria-label="Название учебного заведения">
+                    <p class="field__uncompleted">Пожалуйста, укажите название учебного заведения
+                    </p>
+                </div>
+            </div>
+            <div class="forms__fields-group">
+                <div
+                    class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                    <label for="education-higher-speciality"
+                        class="field-label">Специальность</label>
+                    <input type="text" class="text-field__input" id="education-higher-speciality"
+                        name="education-higher-speciality" placeholder="Специальность"
+                        data-complete-length="1, 25" aria-label="Специальность">
+                    <p class="field__uncompleted">
+                        Пожалуйста, укажите специальность
+                    </p>
+                </div>
+            </div>
+            <div class="forms__fields-group forms__fields-group-margin">
+                <p class="field__name">Период обучения</p>
+                <div class="forms__fields-item field forms__fields-item--dates">
+                    <div class="text-field--date forms__fields-item">
+                        <label for="school-start-day" class="field-label">Начало обучения</label>
+                        <div class="text-field__input-multi">
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="education-higher-start-day" id="education-higher-start-day"
+                                placeholder="дд">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="education-higher-start-month"
+                                id="education-higher-start-month" placeholder="мм">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="4" type="text"
+                                name="education-higher-start-year" id="education-higher-start-year"
+                                placeholder="гггг">
+                        </div>
+                        <input type="hidden" class="text-field__input" id="birthdate"
+                            name="birthdate" placeholder="Начало обучения"
+                            data-complete-length="1, 25" aria-label="Начало обучения">
+                    </div>
+                    <div class="text-field--date forms__fields-item">
+                        <label for="education-higher-end-day" class="field-label">Окончание</label>
+                        <div class="text-field__input-multi">
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="education-higher-end-day" id="education-higher-end-day"
+                                placeholder="дд">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="education-higher-end-month" id="education-higher-end-month"
+                                placeholder="мм">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="4" type="text"
+                                name="education-higher-end-year" id="education-higher-end-year"
+                                placeholder="гггг">
+                        </div>
+                        <input type="hidden" class="text-field__input" id="education-higher"
+                            name="education-higher" placeholder="Окончание обучения"
+                            data-complete-length="1, 25" aria-label="Окончание обучения">
+                    </div>
+                </div>
+                <p class="field__uncompleted">Пожалуйста, укажите период обучения.</p>
+            </div>
+            <div class="forms__fields-group">
+                <div class="multiselect forms__fields-item forms__fields-item--full">
+                    <label class="field-label">
+                        Форма обучения
+                    </label>
+                    <div class="selectBox">
+                        <div class="selectBox_wrapper">
+                            <div class="selectBox_value-text">Форма обучения</div>
+                            <div class="overSelect"></div>
+                        </div>
+                        <div class="selctexit_btn">
+                            <div class="exitlin_wrapper">
+                                <div class="exit_line"></div>
+                                <div class="exit_line"></div>
+                            </div>
+                            <div class="selctexit_btn_hint">
+                                Очистить поле?
+                            </div>
+                        </div>
+                    </div>
+                    <div class="checkboxes">
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio"
+                                name="education-highest-form" value="full-time"
+                                data-mselect-value="Очная">
+                            Очная
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio"
+                                name="education-highest-form" value="extramural"
+                                data-mselect-value="Заочная">
+                            Заочная
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio"
+                                name="education-highest-form" value="combined"
+                                data-mselect-value="Очно-заочная">
+                            Очно-заочная
+                        </label>
+                    </div>
+                </div>
+                <p class="field__uncompleted">Пожалуйста, укажите форму обучения.</p>
+            </div>
+            <div class="forms__fields-group">
+                <div class="multiselect forms__fields-item forms__fields-item--full">
+                    <label class="field-label">
+                        Квалификация высшего образования
+                    </label>
+                    <div class="selectBox">
+                        <div class="selectBox_wrapper">
+                            <div class="selectBox_value-text">Квалификация высшего образования</div>
+                            <div class="overSelect"></div>
+                        </div>
+                        <div class="selctexit_btn">
+                            <div class="exitlin_wrapper">
+                                <div class="exit_line"></div>
+                                <div class="exit_line"></div>
+                            </div>
+                            <div class="selctexit_btn_hint">
+                                Очистить поле?
+                            </div>
+                        </div>
+                    </div>
+                    <div class="checkboxes">
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio"
+                                name="education-highest-qualification" value="full-time"
+                                data-mselect-value="Бакалавр">
+                            Бакалавр
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio"
+                                name="education-highest-qualification" value="extramural"
+                                data-mselect-value="Специалист">
+                            Специалист
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio"
+                                name="education-highest-qualification" value="combined"
+                                data-mselect-value="Магистр">
+                            Магистр
+                        </label>
+                    </div>
+                </div>
+                <p class="field__uncompleted">Пожалуйста, укажите квалификацию.</p>
+            </div>
+            <div class="forms__fields-group">
+                <div class="multiselect forms__fields-item forms__fields-item--full">
+                    <label class="field-label">
+                        Наличие красного диплома
+                    </label>
+                    <div class="selectBox">
+                        <div class="selectBox_wrapper">
+                            <div class="selectBox_value-text">Наличие красного диплома</div>
+                            <div class="overSelect"></div>
+                        </div>
+                        <div class="selctexit_btn">
+                            <div class="exitlin_wrapper">
+                                <div class="exit_line"></div>
+                                <div class="exit_line"></div>
+                            </div>
+                            <div class="selctexit_btn_hint">
+                                Очистить поле?
+                            </div>
+                        </div>
+                    </div>
+                    <div class="checkboxes">
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="red diploma"
+                                value="yes" data-mselect-value="Есть">
+                            Есть
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="red diploma"
+                                value="no" data-mselect-value="Нет">
+                            Нет
+                        </label>
+                    </div>
+                </div>
+                <p class="field__uncompleted">Пожалуйста, укажите наличие красного диплома.</p>
+            </div>
+        `;
+    }
+}
+class AddFieldWorkplace extends AddField {
+    constructor(node) {
+        super(node);
+        this.fieldInner = `
+            <div class="forms__fields-group">
+                <div
+                    class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                    <label for="company-title" class="field-label">Название компании</label>
+                    <input type="text" class="text-field__input" id="company-title" name="company-title"
+                        placeholder="Название компании" data-complete-length="1, 25"
+                        aria-label="Название компании">
+                    <p class="field__uncompleted">
+                        Пожалуйста, укажите название компании.
+                    </p>
+                </div>
+            </div>
+            <div class="forms__fields-group">
+                <div
+                    class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                    <label for="company-post" class="field-label">Должность</label>
+                    <input type="text" class="text-field__input" id="company-post" name="company-post"
+                        placeholder="Должность" data-complete-length="1, 25" aria-label="Должность">
+                    <p class="field__uncompleted">
+                        Пожалуйста, укажите должность.
+                    </p>
+                </div>
+            </div>
+            <div class="forms__fields-group forms__fields-group--flex">
+                <p class="field__name">Начало работы</p>
+                <div class="multiselect forms__fields-item">
+                    <div class="selectBox">
+                        <div class="selectBox_wrapper">
+                            <div class="selectBox_value-text">Месяц</div>
+                            <div class="overSelect"></div>
+                        </div>
+                        <div class="selctexit_btn">
+                            <div class="exitlin_wrapper">
+                                <div class="exit_line"></div>
+                                <div class="exit_line"></div>
+                            </div>
+                            <div class="selctexit_btn_hint">
+                                Очистить поле?
+                            </div>
+                        </div>
+                    </div>
+                    <div class="checkboxes">
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-start-month"
+                                value="january" data-mselect-value="Январь">
+                            Январь
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-start-month"
+                                value="february" data-mselect-value="Февраль">
+                            Февраль
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-start-month"
+                                value="march" data-mselect-value="Март">
+                            Март
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-start-month"
+                                value="april" data-mselect-value="Апрель">
+                            Апрель
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-start-month"
+                                value="may" data-mselect-value="Май">
+                            Май
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-start-month"
+                                value="june" data-mselect-value="Июнь">
+                            Июнь
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-start-month"
+                                value="july" data-mselect-value="Июль">
+                            Июль
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-start-month"
+                                value="august" data-mselect-value="Август">
+                            Август
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-start-month"
+                                value="september" data-mselect-value="Сентябрь">
+                            Сентябрь
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-start-month"
+                                value="october" data-mselect-value="Октябрь">
+                            Октябрь
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-start-month"
+                                value="november" data-mselect-value="Ноябрь">
+                            Ноябрь
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-start-month"
+                                value="december" data-mselect-value="Декабрь">
+                            Декабрь
+                        </label>
+                    </div>
+                </div>
+                <div class="text-field--select forms__fields-item">
+                    <input type="text" class="text-field__input" id="work-start-year"
+                        name="work-start-year" placeholder="Год" data-complete-length="1, 25"
+                        aria-label="Год начала работы" data-text-select-range="1990, currentYear">
+                    <div class="checkboxes">
+
+                    </div>
+                </div>
+                <p class="field__uncompleted">Пожалуйста, укажите начало работы.</p>
+            </div>
+            <div class="forms__fields-group forms__fields-group--flex">
+                <p class="field__name">Конец работы</p>
+                <div class="multiselect forms__fields-item">
+                    <div class="selectBox">
+                        <div class="selectBox_wrapper">
+                            <div class="selectBox_value-text">Месяц</div>
+                            <div class="overSelect"></div>
+                        </div>
+                        <div class="selctexit_btn">
+                            <div class="exitlin_wrapper">
+                                <div class="exit_line"></div>
+                                <div class="exit_line"></div>
+                            </div>
+                            <div class="selctexit_btn_hint">
+                                Очистить поле?
+                            </div>
+                        </div>
+                    </div>
+                    <div class="checkboxes">
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-end-month"
+                                value="january" data-mselect-value="Январь">
+                            Январь
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-end-month"
+                                value="february" data-mselect-value="Февраль">
+                            Февраль
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-end-month"
+                                value="march" data-mselect-value="Март">
+                            Март
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-end-month"
+                                value="april" data-mselect-value="Апрель">
+                            Апрель
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-end-month"
+                                value="may" data-mselect-value="Май">
+                            Май
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-end-month"
+                                value="june" data-mselect-value="Июнь">
+                            Июнь
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-end-month"
+                                value="july" data-mselect-value="Июль">
+                            Июль
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-end-month"
+                                value="august" data-mselect-value="Август">
+                            Август
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-end-month"
+                                value="september" data-mselect-value="Сентябрь">
+                            Сентябрь
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-end-month"
+                                value="october" data-mselect-value="Октябрь">
+                            Октябрь
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-end-month"
+                                value="november" data-mselect-value="Ноябрь">
+                            Ноябрь
+                        </label>
+                        <label class="multiselect__label">
+                            <input class="checrkradio_hidden" type="radio" name="work-end-month"
+                                value="december" data-mselect-value="Декабрь">
+                            Декабрь
+                        </label>
+                    </div>
+                </div>
+                <div class="text-field--select forms__fields-item">
+                    <input type="text" class="text-field__input" id="work-start-year"
+                        name="work-start-year" placeholder="Год" data-complete-length="1, 25"
+                        aria-label="Год начала работы" data-text-select-range="1990, currentYear">
+                    <div class="checkboxes">
+
+                    </div>
+                </div>
+                <p class="field__uncompleted">Пожалуйста, укажите конец работы.</p>
+            </div>
+            <div class="forms__fields-group">
+                <div class="text-field text-field--tags forms__fields-item forms__fields-item--full">
+                    <label for="responsibilities" class="field-label">Обязанности</label>
+                    <input type="text" class="text-field__input" id="responsibilities"
+                        name="responsibilities" placeholder="Введите обязанности"
+                        data-complete-length="1, 25" aria-label="Обязанности">
+                    <button class="text-field__add-button icon-plus"></button>
+                </div>
+            </div>
+        `;
+    }
+}
+
 // аналог атрибута "title"
 class Title {
     constructor(node) {
@@ -1433,14 +2195,14 @@ class Forms {
 }
 
 class Modal {
-    constructor(){
+    constructor() {
         this.removeModal = this.removeModal.bind(this);
     }
     setCloseHandler() {
         this.modalClose = this.modal.querySelector(".popup__close");
         this.modalClose.addEventListener("click", this.removeModal);
     }
-    removeModal(){
+    removeModal() {
         this.modal.remove();
     }
 }
@@ -1487,6 +2249,7 @@ class ConfrimModal extends Modal {
         document.body.append(this.modal);
 
         super.setCloseHandler();
+        this.setButtonsHandlers();
     }
     drawTexts() {
         let inner = "";
@@ -1496,6 +2259,20 @@ class ConfrimModal extends Modal {
             `;
         });
         return inner;
+    }
+    setButtonsHandlers() {
+        const confirmBtn = this.modal.querySelector(".popup__confirm");
+        const declineBtn = this.modal.querySelector(".popup__decline");
+        const data = this.data;
+
+        confirmBtn.addEventListener("click", () => {
+            super.removeModal();
+            if (data.confirm.callback) this.data.confirm.callback();
+        });
+        declineBtn.addEventListener("click", () => {
+            super.removeModal();
+            if (data.decline.callback) this.data.decline.callback();
+        });
     }
 }
 
@@ -1509,6 +2286,10 @@ let inittingNewResumeSelectors = [
     { selector: ".text-field--birthdate", classInstance: TextFieldBirthDate, instanceFlag: "new-resume" },
     { selector: ".text-field--select", classInstance: TextFieldSelect, instanceFlag: "new-resume" },
     { selector: ".text-field--tags", classInstance: TextFieldTags, instanceFlag: "new-resume" },
+    { selector: "[data-add-field='school']", classInstance: AddFieldSchool, instanceFlag: "new-resume" },
+    { selector: "[data-add-field='education-sec']", classInstance: AddFieldEducationSec, instanceFlag: "new-resume" },
+    { selector: "[data-add-field='education-higher']", classInstance: AddFieldEducationHigher, instanceFlag: "new-resume" },
+    { selector: "[data-add-field='workplace']", classInstance: AddFieldWorkplace, instanceFlag: "new-resume" },
     { selector: ".load-image", classInstance: LoadImage, instanceFlag: "new-resume" },
     { selector: "[data-title]", classInstance: Title, instanceFlag: "new-resume" },
     { selector: ".forms", classInstance: Forms },
