@@ -707,7 +707,7 @@ class TextFieldSelect {
         this.input.addEventListener("focus", this.showOptions);
         this.input.addEventListener("input", this.onInput);
     }
-    onInput(){
+    onInput() {
         this.showMatches();
         this.checkCompletion();
     }
@@ -810,6 +810,116 @@ class TextFieldSelect {
     }
 }
 
+// поле, создающее теги
+class TextFieldTags extends TextField {
+    constructor(node) {
+        super(node);
+
+        this.addTag = this.addTag.bind(this);
+        this.removeTag = this.removeTag.bind(this);
+        this.addedTags = [];
+        this.counter = 0;
+
+        this.addButton = this.rootElem.querySelector(".text-field__add-button");
+
+        this.addButton.addEventListener("click", this.addTag);
+        this.input.addEventListener("keypress", (event) => {
+            if (event.key === "Enter") this.addTag(event);
+        });
+    }
+    addTag(event) {
+        event.preventDefault();
+        const value = this.input.value;
+        if (!value) return;
+        const alreadyExists = this.addedTags.find(tagData => tagData.value === value);
+        if (alreadyExists) return;
+
+        if (!this.tagsListBlock) this.createTagsListBlock();
+
+        const tagInner = `
+            <span class="tags-list__item-text" data-title="${value}">${value}</span>
+            <input name="responsibilities_1" type="hidden" disabled="" value="${value}">
+            <button class="tags-list__item-remove icon-close"></button>
+        `;
+        const tag = createElement("li", "tags-list__item", tagInner);
+        this.tagsListBlock.append(tag);
+        this.counter++;
+        tag.dataset.tagId = this.counter;
+        tag.querySelector(".tags-list__item-remove").addEventListener("click", this.removeTag);
+        this.addedTags.push({ tag, value, id: this.counter });
+        this.input.value = "";
+        this.checkCompletion();
+    }
+    removeTag(event) {
+        const tag = event.target.closest(".tags-list__item");
+        const tagId = parseInt(tag.dataset.tagId);
+        this.addedTags = this.addedTags
+            .filter(tagData => tagData.id !== tagId);
+        tag.remove();
+        this.checkCompletion();
+    }
+    createTagsListBlock() {
+        this.tagsListBlock = createElement("ul", "tags-list");
+        this.rootElem.append(this.tagsListBlock);
+    }
+    checkCompletion() {
+        console.log(this.addedTags);
+
+        if (this.addedTags.length > 0) {
+            this.isCompleted = true;
+            this.rootElem.classList.remove("__uncompleted");
+        } else {
+            this.isCompleted = false;
+            this.rootElem.classList.add("__uncompleted");
+        }
+
+        return this.isCompleted;
+    }
+}
+
+// аналог атрибута "title"
+class Title {
+    constructor(node) {
+        this.showTitle = this.showTitle.bind(this);
+        this.hideTitle = this.hideTitle.bind(this);
+
+        this.rootElem = node;
+        this.showingDur = 300;
+
+        this.rootElem.addEventListener("pointerover", this.showTitle);
+    }
+    showTitle(event) {
+        const node = event.target;
+        let titleString = node.dataset.title;
+        if (!titleString) titleString = node.textContent || node.innerText;
+
+        const titleNode = createElement("div", "hover-title", titleString);
+        const fontSize = getComputedStyle(this.rootElem).fontSize;
+        titleNode.style.cssText = `
+            transition: all ${this.showingDur / 1000}s; 
+            opacity: 0; 
+            font-size: ${fontSize}
+        `;
+        const alreadyHasTitleNode = node.querySelector(".hover-title");
+        if (!alreadyHasTitleNode) node.append(titleNode);
+        setTimeout(() => titleNode.style.opacity = "1", 0);
+        node.addEventListener("pointerout", this.hideTitle);
+    }
+    hideTitle(event) {
+        const node = event.target;
+        const titleNode = node.querySelector(".hover-title");
+        if (titleNode) {
+            titleNode.style.opacity = "0";
+            node.removeEventListener("pointerout", this.hideTitle);
+
+            setTimeout(() => {
+                titleNode.remove();
+                this.hideTitle(event);
+            }, this.showingDur);
+        }
+    }
+}
+
 // загрузка фото
 class LoadImage {
     constructor(block) {
@@ -898,11 +1008,11 @@ class LoadImage {
     checkCompletion() {
         if (this.input.files[0]) {
             this.isCompleted = true;
-            this.rootElem.classList.remove("__uncomplete");
+            this.rootElem.classList.remove("__uncompleted");
         }
         else {
             this.isCompleted = false;
-            this.rootElem.classList.add("__uncomplete");
+            this.rootElem.classList.add("__uncompleted");
         }
     }
 }
@@ -1313,12 +1423,79 @@ class Forms {
     checkCompletion() {
         let uncompleted = this.inputs.filter(inpClass => {
             // проверяет, есть ли метод checkCompletion
-            if (!inpClass.checkCompletion) return;
+            if (!inpClass.checkCompletion || !inpClass.rootElem.closest("body")) return;
 
             // проверяет, заполнено ли поле верно
             let isUncompleted = !inpClass.checkCompletion();
             return isUncompleted;
         });
+    }
+}
+
+class Modal {
+    constructor(){
+        this.removeModal = this.removeModal.bind(this);
+    }
+    setCloseHandler() {
+        this.modalClose = this.modal.querySelector(".popup__close");
+        this.modalClose.addEventListener("click", this.removeModal);
+    }
+    removeModal(){
+        this.modal.remove();
+    }
+}
+
+class ConfrimModal extends Modal {
+    constructor(data = { title: "", body: [], confirm: {}, decline: {} }) {
+        super();
+        /*
+            data == { 
+                title: "string", 
+                body: ["array", "with", "strings"], 
+                confirm: { callback: function, text: "string" },  
+                decline: { callback: function, text: "string" }
+            }
+        */
+        if (!data.body) data.body = [];
+        if (!data.confirm) data.confirm = {};
+        if (!data.decline) data.decline = {};
+        this.data = data;
+
+        const modalInner = `
+        <div class="popup__body">
+            <div class="popup__close">
+                <span class="popup__close-line"></span>
+                <span class="popup__close-line"></span>
+            </div>
+            <div class="popup__content">
+                <h4 class="popup__title">${data.title}</h4>
+                <div class="popup__text">
+                    ${this.drawTexts()}
+                </div>
+                <div class="popup__buttons">
+                    <button class="button popup__button popup__confirm">
+                        ${data.confirm.text || "Подтердить"}
+                    </button>
+                    <button class="button popup__button popup__decline">
+                        ${data.decline.text || "Отменить"}
+                    </button>
+                </div>
+            </div>
+        </div>
+        `;
+        this.modal = createElement("div", "popup", modalInner);
+        document.body.append(this.modal);
+
+        super.setCloseHandler();
+    }
+    drawTexts() {
+        let inner = "";
+        this.data.body.forEach(text => {
+            inner += `
+            <p class="popup__text-item">${text}</p>
+            `;
+        });
+        return inner;
     }
 }
 
@@ -1331,7 +1508,9 @@ let inittingNewResumeSelectors = [
     { selector: ".text-field--date", classInstance: TextFieldDate, instanceFlag: "new-resume" },
     { selector: ".text-field--birthdate", classInstance: TextFieldBirthDate, instanceFlag: "new-resume" },
     { selector: ".text-field--select", classInstance: TextFieldSelect, instanceFlag: "new-resume" },
+    { selector: ".text-field--tags", classInstance: TextFieldTags, instanceFlag: "new-resume" },
     { selector: ".load-image", classInstance: LoadImage, instanceFlag: "new-resume" },
+    { selector: "[data-title]", classInstance: Title, instanceFlag: "new-resume" },
     { selector: ".forms", classInstance: Forms },
 ];
 

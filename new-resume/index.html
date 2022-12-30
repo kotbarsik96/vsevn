@@ -4057,9 +4057,10 @@
                                 </div>
                                 <div class="text-field--select forms__fields-item">
                                     <input type="text" class="text-field__input" id="work-start-year"
-                                        name="work-start-year" placeholder="Год" data-complete-length="1, 25" aria-label="Год начала работы" data-text-select-range="1990, currentYear">
+                                        name="work-start-year" placeholder="Год" data-complete-length="1, 25"
+                                        aria-label="Год начала работы" data-text-select-range="1990, currentYear">
                                     <div class="checkboxes">
-                                        
+
                                     </div>
                                 </div>
                                 <p class="field__uncompleted">Пожалуйста, укажите начало работы.</p>
@@ -4147,23 +4148,21 @@
                                 </div>
                                 <div class="text-field--select forms__fields-item">
                                     <input type="text" class="text-field__input" id="work-start-year"
-                                        name="work-start-year" placeholder="Год" data-complete-length="1, 25" aria-label="Год начала работы" data-text-select-range="1990, currentYear">
+                                        name="work-start-year" placeholder="Год" data-complete-length="1, 25"
+                                        aria-label="Год начала работы" data-text-select-range="1990, currentYear">
                                     <div class="checkboxes">
-                                        
+
                                     </div>
                                 </div>
                                 <p class="field__uncompleted">Пожалуйста, укажите конец работы.</p>
                             </div>
                             <div class="forms__fields-group">
-                                <div class="forms__fields-item field field-tags">
-                                    <label class="field__name" for="responsibilities">Обязанности</label>
-                                    <div class="field__wrapper field-tags__wrapper">
-                                        <input class="field-tags__input" type="text" id="responsibilities"
-                                            name="responsibilities"
-                                            placeholder="Введите должностные функции и ключевые навыки">
-                                        <div class="field-tags__add-icon icon-plus"></div>
-                                    </div>
-                                    <p class="forms__fields-uncompleted">Пожалуйста, укажите обязанности</p>
+                                <div class="text-field text-field--tags forms__fields-item forms__fields-item--full">
+                                    <label for="responsibilities" class="field-label">Обязанности</label>
+                                    <input type="text" class="text-field__input" id="responsibilities"
+                                        name="responsibilities" placeholder="Введите обязанности"
+                                        data-complete-length="1, 25" aria-label="Обязанности">
+                                    <button class="text-field__add-button icon-plus"></button>
                                 </div>
                             </div>
                         </div>
@@ -4363,7 +4362,7 @@
                             выберите нужный фрагмент, вы можете обрезать фото, чтобы зафиксировать то, что будет видеть
                             работодатель в первую очередь
                         </p>
-                        <p class="forms__fields-uncompleted">
+                        <p class="field__uncompleted">
                             Пожалуйста, загрузите фото.
                         </p>
                     </section>
@@ -4392,7 +4391,6 @@
             </div>
         </main>
     </div>
-
 
     <svg display='none'>
         <symbol id='login' viewBox="0 0 15 13">
