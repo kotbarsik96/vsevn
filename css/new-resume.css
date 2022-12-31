@@ -796,7 +796,7 @@ input[name*="year"] {
   background: #fee018;
 }
 
-.text-field--select .checkboxes {
+.checkboxes {
   max-height: 320px;
   overflow: auto;
 }
@@ -921,7 +921,8 @@ input[name*="year"] {
 }
 
 .__uncompleted>.field__uncompleted,
-.__uncompleted>.field__uncompleted {
+.__uncompleted>.field__uncompleted,
+.__uncompleted+.field__uncompleted {
   display: block;
 }
 
@@ -931,6 +932,10 @@ input[name*="year"] {
 
 .multiselect .selectBox {
   padding: 4px 4px 3px 4px;
+}
+
+.multiselect.__uncompleted .selectBox {
+  border-color: var(--uncomplete_border_color);
 }
 
 .multiselect .field__uncompleted {
@@ -1541,6 +1546,7 @@ input[type="radio"]+.checkbox__value .checkbox__icon::before {
 /* Кнопка добавления поля */
 
 .add-field {
+  width: 100%;
   cursor: pointer;
   border-radius: 3px;
   border: 1px solid var(--input_border_color);
@@ -1625,6 +1631,14 @@ input[type="radio"]+.checkbox__value .checkbox__icon::before {
 .add-field__remove-button:hover {
   color: var(--action_color_2);
   color: #d70404;
+}
+
+/* Добавленное поле */
+
+.add-field__container {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 100%;
+  flex: 0 0 100%;
 }
 
 /* Загрузка фото */
@@ -2277,12 +2291,6 @@ input[type="radio"]+.checkbox__value .checkbox__icon::before {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 100%;
     flex: 0 0 100%;
-  }
-}
-
-@media (max-width: 469px) {
-  .add-field--education {
-    min-height: 8em;
   }
 }
 

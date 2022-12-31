@@ -326,12 +326,14 @@ class Multiselect {
             : this.show();
     }
     onChange(event) {
-        let checked = event.target;
-        this.checked = checked;
-        this.selectBox.classList.add("selbActive");
-        this.selectBoxValueText.innerHTML = checked.dataset.mselectValue;
+        this.checked = this.options.find(opt => opt.checked);
         this.hide();
         this.checkCompletion();
+
+        if (!this.checked) return;
+
+        this.selectBox.classList.add("selbActive");
+        this.selectBoxValueText.innerHTML = this.checked.dataset.mselectValue;
     }
     clear() {
         this.options.forEach(opt => {
@@ -357,17 +359,88 @@ class Multiselect {
 }
 
 // мультиселект, от который может создавать кнопку "Добавить" для добавления новых полей/мультиселектов (класс Add[...])
-class MultiselectChildren extends Multiselect{
+class MultiselectAddField extends Multiselect {
+    constructor(node) {
+        super(node);
+        this.onAddFieldButtonClick = this.onAddFieldButtonClick.bind(this);
+    }
+    createAddFieldButton(content, fieldName, range = null) {
+        if (this.addFieldButton) return;
+
+        let addFieldButtonInner = `
+            <div class="add-field__icon icon-plus"></div>
+            <p class="add-field__text">${content}</p>
+        `;
+        let addFieldButton = createElement("div", "add-field", addFieldButtonInner);
+        addFieldButton.dataset.addField = fieldName;
+        if (range) addFieldButton.dataset.addFieldsRange = range;
+        addFieldButton.addEventListener("click", this.onAddFieldButtonClick);
+
+        return addFieldButton;
+    }
+    onAddFieldButtonClick(event) {
+        const button = event.currentTarget;
+        const buttonClass = findInittedInput(".add-field", true)
+            .find(inpClass => inpClass.rootElem === button);
+        if (buttonClass) {
+            this.addedFields = buttonClass.fields;
+        }
+    }
+    removeAdded() {
+        if (this.addFieldButton) {
+            this.addFieldButton.remove();
+            this.addFieldButton = null;
+        }
+        if (this.addedFields) {
+            console.log(this.addedFields);
+            this.addedFields.forEach(added => {
+                added.field.remove();
+                added.removeButton.remove();
+            });
+            this.addedFields = null;
+        }
+    }
+}
+class MultiselectChildren extends MultiselectAddField {
     constructor(node) {
         super(node);
     }
-    onChange(event){
+    onChange(event) {
         super.onChange(event);
-        if(this.checked.value === "yes") this.onYesSelect();
+        const val = this.checked ? this.checked.value : null;
+
+        switch (val) {
+            case "yes": this.onYesSelect();
+                break;
+            case "no": this.onNoSelect();
+                break;
+            default: super.removeAdded();
+                break;
+        }
         this.checkCompletion();
     }
-    onYesSelect(){
-        console.log(true);
+    onYesSelect() {
+        this.addFieldButton = super.createAddFieldButton("Указать возраст ребенка", "children");
+
+        this.rootElem.after(this.addFieldButton);
+    }
+    onNoSelect() {
+        if (this.addFieldButton) this.addFieldButton.remove();
+    }
+    checkCompletion(preventEvent) {
+        if (!this.checked) {
+            this.isCompleted = false;
+            this.rootElem.classList.add("__uncompleted");
+            return this.isCompleted;
+        }
+
+        if (this.checked.value === "no") super.checkCompletion(preventEvent);
+        else if (this.checked.value === "yes") {
+            super.checkCompletion(preventEvent);
+        }
+
+        if (this.isCompleted) this.rootElem.classList.remove("__uncompleted");
+        return this.isCompleted;
     }
 }
 
@@ -937,6 +1010,8 @@ class AddField {
 
         if (this.titleBlock) this.titleBlock.classList.remove("__removed");
         if (this.fields.length >= this.maxFieldsAmount) this.rootElem.classList.add("__removed");
+
+        return field;
     }
     createRemoveButton(field) {
         const removeButton = createElement("div", "add-field__remove-button icon-bin", "Удалить блок");
@@ -946,7 +1021,7 @@ class AddField {
         return removeButton;
     }
     removeField(fieldData) {
-        new ConfrimModal({
+        new ConfrimPopup({
             title: "Удалить блок?",
             body: ["Будет удален выбранный блок"],
             confirm: { text: "Удалить", callback: doRemove.bind(this) },
@@ -958,7 +1033,9 @@ class AddField {
             fieldData.removeButton.remove();
             this.fields = this.fields.filter(fd => fd.field.closest("body"));
             this.rootElem.classList.remove("__removed");
-            if (this.fields.length < 1) this.titleBlock.classList.add("__removed");
+            if (this.fields.length < 1
+                && this.titleBlock
+            ) this.titleBlock.classList.add("__removed");
         }
     }
     setRange() {
@@ -1676,6 +1753,127 @@ class AddFieldWorkplace extends AddField {
         `;
     }
 }
+class AddFieldChildren extends AddField {
+    constructor(node) {
+        super(node);
+    }
+    addField() {
+        let field = super.addField();
+        field.classList.remove("bordered-field");
+    }
+    getFieldInner() {
+        return `
+        <div class="multiselect multiselect--standard forms__fields-item forms__fields-item--full">
+            <label class="field-label">
+                Возраст ребенка
+            </label>
+            <div class="selectBox">
+                <div class="selectBox_wrapper">
+                    <div class="selectBox_value-text">Возраст ребенка</div>
+                    <div class="overSelect"></div>
+                </div>
+                <div class="selctexit_btn">
+                    <div class="exitlin_wrapper">
+                        <div class="exit_line"></div>
+                        <div class="exit_line"></div>
+                    </div>
+                    <div class="selctexit_btn_hint">
+                        Очистить поле?
+                    </div>
+                </div>
+            </div>
+            <div class="checkboxes">
+                <label class="multiselect__label">
+                    <input class="checrkradio_hidden" type="radio" name="children-age-${this.counter}"
+                        value="less-year" data-mselect-value="Меньше года">
+                    Меньше года
+                </label>
+                <label class="multiselect__label">
+                    <input class="checrkradio_hidden" type="radio" name="children-age-${this.counter}"
+                        value="1" data-mselect-value="1">
+                    1
+                </label>
+                <label class="multiselect__label">
+                    <input class="checrkradio_hidden" type="radio" name="children-age-${this.counter}"
+                        value="2" data-mselect-value="2">
+                    2
+                </label>
+                <label class="multiselect__label">
+                    <input class="checrkradio_hidden" type="radio" name="children-age-${this.counter}"
+                        value="3" data-mselect-value="3">
+                    3
+                </label>
+                <label class="multiselect__label">
+                    <input class="checrkradio_hidden" type="radio" name="children-age-${this.counter}"
+                        value="4" data-mselect-value="4">
+                    4
+                </label>
+                <label class="multiselect__label">
+                    <input class="checrkradio_hidden" type="radio" name="children-age-${this.counter}"
+                        value="5" data-mselect-value="5">
+                    5
+                </label>
+                <label class="multiselect__label">
+                    <input class="checrkradio_hidden" type="radio" name="children-age-${this.counter}"
+                        value="6" data-mselect-value="6">
+                    6
+                </label>
+                <label class="multiselect__label">
+                    <input class="checrkradio_hidden" type="radio" name="children-age-${this.counter}"
+                        value="7" data-mselect-value="7">
+                    7
+                </label>
+                <label class="multiselect__label">
+                    <input class="checrkradio_hidden" type="radio" name="children-age-${this.counter}"
+                        value="8" data-mselect-value="8">
+                    8
+                </label>
+                <label class="multiselect__label">
+                    <input class="checrkradio_hidden" type="radio" name="children-age-${this.counter}"
+                        value="9" data-mselect-value="9">
+                    9
+                </label>
+                <label class="multiselect__label">
+                    <input class="checrkradio_hidden" type="radio" name="children-age-${this.counter}"
+                        value="10" data-mselect-value="10">
+                    10
+                </label>
+                <label class="multiselect__label">
+                    <input class="checrkradio_hidden" type="radio" name="children-age-${this.counter}"
+                        value="11" data-mselect-value="11">
+                    11
+                </label>
+                <label class="multiselect__label">
+                    <input class="checrkradio_hidden" type="radio" name="children-age-${this.counter}"
+                        value="12" data-mselect-value="12">
+                    12
+                </label>
+                <label class="multiselect__label">
+                    <input class="checrkradio_hidden" type="radio" name="children-age-${this.counter}"
+                        value="13" data-mselect-value="13">
+                    13
+                </label>
+                <label class="multiselect__label">
+                    <input class="checrkradio_hidden" type="radio" name="children-age-${this.counter}"
+                        value="14" data-mselect-value="14">
+                    14
+                </label>
+                <label class="multiselect__label">
+                    <input class="checrkradio_hidden" type="radio" name="children-age-${this.counter}"
+                        value="15" data-mselect-value="15">
+                    15
+                </label>
+                <label class="multiselect__label">
+                    <input class="checrkradio_hidden" type="radio" name="children-age-${this.counter}"
+                        value="16" data-mselect-value="16">
+                    16
+                </label>
+            </div>
+        </div>
+        <p class="field__uncompleted">Пожалуйста, укажите возраст ребенка.</p>
+        `;
+    }
+}
 
 // группа чекбоксов
 class CheckboxesGroup {
@@ -1896,7 +2094,7 @@ class CutImage {
         this.isCircle = isCircle;
         this.previewSize = previewSize;
         this.img = block.querySelector(".load-image__small-img");
-        this.scaleModalCoef = 5;
+        this.scalePopupCoef = 5;
         this.cutButton = block.querySelector(".load-image__apply-edit");
         this.refreshButton = block.querySelector(".load-image__refresh-edit");
         this.downloadButton = block.querySelector(".load-image__download-edit");
@@ -1963,16 +2161,16 @@ class CutImage {
         download = download.bind(this);
         downloadByRadio = downloadByRadio.bind(this);
 
-        const modalBody = [
+        const popupBody = [
             `<div class="checkbox">
-                <input type="radio" name="modal-window_download-type" id="download-original" value="origin">
+                <input type="radio" name="popup-window_download-type" id="download-original" value="origin">
                 <label class="checkbox__value" for="download-original">
                     <span class="checkbox__icon"></span>
                     Скачать оригинальный размер
                 </label>
             </div>
             <div class="checkbox">
-                <input type="radio" name="modal-window_download-type" id="download-cut" value="cut">
+                <input type="radio" name="popup-window_download-type" id="download-cut" value="cut">
                 <label class="checkbox__value" for="download-cut">
                     <span class="checkbox__icon"></span>
                     Скачать уменьшенный размер
@@ -1980,16 +2178,16 @@ class CutImage {
             </div>
             `
         ];
-        let confModal = new ConfrimModal({
+        let confPopup = new ConfrimPopup({
             title: "Скачать изображение",
-            body: modalBody,
+            body: popupBody,
             confirm: { callback: downloadByRadio, text: "Скачать" },
             decline: { text: "Отмена" }
         });
-        let modalNode = confModal.getModal();
+        let popupNode = confPopup.getPopup();
 
         function downloadByRadio() {
-            const buttons = Array.from(modalNode.querySelectorAll("input[name='modal-window_download-type']"));
+            const buttons = Array.from(popupNode.querySelectorAll("input[name='popup-window_download-type']"));
             const checked = buttons.find(btn => btn.checked) || { value: "cut" };
             const fullSizeData = this.createFullSize();
             const origFullSizeData = { width: this.origSizes.width, height: this.origSizes.height };
@@ -2114,7 +2312,7 @@ class CutImage {
         this.lastCutHeight = 0;
         this.fixatedX = 100;
         this.fixatedY = 100;
-        this.scaleModal = this.scaleModalCoef / this.scaled;
+        this.scalePopup = this.scalePopupCoef / this.scaled;
         this.downloadButton.classList.add("__removed");
         this.toggleDetails("hide");
     }
@@ -2153,7 +2351,7 @@ class CutImage {
         if (btn.classList.contains("scale-plus")) {
             if (this.scaled + 0.1 <= 5) this.scaled += 0.1;
         }
-        this.scaleModal = this.scaleModalCoef / this.scaled;
+        this.scalePopup = this.scalePopupCoef / this.scaled;
         this.setTransform();
     }
     onPointerdown(event) {
@@ -2229,18 +2427,18 @@ class CutImage {
         canvasOrig.style.cssText = "position: absolute; z-index: -99; opacity: 0";
         document.body.append(canvasOrig);
         const ctxOrig = canvasOrig.getContext("2d");
-        ctxOrig.drawImage(this.origImg, 0, 0, this.img.width * this.scaleModal, this.img.height * this.scaleModal);
+        ctxOrig.drawImage(this.origImg, 0, 0, this.img.width * this.scalePopup, this.img.height * this.scalePopup);
 
         // из всего изображения найти только выделенный квадрат/круг
-        const ctxSize = this.previewSize * this.scaleModal;
+        const ctxSize = this.previewSize * this.scalePopup;
         const canvasCut = createElement("canvas");
-        canvasCut.width = this.previewSize * this.scaleModal;
-        canvasCut.height = this.previewSize * this.scaleModal;
+        canvasCut.width = this.previewSize * this.scalePopup;
+        canvasCut.height = this.previewSize * this.scalePopup;
         canvasCut.style.cssText = "position: absolute; z-index: -99; opacity: 0";
         document.body.append(canvasCut);
         const ctxCut = canvasCut.getContext("2d");
-        const sx = (imgWrapperCoords.left - imgCoords.left) * this.scaleModal;
-        const sy = (imgWrapperCoords.top - imgCoords.top) * this.scaleModal;
+        const sx = (imgWrapperCoords.left - imgCoords.left) * this.scalePopup;
+        const sy = (imgWrapperCoords.top - imgCoords.top) * this.scalePopup;
         if (this.isCircle) {
             const x = canvasCut.width / 2;
             const y = canvasCut.height / 2;
@@ -2278,29 +2476,42 @@ class Forms {
         this.checkCompletion();
     }
     checkCompletion() {
+        const inputs = findInittedInputByFlag("new-resume", true);
+        const uncompleted = getUncompleted(inputs)
+            .filter(inpClass => {
+                let isFieldsGroup = inpClass instanceof FieldsGroup;
+                return inpClass.checkCompletion && !isFieldsGroup;
+            })
+            .filter(inpClass => {
+                let isCompleted = inpClass.checkCompletion(false);
+                return isCompleted ? false : true;
+            });
+        console.log(uncompleted);
+        if (uncompleted.length === 0) {
 
+        }
     }
 }
 
-class Modal {
+class Popup {
     constructor() {
-        this.removeModal = this.removeModal.bind(this);
+        this.removePopup = this.removePopup.bind(this);
         document.body.classList.add("body--locked-scroll");
     }
     setCloseHandler() {
-        this.modalClose = this.modal.querySelector(".modal__close");
-        this.modalClose.addEventListener("click", this.removeModal);
+        this.popupClose = this.popup.querySelector(".popup__close");
+        this.popupClose.addEventListener("click", this.removePopup);
     }
-    removeModal() {
-        this.modal.remove();
+    removePopup() {
+        this.popup.remove();
         document.body.classList.remove("body--locked-scroll");
     }
-    getModal() {
-        return this.modal;
+    getPopup() {
+        return this.popup;
     }
 }
 
-class ConfrimModal extends Modal {
+class ConfrimPopup extends Popup {
     constructor(data = { title: "", body: [], confirm: {}, decline: {} }) {
         super();
         /*
@@ -2316,30 +2527,30 @@ class ConfrimModal extends Modal {
         if (!data.decline) data.decline = {};
         this.data = data;
 
-        const modalInner = `
-        <div class="modal__body">
-            <div class="modal__close">
-                <span class="modal__close-line"></span>
-                <span class="modal__close-line"></span>
+        const popupInner = `
+        <div class="popup__body">
+            <div class="popup__close">
+                <span class="popup__close-line"></span>
+                <span class="popup__close-line"></span>
             </div>
-            <div class="modal__content">
-                <h4 class="modal__title">${data.title}</h4>
-                <div class="modal__text">
+            <div class="popup__content">
+                <h4 class="popup__title">${data.title}</h4>
+                <div class="popup__text">
                     ${this.drawTexts()}
                 </div>
-                <div class="modal__buttons">
-                    <button class="button modal__button modal__confirm">
+                <div class="popup__buttons">
+                    <button class="button popup__button popup__confirm">
                         ${data.confirm.text || "Подтердить"}
                     </button>
-                    <button class="button modal__button modal__decline">
+                    <button class="button popup__button popup__decline">
                         ${data.decline.text || "Отменить"}
                     </button>
                 </div>
             </div>
         </div>
         `;
-        this.modal = createElement("div", "modal", modalInner);
-        document.body.append(this.modal);
+        this.popup = createElement("div", "popup", popupInner);
+        document.body.append(this.popup);
 
         super.setCloseHandler();
         this.setButtonsHandlers();
@@ -2348,22 +2559,22 @@ class ConfrimModal extends Modal {
         let inner = "";
         this.data.body.forEach(text => {
             inner += `
-            <p class="modal__text-item">${text}</p>
+            <p class="popup__text-item">${text}</p>
             `;
         });
         return inner;
     }
     setButtonsHandlers() {
-        const confirmBtn = this.modal.querySelector(".modal__confirm");
-        const declineBtn = this.modal.querySelector(".modal__decline");
+        const confirmBtn = this.popup.querySelector(".popup__confirm");
+        const declineBtn = this.popup.querySelector(".popup__decline");
         const data = this.data;
 
         confirmBtn.addEventListener("click", () => {
-            super.removeModal();
+            super.removePopup();
             if (data.confirm.callback) this.data.confirm.callback();
         });
         declineBtn.addEventListener("click", () => {
-            super.removeModal();
+            super.removePopup();
             if (data.decline.callback) this.data.decline.callback();
         });
     }
@@ -2382,12 +2593,13 @@ let inittingNewResumeSelectors = [
     { selector: ".text-field--tags", classInstance: TextFieldTags, instanceFlag: "new-resume" },
     { selector: "[data-add-field='school']", classInstance: AddFieldSchool, instanceFlag: "new-resume" },
     { selector: "[data-add-field='education-sec']", classInstance: AddFieldEducationSec, instanceFlag: "new-resume" },
+    { selector: "[data-add-field='children']", classInstance: AddFieldChildren, instanceFlag: "new-resume" },
     { selector: "[data-add-field='education-higher']", classInstance: AddFieldEducationHigher, instanceFlag: "new-resume" },
     { selector: "[data-add-field='workplace']", classInstance: AddFieldWorkplace, instanceFlag: "new-resume" },
     { selector: ".checkboxes-group", classInstance: CheckboxesGroup, instanceFlag: "new-resume" },
     { selector: "[data-optional-checkbox]", classInstance: CheckboxOptional, instanceFlag: "new-resume" },
     { selector: ".load-image", classInstance: LoadImage, instanceFlag: "new-resume" },
-    { selector: "[data-title]", classInstance: Title, instanceFlag: "new-resume" },
+    { selector: "[data-title]", classInstance: Title },
     { selector: ".forms", classInstance: Forms },
 ];
 
