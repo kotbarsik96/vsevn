@@ -3265,8 +3265,7 @@
                                     <input class="text-field__input-subfield" maxlength="4" type="text" name="birthyear"
                                         id="birthyear" placeholder="гггг">
                                 </div>
-                                <input type="hidden" class="text-field__input" id="birthdate" name="birthdate"
-                                    placeholder="Дата рождения" data-complete-length="1, 25" aria-label="Дата рождения">
+                                <input type="hidden" class="text-field__input" id="birthdate" name="birthdate" data-complete-length="1, 25">
                             </div>
                             <p class="field__uncompleted">
                                 Пожалуйста, укажите корректную дату рождения. Минимальный год:
@@ -3401,9 +3400,9 @@
                                     Добавить высшее-профессиональное образование (институт, университет, академия)
                                 </p>
                             </div>
-                            <h4 class="forms__title" data-add-field-title="education-higher">Высшее-профессиональное образование
-                                (институт,
-                                университет, академия)</h4>
+                            <h4 class="forms__title" data-add-field-title="education-higher">
+                                Высшее-профессиональное образование (институт, университет, академия)
+                            </h4>
                         </div>
                     </section>
                     <section class="forms__container">
@@ -3438,8 +3437,8 @@
                                 </p>
                             </div>
                             <div class="text-field text-field--standard forms__fields-item">
-                                <label for="street" class="field-label">Дом</label>
-                                <input type="text" class="text-field__input" id="street" name="street" placeholder="Дом"
+                                <label for="house" class="field-label">Дом</label>
+                                <input type="text" class="text-field__input" id="house" name="house" placeholder="Дом"
                                     data-complete-length="1, 25" aria-label="Дом">
                                 <p class="field__uncompleted">
                                     Пожалуйста, укажите дом.
@@ -3610,7 +3609,14 @@
                             </div>
                             <div class="forms__fields-group forms__fields-group--flex">
                                 <p class="field__name">Конец работы</p>
-                                <div class="multiselect forms__fields-item">
+                                <div class="checkbox">
+                                    <input type="checkbox" name="work-end-period_now" id="work-end-period_now" data-optional-checkbox="hide, work-end-period">
+                                    <label for="work-end-period_now" class="checkbox__value">
+                                        <span class="checkbox__icon"></span>
+                                        По настоящее время
+                                    </label>
+                                </div>
+                                <div class="multiselect forms__fields-item" data-optional="work-end-period">
                                     <div class="selectBox">
                                         <div class="selectBox_wrapper">
                                             <div class="selectBox_value-text">Месяц</div>
@@ -3689,9 +3695,9 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="text-field--select forms__fields-item">
-                                    <input type="text" class="text-field__input" id="work-start-year"
-                                        name="work-start-year" placeholder="Год" data-complete-length="1, 25"
+                                <div class="text-field--select forms__fields-item" data-optional="work-end-period">
+                                    <input type="text" class="text-field__input" id="work-end-year"
+                                        name="work-end-year" placeholder="Год" data-complete-length="1, 25"
                                         aria-label="Год начала работы" data-text-select-range="1990, currentYear">
                                     <div class="checkboxes">
 
@@ -3706,6 +3712,7 @@
                                         name="responsibilities" placeholder="Введите обязанности"
                                         data-complete-length="1, 25" aria-label="Обязанности">
                                     <button class="text-field__add-button icon-plus"></button>
+                                    <p class="field__uncompleted">Пожалуйста, укажите обязанности</p>
                                 </div>
                             </div>
                         </div>
@@ -3744,37 +3751,36 @@
                     </section>
                     <section class="forms__container">
                         <h3 class="forms__title add-field__title">Способ связи</h3>
-                        <div class="forms__fields-group forms__fields-group--checkboxes">
-                            <div class="forms__fields-checkbox checkbox checkbox--inline">
-                                <input type="checkbox" name="contact-method" id="phone">
+                        <div class="forms__fields-group checkboxes-group">
+                            <div class="checkboxes-group__item checkbox checkbox--inline">
+                                <input class="checkboxes-group__checkbox" type="checkbox" name="contact-method" id="phone">
                                 <label class="checkbox__value" for="phone">
                                     <span class="checkbox__icon"></span>
                                     Телефон
                                 </label>
                             </div>
-                            <div class="forms__fields-checkbox checkbox checkbox--inline">
-                                <input type="checkbox" name="contact-method" id="whatsapp">
+                            <div class="checkboxes-group__item checkbox checkbox--inline">
+                                <input class="checkboxes-group__checkbox" type="checkbox" name="contact-method" id="whatsapp">
                                 <label class="checkbox__value" for="whatsapp">
                                     <span class="checkbox__icon"></span>
                                     WhatsApp
                                 </label>
                             </div>
-                            <div class="forms__fields-checkbox checkbox checkbox--inline">
-                                <input type="checkbox" name="contact-method" id="viber">
+                            <div class="checkboxes-group__item checkbox checkbox--inline">
+                                <input class="checkboxes-group__checkbox" type="checkbox" name="contact-method" id="viber">
                                 <label class="checkbox__value" for="viber">
                                     <span class="checkbox__icon"></span>
                                     Viber
                                 </label>
                             </div>
-                            <div class="forms__fields-checkbox checkbox field-init--add-group checkbox--inline">
-                                <input type="checkbox" name="contact-method" id="telegram"
-                                    data-add-group-checkbox="telegram-link">
+                            <div class="checkboxes-group__item checkbox field-init--add-group checkbox--inline">
+                                <input class="checkboxes-group__checkbox" type="checkbox" name="contact-method" id="telegram" data-optional-checkbox="show, telegram-link">
                                 <label class="checkbox__value" for="telegram">
                                     <span class="checkbox__icon"></span>
                                     Telegram
                                 </label>
                             </div>
-                            <div class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                            <div class="text-field text-field--standard forms__fields-item forms__fields-item--full" data-optional="telegram-link">
                                 <label for="telegram-link" class="field-label">Ссылка на аккаунт Telegram</label>
                                 <input type="text" class="text-field__input" id="telegram-link" name="telegram-link"
                                     placeholder="Ссылка на аккаунт Telegram" data-complete-length="1, 25"

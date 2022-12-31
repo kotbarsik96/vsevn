@@ -2139,8 +2139,8 @@ input[type="checkbox"]:checked+.checkbox__value .checkbox__icon::before {
 }
 
 @media (max-width: 767px) {
-  .forms__fields-group--checkboxes {
-    margin: 0 0 0 30px;
+  .checkboxes-group .checkbox {
+    margin-left: 30px;
   }
 }
 
