@@ -3218,7 +3218,7 @@
                             <p class="forms__fields-uncompleted">Пожалуйста, укажите ваш пол.</p>
                         </div>
                         <div class="forms__fields-group">
-                            <div class="multiselect forms__fields-item forms__fields-item--full">
+                            <div class="multiselect multiselect--standard forms__fields-item forms__fields-item--full">
                                 <label class="field-label">
                                     Ваш статус
                                 </label>
@@ -3265,7 +3265,8 @@
                                     <input class="text-field__input-subfield" maxlength="4" type="text" name="birthyear"
                                         id="birthyear" placeholder="гггг">
                                 </div>
-                                <input type="hidden" class="text-field__input" id="birthdate" name="birthdate" data-complete-length="1, 25">
+                                <input type="hidden" class="text-field__input" id="birthdate" name="birthdate"
+                                    data-complete-length="1, 25">
                             </div>
                             <p class="field__uncompleted">
                                 Пожалуйста, укажите корректную дату рождения. Минимальный год:
@@ -3286,7 +3287,7 @@
                             </div>
                         </div>
                         <div class="forms__fields-group">
-                            <div class="multiselect forms__fields-item forms__fields-item--full">
+                            <div class="multiselect multiselect--standard forms__fields-item forms__fields-item--full">
                                 <label class="field-label">
                                     Семейное положение
                                 </label>
@@ -3336,7 +3337,7 @@
                             <p class="field__uncompleted">Пожалуйста, укажите ваше семейное положение.</p>
                         </div>
                         <div class="forms__fields-group">
-                            <div class="multiselect forms__fields-item forms__fields-item--full">
+                            <div class="multiselect multiselect--children forms__fields-item forms__fields-item--full">
                                 <label class="field-label">
                                     Наличие детей
                                 </label>
@@ -3357,13 +3358,11 @@
                                 </div>
                                 <div class="checkboxes">
                                     <label class="multiselect__label">
-                                        <input class="checrkradio_hidden" type="radio" name="has-children" value="yes"
-                                            data-mselect-value="Есть">
+                                        <input class="checrkradio_hidden" type="radio" name="has-children" value="yes" data-mselect-value="Есть">
                                         Есть
                                     </label>
                                     <label class="multiselect__label">
-                                        <input class="checrkradio_hidden" type="radio" name="has-children" value="no"
-                                            data-mselect-value="Нет">
+                                        <input class="checrkradio_hidden" type="radio" name="has-children" value="no" data-mselect-value="Нет">
                                         Нет
                                     </label>
                                 </div>
@@ -3394,7 +3393,8 @@
                             </h4>
                         </div>
                         <div class="forms__container">
-                            <div class="add-field add-field--education" data-add-field="education-higher" data-add-fields-range="0, 2">
+                            <div class="add-field add-field--education" data-add-field="education-higher"
+                                data-add-fields-range="0, 2">
                                 <div class="add-field__icon icon-plus"></div>
                                 <p class="add-field__text">
                                     Добавить высшее-профессиональное образование (институт, университет, академия)
@@ -3454,7 +3454,7 @@
                             </div>
                         </div>
                         <div class="forms__fields-group">
-                            <div class="multiselect forms__fields-item forms__fields-item--full">
+                            <div class="multiselect multiselect--standard forms__fields-item forms__fields-item--full">
                                 <label class="field-label">
                                     Гражданство
                                 </label>
@@ -3518,7 +3518,7 @@
                             </div>
                             <div class="forms__fields-group forms__fields-group--flex">
                                 <p class="field__name">Начало работы</p>
-                                <div class="multiselect forms__fields-item">
+                                <div class="multiselect multiselect--standard forms__fields-item">
                                     <div class="selectBox">
                                         <div class="selectBox_wrapper">
                                             <div class="selectBox_value-text">Месяц</div>
@@ -3610,13 +3610,15 @@
                             <div class="forms__fields-group forms__fields-group--flex">
                                 <p class="field__name">Конец работы</p>
                                 <div class="checkbox">
-                                    <input type="checkbox" name="work-end-period_now" id="work-end-period_now" data-optional-checkbox="hide, work-end-period">
+                                    <input type="checkbox" name="work-end-period_now" id="work-end-period_now"
+                                        data-optional-checkbox="hide, work-end-period">
                                     <label for="work-end-period_now" class="checkbox__value">
                                         <span class="checkbox__icon"></span>
                                         По настоящее время
                                     </label>
                                 </div>
-                                <div class="multiselect forms__fields-item" data-optional="work-end-period">
+                                <div class="multiselect multiselect--standard forms__fields-item"
+                                    data-optional="work-end-period">
                                     <div class="selectBox">
                                         <div class="selectBox_wrapper">
                                             <div class="selectBox_value-text">Месяц</div>
@@ -3696,9 +3698,9 @@
                                     </div>
                                 </div>
                                 <div class="text-field--select forms__fields-item" data-optional="work-end-period">
-                                    <input type="text" class="text-field__input" id="work-end-year"
-                                        name="work-end-year" placeholder="Год" data-complete-length="1, 25"
-                                        aria-label="Год начала работы" data-text-select-range="1990, currentYear">
+                                    <input type="text" class="text-field__input" id="work-end-year" name="work-end-year"
+                                        placeholder="Год" data-complete-length="1, 25" aria-label="Год начала работы"
+                                        data-text-select-range="1990, currentYear">
                                     <div class="checkboxes">
 
                                     </div>
@@ -3753,34 +3755,39 @@
                         <h3 class="forms__title add-field__title">Способ связи</h3>
                         <div class="forms__fields-group checkboxes-group">
                             <div class="checkboxes-group__item checkbox checkbox--inline">
-                                <input class="checkboxes-group__checkbox" type="checkbox" name="contact-method" id="phone">
+                                <input class="checkboxes-group__checkbox" type="checkbox" name="contact-method"
+                                    id="phone">
                                 <label class="checkbox__value" for="phone">
                                     <span class="checkbox__icon"></span>
                                     Телефон
                                 </label>
                             </div>
                             <div class="checkboxes-group__item checkbox checkbox--inline">
-                                <input class="checkboxes-group__checkbox" type="checkbox" name="contact-method" id="whatsapp">
+                                <input class="checkboxes-group__checkbox" type="checkbox" name="contact-method"
+                                    id="whatsapp">
                                 <label class="checkbox__value" for="whatsapp">
                                     <span class="checkbox__icon"></span>
                                     WhatsApp
                                 </label>
                             </div>
                             <div class="checkboxes-group__item checkbox checkbox--inline">
-                                <input class="checkboxes-group__checkbox" type="checkbox" name="contact-method" id="viber">
+                                <input class="checkboxes-group__checkbox" type="checkbox" name="contact-method"
+                                    id="viber">
                                 <label class="checkbox__value" for="viber">
                                     <span class="checkbox__icon"></span>
                                     Viber
                                 </label>
                             </div>
                             <div class="checkboxes-group__item checkbox field-init--add-group checkbox--inline">
-                                <input class="checkboxes-group__checkbox" type="checkbox" name="contact-method" id="telegram" data-optional-checkbox="show, telegram-link">
+                                <input class="checkboxes-group__checkbox" type="checkbox" name="contact-method"
+                                    id="telegram" data-optional-checkbox="show, telegram-link">
                                 <label class="checkbox__value" for="telegram">
                                     <span class="checkbox__icon"></span>
                                     Telegram
                                 </label>
                             </div>
-                            <div class="text-field text-field--standard forms__fields-item forms__fields-item--full" data-optional="telegram-link">
+                            <div class="text-field text-field--standard forms__fields-item forms__fields-item--full text-field--optional"
+                                data-optional="telegram-link">
                                 <label for="telegram-link" class="field-label">Ссылка на аккаунт Telegram</label>
                                 <input type="text" class="text-field__input" id="telegram-link" name="telegram-link"
                                     placeholder="Ссылка на аккаунт Telegram" data-complete-length="1, 25"
@@ -3803,7 +3810,8 @@
                             <div class="load-image__image-block">
                                 <button class="load-image__close icon-close" title="Удалить фото"
                                     onclick="event.preventDefault()"></button>
-                                <img class="load-image__img" src="#" alt="Загруженное фото" id="load-image__preview">
+                                <img class="load-image__img" src="#" alt="Загруженное фото" id="load-image__preview"
+                                    data-popup-fullimage>
                                 <p class="load-image__data-text">
                                     <span class="load-image__data-title">Формат:</span>
                                     <input class="load-image__data-value" id="load-image__format" disabled type="text">
@@ -3836,7 +3844,7 @@
                                         <div class="load-image__circle-wrapper load-image__small-wrapper">
                                             <div class="load-image__circle">
                                                 <img src="#" alt="Загруженное изображение" class="load-image__small-img"
-                                                    id="load-image__preview-circle">
+                                                    data-popup-fullimage id="load-image__preview-circle">
                                             </div>
                                         </div>
                                     </div>
@@ -3883,7 +3891,7 @@
                                         <div class="load-image__square-wrapper load-image__small-wrapper">
                                             <div class="load-image__square">
                                                 <img src="#" alt="Загруженное изображение" class="load-image__small-img"
-                                                    id="load-image__preview-square">
+                                                    id="load-image__preview-square" data-popup-fullimage>
                                             </div>
                                         </div>
                                     </div>
@@ -3925,9 +3933,10 @@
                         </p>
                     </section>
                     <div class="forms__container">
-                        <div class="forms__fields-group">
-                            <div class="forms__fields-checkbox checkbox">
-                                <input type="checkbox" name="personal-data-processing" id="personal-data"
+                        <div class="forms__fields-group checkboxes-group">
+                            <div class="checkboxes-group__item checkbox">
+                                <input class="checkboxes-group__checkbox" type="checkbox"
+                                    name="personal-data-processing" id="personal-data"
                                     aria-label="Согласие на обработку персоннальных данных">
                                 <label class="checkbox__value checkbox__value--links" for="personal-data">
                                     <span class="checkbox__icon"></span>
@@ -3939,8 +3948,8 @@
                                     моих персональных данных
                                 </label>
                             </div>
-                            <p class="forms__fields-uncompleted">
-                                Для отправки отклика необходимо ознакомиться с условиями и дать согласие
+                            <p class="field__uncompleted">
+                                Для отправки добавления резюме необходимо ознакомиться с условиями и дать согласие
                             </p>
                         </div>
                     </div>

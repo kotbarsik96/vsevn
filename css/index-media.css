@@ -1396,15 +1396,6 @@
     padding-bottom: 30px !important;
   }
 
-  .full-image__body {
-    margin-top: 25px;
-  }
-
-  .full-image__body .popup_exit {
-    right: 0;
-    top: -45px;
-  }
-
   .infavouritelist,
   .indarklist {
     font-size: 24px !important;

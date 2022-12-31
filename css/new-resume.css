@@ -284,6 +284,13 @@ h6 {
   margin-top: 12px;
 }
 
+.forms__fields-group.checkboxes-group {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  gap: 0;
+}
+
 .forms__fields-group--flex {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -638,6 +645,10 @@ input[name*="year"] {
   text-align: center;
 }
 
+.text-field--optional {
+  padding-top: 12px;
+}
+
 .text-field--zodiac {
   position: relative;
 }
@@ -770,6 +781,19 @@ input[name*="year"] {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 137px;
   flex: 0 0 137px;
+}
+
+.checkboxes::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 0px 10px 10px 0px;
+}
+
+.checkboxes::-webkit-scrollbar-track {
+  background: #333;
+}
+
+.checkboxes::-webkit-scrollbar-thumb {
+  background: #fee018;
 }
 
 .text-field--select .checkboxes {
@@ -1222,12 +1246,17 @@ input[name*="year"] {
   opacity: 0;
 }
 
-input[type="checkbox"]:checked+.checkbox__value .checkbox__icon {
+input:checked+.checkbox__value .checkbox__icon {
   border-color: #ff0000;
 }
 
-input[type="checkbox"]:checked+.checkbox__value .checkbox__icon::before {
+input:checked+.checkbox__value .checkbox__icon::before {
   opacity: 1;
+}
+
+input[type="radio"]+.checkbox__value .checkbox__icon,
+input[type="radio"]+.checkbox__value .checkbox__icon::before {
+  border-radius: 50%;
 }
 
 /* Радиокнопки */
@@ -1740,7 +1769,7 @@ input[type="checkbox"]:checked+.checkbox__value .checkbox__icon::before {
 }
 
 .load-image__refresh-edit {
-  color: var(--action_color_2);
+  color: var(--uncomplete_border_color);
 }
 
 .load-image__refresh-edit:hover {

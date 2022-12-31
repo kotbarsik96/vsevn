@@ -327,6 +327,7 @@ class Multiselect {
     }
     onChange(event) {
         let checked = event.target;
+        this.checked = checked;
         this.selectBox.classList.add("selbActive");
         this.selectBoxValueText.innerHTML = checked.dataset.mselectValue;
         this.hide();
@@ -352,6 +353,21 @@ class Multiselect {
 
         dispatchCompletionCheckEvent.call(this, preventEvent);
         return isCompleted;
+    }
+}
+
+// мультиселект, от который может создавать кнопку "Добавить" для добавления новых полей/мультиселектов (класс Add[...])
+class MultiselectChildren extends Multiselect{
+    constructor(node) {
+        super(node);
+    }
+    onChange(event){
+        super.onChange(event);
+        if(this.checked.value === "yes") this.onYesSelect();
+        this.checkCompletion();
+    }
+    onYesSelect(){
+        console.log(true);
     }
 }
 
@@ -1024,7 +1040,7 @@ class AddFieldSchool extends AddField {
                     data-complete-length="1, 25" aria-label="Номер и название школы">
             </div>
             <div class="forms__fields-item field">
-                <div class="multiselect forms__fields-item forms__fields-item--full" data-aria-label="Наличие медали">
+                <div class="multiselect multiselect--standard forms__fields-item forms__fields-item--full" data-aria-label="Наличие медали">
                     <label class="field-label">
                         Наличие медали
                     </label>
@@ -1141,7 +1157,7 @@ class AddFieldEducationSec extends AddField {
             <p class="field__uncompleted">Пожалуйста, укажите период обучения.</p>
         </div>
         <div class="forms__fields-group">
-            <div class="multiselect forms__fields-item forms__fields-item--full">
+            <div class="multiselect multiselect--standard forms__fields-item forms__fields-item--full">
                 <label class="field-label">
                     Форма обучения
                 </label>
@@ -1195,7 +1211,7 @@ class AddFieldEducationSec extends AddField {
             </div>
         </div>
         <div class="forms__fields-group">
-            <div class="multiselect forms__fields-item forms__fields-item--full">
+            <div class="multiselect multiselect--standard forms__fields-item forms__fields-item--full">
                 <label class="field-label">
                     Наличие красного диплома
                 </label>
@@ -1308,7 +1324,7 @@ class AddFieldEducationHigher extends AddField {
             <p class="field__uncompleted">Пожалуйста, укажите период обучения.</p>
         </div>
         <div class="forms__fields-group">
-            <div class="multiselect forms__fields-item forms__fields-item--full">
+            <div class="multiselect multiselect--standard forms__fields-item forms__fields-item--full">
                 <label class="field-label">
                     Форма обучения
                 </label>
@@ -1351,7 +1367,7 @@ class AddFieldEducationHigher extends AddField {
             <p class="field__uncompleted">Пожалуйста, укажите форму обучения.</p>
         </div>
         <div class="forms__fields-group">
-            <div class="multiselect forms__fields-item forms__fields-item--full">
+            <div class="multiselect multiselect--standard forms__fields-item forms__fields-item--full">
                 <label class="field-label">
                     Квалификация высшего образования
                 </label>
@@ -1394,7 +1410,7 @@ class AddFieldEducationHigher extends AddField {
             <p class="field__uncompleted">Пожалуйста, укажите квалификацию.</p>
         </div>
         <div class="forms__fields-group">
-            <div class="multiselect forms__fields-item forms__fields-item--full">
+            <div class="multiselect multiselect--standard forms__fields-item forms__fields-item--full">
                 <label class="field-label">
                     Наличие красного диплома
                 </label>
@@ -1462,7 +1478,7 @@ class AddFieldWorkplace extends AddField {
             </div>
             <div class="forms__fields-group forms__fields-group--flex">
                 <p class="field__name">Начало работы</p>
-                <div class="multiselect forms__fields-item">
+                <div class="multiselect multiselect--standard forms__fields-item">
                     <div class="selectBox">
                         <div class="selectBox_wrapper">
                             <div class="selectBox_value-text">Месяц</div>
@@ -1560,7 +1576,7 @@ class AddFieldWorkplace extends AddField {
                         По настоящее время
                     </label>
                 </div>
-                <div class="multiselect forms__fields-item" data-optional="work-end-period-${this.counter}">
+                <div class="multiselect multiselect--standard forms__fields-item" data-optional="work-end-period-${this.counter}">
                     <div class="selectBox">
                         <div class="selectBox_wrapper">
                             <div class="selectBox_value-text">Месяц</div>
@@ -1799,8 +1815,6 @@ class LoadImage {
         this.cutSquareParams = new CutImage(this.cutSquare, 85);
         this.cutCircleParams = new CutImage(this.cutCircle, 85, true);
 
-        this.img.addEventListener("click", () => modal.createImageModal(this.img.src));
-
         this.info.classList.add("__removed");
         this.input.addEventListener("change", this.loadImage.bind(this));
         this.closeButton.addEventListener("click", this.remove.bind(this));
@@ -1870,6 +1884,8 @@ class LoadImage {
             this.isCompleted = false;
             this.rootElem.classList.add("__uncompleted");
         }
+
+        return this.isCompleted;
     }
 }
 // обрезка фото
@@ -1947,47 +1963,33 @@ class CutImage {
         download = download.bind(this);
         downloadByRadio = downloadByRadio.bind(this);
 
-        const content = `
-            <div class="radiobuttons">
-                <label class="radiobuttons__item">
-                    <input type="radio" name="modal-window_download-type" value="origin" class="radiobuttons__input">
-                    <svg width="20" height="20" viewBox="0 0 23 23">
-                        <circle cx="10" cy="10" r="9"></circle>
-                        <path
-                            d="M10,7 C8.34314575,7 7,8.34314575 7,10 C7,11.6568542 8.34314575,13 10,13 C11.6568542,13 13,11.6568542 13,10 C13,8.34314575 11.6568542,7 10,7 Z"
-                            class="radiobuttons__item-inner"></path>
-                        <path
-                            d="M10,1 L10,1 L10,1 C14.9705627,1 19,5.02943725 19,10 L19,10 L19,10 C19,14.9705627 14.9705627,19 10,19 L10,19 L10,19 C5.02943725,19 1,14.9705627 1,10 L1,10 L1,10 C1,5.02943725 5.02943725,1 10,1 L10,1 Z"
-                            class="radiobuttons__item-outer"></path>
-                    </svg>
-                    Сохранить оригинальный размер
-                </label>
-                <label class="radiobuttons__item">
-                    <input type="radio" name="modal-window_download-type" value="cut" class="radiobuttons__input">
-                    <svg width="20" height="20" viewBox="0 0 23 23">
-                        <circle cx="10" cy="10" r="9"></circle>
-                        <path
-                            d="M10,7 C8.34314575,7 7,8.34314575 7,10 C7,11.6568542 8.34314575,13 10,13 C11.6568542,13 13,11.6568542 13,10 C13,8.34314575 11.6568542,7 10,7 Z"
-                            class="radiobuttons__item-inner"></path>
-                        <path
-                            d="M10,1 L10,1 L10,1 C14.9705627,1 19,5.02943725 19,10 L19,10 L19,10 C19,14.9705627 14.9705627,19 10,19 L10,19 L10,19 C5.02943725,19 1,14.9705627 1,10 L1,10 L1,10 C1,5.02943725 5.02943725,1 10,1 L10,1 Z"
-                            class="radiobuttons__item-outer"></path>
-                    </svg>
-                    Сохранить уменьшенный размер
+        const modalBody = [
+            `<div class="checkbox">
+                <input type="radio" name="modal-window_download-type" id="download-original" value="origin">
+                <label class="checkbox__value" for="download-original">
+                    <span class="checkbox__icon"></span>
+                    Скачать оригинальный размер
                 </label>
             </div>
-        `;
-        modal.createBasicModal(
-            "Скачать изображение",
-            content,
-            { text: "Скачать", confirmCallback: downloadByRadio },
-            { text: "Отмена" }
-        );
-        const modalBody = modal.getModalBody();
-        modalBody.classList.add("modal__body--small");
+            <div class="checkbox">
+                <input type="radio" name="modal-window_download-type" id="download-cut" value="cut">
+                <label class="checkbox__value" for="download-cut">
+                    <span class="checkbox__icon"></span>
+                    Скачать уменьшенный размер
+                </label>
+            </div>
+            `
+        ];
+        let confModal = new ConfrimModal({
+            title: "Скачать изображение",
+            body: modalBody,
+            confirm: { callback: downloadByRadio, text: "Скачать" },
+            decline: { text: "Отмена" }
+        });
+        let modalNode = confModal.getModal();
 
         function downloadByRadio() {
-            const buttons = Array.from(modalBody.querySelectorAll("input[name='modal-window_download-type']"));
+            const buttons = Array.from(modalNode.querySelectorAll("input[name='modal-window_download-type']"));
             const checked = buttons.find(btn => btn.checked) || { value: "cut" };
             const fullSizeData = this.createFullSize();
             const origFullSizeData = { width: this.origSizes.width, height: this.origSizes.height };
@@ -2016,10 +2018,10 @@ class CutImage {
             return canvas.toDataURL("image/png");
         }
         function download(src, fullSizeData = this.createFullSize()) {
-            let downloadsData = localStorage.getItem("vsevn_users_downloads");
+            let downloadsData = JSON.parse(localStorage.getItem("vsevn_users_downloads"));
             if (!downloadsData) {
-                localStorage.setItem("vsevn_users_downloads", {});
-                downloadsData = localStorage.getItem("vsevn_users_downloads");
+                localStorage.setItem("vsevn_users_downloads", "{}");
+                downloadsData = JSON.parse(localStorage.getItem("vsevn_users_downloads"));
             }
             const userFullName = getFullUserName();
             const downloadsNumber = downloadsData[userFullName] || 1;
@@ -2033,7 +2035,7 @@ class CutImage {
             link.click();
 
             downloadsData[userFullName] = downloadsNumber + 1;
-            localStorage.setItem("vsevn_users_downloads", downloadsData);
+            localStorage.setItem("vsevn_users_downloads", JSON.stringify(downloadsData));
         }
         function getFullUserName() {
             const userName = document.querySelector("input[name='name']").value || "Имя";
@@ -2255,7 +2257,6 @@ class CutImage {
         }
 
         const src = canvasCut.toDataURL("image/png");
-        if (doShow) modal.createImageModal(src);
 
         canvasOrig.remove();
         canvasCut.remove();
@@ -2284,13 +2285,18 @@ class Forms {
 class Modal {
     constructor() {
         this.removeModal = this.removeModal.bind(this);
+        document.body.classList.add("body--locked-scroll");
     }
     setCloseHandler() {
-        this.modalClose = this.modal.querySelector(".popup__close");
+        this.modalClose = this.modal.querySelector(".modal__close");
         this.modalClose.addEventListener("click", this.removeModal);
     }
     removeModal() {
         this.modal.remove();
+        document.body.classList.remove("body--locked-scroll");
+    }
+    getModal() {
+        return this.modal;
     }
 }
 
@@ -2311,28 +2317,28 @@ class ConfrimModal extends Modal {
         this.data = data;
 
         const modalInner = `
-        <div class="popup__body">
-            <div class="popup__close">
-                <span class="popup__close-line"></span>
-                <span class="popup__close-line"></span>
+        <div class="modal__body">
+            <div class="modal__close">
+                <span class="modal__close-line"></span>
+                <span class="modal__close-line"></span>
             </div>
-            <div class="popup__content">
-                <h4 class="popup__title">${data.title}</h4>
-                <div class="popup__text">
+            <div class="modal__content">
+                <h4 class="modal__title">${data.title}</h4>
+                <div class="modal__text">
                     ${this.drawTexts()}
                 </div>
-                <div class="popup__buttons">
-                    <button class="button popup__button popup__confirm">
+                <div class="modal__buttons">
+                    <button class="button modal__button modal__confirm">
                         ${data.confirm.text || "Подтердить"}
                     </button>
-                    <button class="button popup__button popup__decline">
+                    <button class="button modal__button modal__decline">
                         ${data.decline.text || "Отменить"}
                     </button>
                 </div>
             </div>
         </div>
         `;
-        this.modal = createElement("div", "popup", modalInner);
+        this.modal = createElement("div", "modal", modalInner);
         document.body.append(this.modal);
 
         super.setCloseHandler();
@@ -2342,14 +2348,14 @@ class ConfrimModal extends Modal {
         let inner = "";
         this.data.body.forEach(text => {
             inner += `
-            <p class="popup__text-item">${text}</p>
+            <p class="modal__text-item">${text}</p>
             `;
         });
         return inner;
     }
     setButtonsHandlers() {
-        const confirmBtn = this.modal.querySelector(".popup__confirm");
-        const declineBtn = this.modal.querySelector(".popup__decline");
+        const confirmBtn = this.modal.querySelector(".modal__confirm");
+        const declineBtn = this.modal.querySelector(".modal__decline");
         const data = this.data;
 
         confirmBtn.addEventListener("click", () => {
@@ -2366,7 +2372,8 @@ class ConfrimModal extends Modal {
 let inittingNewResumeSelectors = [
     { selector: ".forms__fields-group", classInstance: FieldsGroup, instanceFlag: "new-resume" },
     { selector: ".range-block", classInstance: Range },
-    { selector: ".multiselect", classInstance: Multiselect, instanceFlag: "new-resume" },
+    { selector: ".multiselect--standard", classInstance: Multiselect, instanceFlag: "new-resume" },
+    { selector: ".multiselect--children", classInstance: MultiselectChildren, instanceFlag: "new-resume" },
     { selector: ".text-field--standard", classInstance: TextField, instanceFlag: "new-resume" },
     { selector: ".text-field--multi", classInstance: TextFieldMulti, instanceFlag: "new-resume" },
     { selector: ".text-field--date", classInstance: TextFieldDate, instanceFlag: "new-resume" },

@@ -2295,56 +2295,6 @@ input:checked+.radio_wrapper::before {
   display: none !important;
 }
 
-[data-popup-fullimage] {
-  cursor: pointer;
-}
-
-.full-image {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #323548b3;
-  z-index: 500;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-
-.full-image__body {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-
-.full-image__image {
-  width: 100%;
-  height: 100%;
-  -o-object-fit: contain;
-  object-fit: contain;
-}
-
-.full-image__body .popup_exit {
-  right: -50px;
-  top: 0;
-}
-
 .popup_edit_wrapper {
   position: absolute;
   right: -30px;

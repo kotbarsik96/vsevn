@@ -109,8 +109,6 @@ class FullImagePopup {
         this.closePopup = this.closePopup.bind(this);
 
         this.rootElem = node;
-        this.src = this.rootElem.getAttribute("src");
-        this.alt = this.rootElem.getAttribute("alt") || "";
         // процент большей стороны от ширины экрана
         this.biggestSidePercent = 80;
 
@@ -145,6 +143,8 @@ class FullImagePopup {
         }
     }
     onImgClick() {
+        this.src = this.rootElem.getAttribute("src");
+        this.alt = this.rootElem.getAttribute("alt") || "";
         this.createPopup();
         document.body.append(this.popupWrapper);
         document.body.classList.add("body--locked-scroll");
