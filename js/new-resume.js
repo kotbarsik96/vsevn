@@ -57,6 +57,7 @@ class FieldsGroup {
         this.checkCompletion = this.checkCompletion.bind(this);
 
         this.rootElem = node;
+        this.isRequired = this.rootElem.hasAttribute("data-completion-required");
 
         setTimeout(() => {
             this.fields = findInittedInputByFlag("new-resume", true)
@@ -101,7 +102,7 @@ class FieldsGroup {
     }
     checkCompletion() {
         this.uncompleted = getUncompleted(this.fields, true);
-        if (this.uncompleted.length > 0) this.rootElem.classList.add("__uncompleted");
+        if (this.uncompleted.length > 0 && this.isRequired) this.rootElem.classList.add("__uncompleted");
         else this.rootElem.classList.remove("__uncompleted");
 
         this.renderUncompletedMessage();
@@ -289,6 +290,7 @@ class Multiselect {
         this.clear = this.clear.bind(this);
 
         this.rootElem = node;
+        this.isRequired = this.rootElem.hasAttribute("data-completion-required");
         this.ariaLabel = this.rootElem.dataset.ariaLabel;
         this.selectBox = this.rootElem.querySelector(".selectBox");
         this.uncompleteMessage = this.rootElem.querySelector(".field__uncompleted");
@@ -348,7 +350,7 @@ class Multiselect {
     checkCompletion(preventEvent) {
         let checkedInput = this.options.find(opt => opt.checked);
         if (checkedInput) this.rootElem.classList.remove("__uncompleted");
-        else this.rootElem.classList.add("__uncompleted");
+        else if (this.isRequired) this.rootElem.classList.add("__uncompleted");
 
         let isCompleted = Boolean(checkedInput);
         this.isCompleted = isCompleted;
@@ -392,7 +394,6 @@ class MultiselectAddField extends Multiselect {
             this.addFieldButton = null;
         }
         if (this.addedFields) {
-            console.log(this.addedFields);
             this.addedFields.forEach(added => {
                 added.field.remove();
                 added.removeButton.remove();
@@ -430,7 +431,7 @@ class MultiselectChildren extends MultiselectAddField {
     checkCompletion(preventEvent) {
         if (!this.checked) {
             this.isCompleted = false;
-            this.rootElem.classList.add("__uncompleted");
+            if (this.isRequired) this.rootElem.classList.add("__uncompleted");
             return this.isCompleted;
         }
 
@@ -451,6 +452,7 @@ class TextField {
         this.typeNumberOnly = this.typeNumberOnly.bind(this);
 
         this.rootElem = node;
+        this.isRequired = this.rootElem.hasAttribute("data-completion-required");
         this.input = this.rootElem.querySelector(".text-field__input");
         this.ariaLabel = this.input.getAttribute("aria-label");
 
@@ -557,7 +559,7 @@ class TextField {
         }
 
         if (isCompleted) this.rootElem.classList.remove("__uncompleted");
-        else this.rootElem.classList.add("__uncompleted");
+        else if (this.isRequired) this.rootElem.classList.add("__uncompleted");
 
         dispatchCompletionCheckEvent.call(this, preventEvent);
 
@@ -670,9 +672,8 @@ class TextFieldDate extends TextFieldMulti {
         return this.isCompleted;
     }
     toggleUncompleteClass() {
-        this.isCompleted
-            ? this.rootElem.classList.remove("__uncompleted")
-            : this.rootElem.classList.add("__uncompleted")
+        if (this.isCompleted) this.rootElem.classList.remove("__uncompleted");
+        else if (this.isRequired) this.rootElem.classList.add("__uncompleted");
     }
     moveToLeft(event) {
         const input = event.target;
@@ -797,6 +798,7 @@ class TextFieldSelect {
         this.onInput = this.onInput.bind(this);
 
         this.rootElem = node;
+        this.isRequired = this.rootElem.hasAttribute("data-completion-required");
         this.input = this.rootElem.querySelector(".text-field__input");
         this.valuesRange = this.input.dataset.textSelectRange;
         this.name = this.input.getAttribute("name");
@@ -904,7 +906,7 @@ class TextFieldSelect {
             this.rootElem.classList.remove("__uncompleted");
         } else {
             this.isCompleted = false;
-            this.rootElem.classList.add("__uncompleted");
+            if (this.isRequired) this.rootElem.classList.add("__uncompleted");
         }
         dispatchCompletionCheckEvent.call(this, preventEvent);
 
@@ -970,7 +972,7 @@ class TextFieldTags extends TextField {
             this.rootElem.classList.remove("__uncompleted");
         } else {
             this.isCompleted = false;
-            this.rootElem.classList.add("__uncompleted");
+            if (this.isRequired) this.rootElem.classList.add("__uncompleted");
         }
 
         return this.isCompleted;
@@ -1881,6 +1883,7 @@ class CheckboxesGroup {
         this.onChange = this.onChange.bind(this);
 
         this.rootElem = node;
+        this.isRequired = this.rootElem.hasAttribute("data-completion-required");
         this.checkboxContainers = this.rootElem.querySelectorAll(".checkboxes-group__item");
         this.checkboxInputs = Array.from(this.rootElem.querySelectorAll(".checkboxes-group__checkbox"));
 
@@ -1903,7 +1906,7 @@ class CheckboxesGroup {
         }
         else {
             this.isCompleted = false;
-            this.rootElem.classList.add("__uncompleted");
+            if (this.isRequired) this.rootElem.classList.add("__uncompleted");
         }
         dispatchCompletionCheckEvent.call(this, preventEvent);
 
@@ -1994,6 +1997,7 @@ class Title {
 class LoadImage {
     constructor(block) {
         this.rootElem = block;
+        this.isRequired = this.rootElem.hasAttribute("data-completion-required");
         this.input = block.querySelector("input[type='file']");
         this.loadButton = block.querySelector(".load-image__button");
         this.contentBlock = block.querySelector(".load-image__content");
@@ -2080,7 +2084,7 @@ class LoadImage {
         }
         else {
             this.isCompleted = false;
-            this.rootElem.classList.add("__uncompleted");
+            if (this.isRequired) this.rootElem.classList.add("__uncompleted");
         }
 
         return this.isCompleted;
@@ -2479,16 +2483,18 @@ class Forms {
         const inputs = findInittedInputByFlag("new-resume", true);
         const uncompleted = getUncompleted(inputs)
             .filter(inpClass => {
+                let hasCompletionMethod = inpClass.checkCompletion;
                 let isFieldsGroup = inpClass instanceof FieldsGroup;
-                return inpClass.checkCompletion && !isFieldsGroup;
+                let isRequired = inpClass.isRequired;
+                return hasCompletionMethod && !isFieldsGroup && isRequired;
             })
             .filter(inpClass => {
                 let isCompleted = inpClass.checkCompletion(false);
                 return isCompleted ? false : true;
             });
-        console.log(uncompleted);
         if (uncompleted.length === 0) {
-
+            const hrefTo = this.rootElem.dataset.formsHref;
+            window.location.href = window.location.origin + hrefTo;
         }
     }
 }

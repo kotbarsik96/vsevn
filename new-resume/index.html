@@ -3159,7 +3159,7 @@
                 </h1>
 
                 <form class="forms" method="post" enctype="multipart/form-data" id="form"
-                    data-forms-href="/vsevn/profile/forms/send/">
+                    data-forms-href="/vsevn/new-resume/send/">
                     <section class="forms__container">
                         <h2 class="forms__title">Личные данные</h2>
                         <div class="forms__fields-group">
@@ -3180,7 +3180,7 @@
                                 <input type="text" class="text-field__input" id="surname" name="surname"
                                     placeholder="Фамилия" data-complete-length="1, 25" aria-label="Фамилия">
                                 <p class="field__uncompleted">
-                                    Пожалуйста, укажите вашу фамилию
+                                    Пожалуйста, укажите фамилию
                                 </p>
                             </div>
                         </div>
@@ -3215,42 +3215,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <p class="forms__fields-uncompleted">Пожалуйста, укажите ваш пол.</p>
-                        </div>
-                        <div class="forms__fields-group">
-                            <div class="multiselect multiselect--standard forms__fields-item forms__fields-item--full">
-                                <label class="field-label">
-                                    Ваш статус
-                                </label>
-                                <div class="selectBox">
-                                    <div class="selectBox_wrapper">
-                                        <div class="selectBox_value-text">Статус</div>
-                                        <div class="overSelect"></div>
-                                    </div>
-                                    <div class="selctexit_btn">
-                                        <div class="exitlin_wrapper">
-                                            <div class="exit_line"></div>
-                                            <div class="exit_line"></div>
-                                        </div>
-                                        <div class="selctexit_btn_hint">
-                                            Очистить поле?
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="checkboxes">
-                                    <label class="multiselect__label">
-                                        <input class="checrkradio_hidden" type="radio" name="employer-status"
-                                            value="no-work" data-mselect-value="Работаю, но открыт(а) для предложений">
-                                        Работаю, но открыт(а) для предложений
-                                    </label>
-                                    <label class="multiselect__label">
-                                        <input class="checrkradio_hidden" type="radio" name="employer-status"
-                                            value="works" data-mselect-value="Безработный(ая)">
-                                        Безработный(ая)
-                                    </label>
-                                </div>
-                            </div>
-                            <p class="field__uncompleted">Пожалуйста, укажите ваш статус.</p>
+                            <p class="forms__fields-uncompleted">Пожалуйста, укажите пол.</p>
                         </div>
                         <div class="forms__fields-group forms__fields-group--birthdate">
                             <div class="text-field--birthdate forms__fields-item">
@@ -3285,6 +3250,41 @@
                                     placeholder="__" data-complete-length="1, 25" aria-label="Возраст">
                                 лет
                             </div>
+                        </div>
+                        <div class="forms__fields-group">
+                            <div class="multiselect multiselect--standard forms__fields-item forms__fields-item--full" data-completion-required>
+                                <label class="field-label">
+                                    Статус
+                                </label>
+                                <div class="selectBox">
+                                    <div class="selectBox_wrapper">
+                                        <div class="selectBox_value-text">Статус</div>
+                                        <div class="overSelect"></div>
+                                    </div>
+                                    <div class="selctexit_btn">
+                                        <div class="exitlin_wrapper">
+                                            <div class="exit_line"></div>
+                                            <div class="exit_line"></div>
+                                        </div>
+                                        <div class="selctexit_btn_hint">
+                                            Очистить поле?
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="checkboxes">
+                                    <label class="multiselect__label">
+                                        <input class="checrkradio_hidden" type="radio" name="employer-status"
+                                            value="no-work" data-mselect-value="Работаю, но активно ищу работу">
+                                        Работаю, но активно ищу работу
+                                    </label>
+                                    <label class="multiselect__label">
+                                        <input class="checrkradio_hidden" type="radio" name="employer-status"
+                                            value="works" data-mselect-value="Безработный(ая)">
+                                        Безработный(ая)
+                                    </label>
+                                </div>
+                            </div>
+                            <p class="field__uncompleted">Пожалуйста, укажите статус.</p>
                         </div>
                         <div class="forms__fields-group">
                             <div class="multiselect multiselect--standard forms__fields-item forms__fields-item--full">
@@ -3334,7 +3334,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <p class="field__uncompleted">Пожалуйста, укажите ваше семейное положение.</p>
+                            <p class="field__uncompleted">Пожалуйста, укажите семейное положение.</p>
                         </div>
                         <div class="forms__fields-group">
                             <div class="multiselect multiselect--children forms__fields-item forms__fields-item--full">
@@ -3414,7 +3414,7 @@
                                     placeholder="Регион проживания" data-complete-length="1, 25"
                                     aria-label="Регион проживания">
                                 <p class="field__uncompleted">
-                                    Пожалуйста, укажите регион вашего проживания
+                                    Пожалуйста, укажите регион проживания
                                 </p>
                             </div>
                             <div class="text-field text-field--standard forms__fields-item">
@@ -3423,7 +3423,7 @@
                                     placeholder="Населенный пункт проживания" data-complete-length="1, 25"
                                     aria-label="Населенный пункт проживания">
                                 <p class="field__uncompleted">
-                                    Пожалуйста, укажите населенный пункт вашего проживания
+                                    Пожалуйста, укажите населенный пункт проживания
                                 </p>
                             </div>
                         </div>
@@ -3449,7 +3449,7 @@
                                 <input type="text" class="text-field__input" id="district" name="district"
                                     placeholder="Район" data-complete-length="1, 25" aria-label="Район">
                                 <p class="field__uncompleted">
-                                    Пожалуйста, укажите район вашего проживания.
+                                    Пожалуйста, укажите район проживания.
                                 </p>
                             </div>
                         </div>
@@ -3486,7 +3486,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <p class="field__uncompleted">Пожалуйста, укажите ваше гражданство.</p>
+                            <p class="field__uncompleted">Пожалуйста, укажите гражданство.</p>
                         </div>
                     </section>
                     <section class="forms__container">
