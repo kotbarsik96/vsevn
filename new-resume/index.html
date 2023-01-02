@@ -3162,7 +3162,7 @@
                     data-forms-href="/vsevn/new-resume/send/">
                     <section class="forms__container">
                         <h2 class="forms__title">Личные данные</h2>
-                        <div class="forms__fields-group">
+                        <div class="forms__fields-group forms__fields-group--triple">
                             <div class="text-field text-field--standard forms__fields-item">
                                 <label for="name" class="field-label">Имя</label>
                                 <input type="text" class="text-field__input" id="name" name="name" placeholder="Имя"
@@ -3173,9 +3173,7 @@
                                 <input type="text" class="text-field__input" id="patronymic" name="patronymic"
                                     placeholder="Отчество" data-complete-length="1, 25" aria-label="Отчество">
                             </div>
-                        </div>
-                        <div class="forms__fields-group">
-                            <div class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                            <div class="text-field text-field--standard forms__fields-item">
                                 <label for="surname" class="field-label">Фамилия</label>
                                 <input type="text" class="text-field__input" id="surname" name="surname"
                                     placeholder="Фамилия" data-complete-length="1, 25" aria-label="Фамилия">
@@ -3403,7 +3401,7 @@
                     </section>
                     <section class="forms__container">
                         <h3 class="forms__title">Место жительства и гражданство</h3>
-                        <div class="forms__fields-group">
+                        <div class="forms__fields-group forms__fields-group--triple">
                             <div class="text-field text-field--standard forms__fields-item">
                                 <label for="region" class="field-label">Регион проживания</label>
                                 <input type="text" class="text-field__input" id="region" name="region"
@@ -3416,14 +3414,12 @@
                             <div class="text-field text-field--standard forms__fields-item">
                                 <label for="locality" class="field-label">Населенный пункт проживания</label>
                                 <input type="text" class="text-field__input" id="locality" name="locality"
-                                    placeholder="Населенный пункт проживания" data-complete-length="1, 25"
+                                    placeholder="Населенный пункт" data-complete-length="1, 25"
                                     aria-label="Населенный пункт проживания">
                                 <p class="field__uncompleted">
                                     Пожалуйста, укажите населенный пункт проживания
                                 </p>
                             </div>
-                        </div>
-                        <div class="forms__fields-group">
                             <div class="text-field text-field--standard forms__fields-item">
                                 <label for="street" class="field-label">Улица</label>
                                 <input type="text" class="text-field__input" id="street" name="street"
@@ -3432,6 +3428,8 @@
                                     Пожалуйста, укажите улицу.
                                 </p>
                             </div>
+                        </div>
+                        <div class="forms__fields-group forms__fields-group--triple">
                             <div class="text-field text-field--standard forms__fields-item">
                                 <label for="house" class="field-label">Дом</label>
                                 <input type="text" class="text-field__input" id="house" name="house" placeholder="Дом"
@@ -3440,7 +3438,7 @@
                                     Пожалуйста, укажите дом.
                                 </p>
                             </div>
-                            <div class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                            <div class="text-field text-field--standard forms__fields-item">
                                 <label for="district" class="field-label">Район</label>
                                 <input type="text" class="text-field__input" id="district" name="district"
                                     placeholder="Район" data-complete-length="1, 25" aria-label="Район">
@@ -3448,9 +3446,7 @@
                                     Пожалуйста, укажите район проживания.
                                 </p>
                             </div>
-                        </div>
-                        <div class="forms__fields-group">
-                            <div class="multiselect multiselect--standard forms__fields-item forms__fields-item--full">
+                            <div class="multiselect multiselect--standard forms__fields-item">
                                 <label class="field-label">
                                     Гражданство
                                 </label>
@@ -3491,7 +3487,7 @@
                         <div class="add-field__container bordered-field">
                             <div class="forms__fields-group">
                                 <div
-                                    class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                                    class="text-field text-field--standard forms__fields-item">
                                     <label for="company-title" class="field-label">Название компании</label>
                                     <input type="text" class="text-field__input" id="company-title" name="company-title"
                                         placeholder="Название компании" data-complete-length="1, 25"
@@ -3500,10 +3496,8 @@
                                         Пожалуйста, укажите название компании.
                                     </p>
                                 </div>
-                            </div>
-                            <div class="forms__fields-group">
                                 <div
-                                    class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                                    class="text-field text-field--standard forms__fields-item">
                                     <label for="company-post" class="field-label">Должность</label>
                                     <input type="text" class="text-field__input" id="company-post" name="company-post"
                                         placeholder="Должность" data-complete-length="1, 25" aria-label="Должность">

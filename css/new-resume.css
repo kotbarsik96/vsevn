@@ -157,7 +157,7 @@ h6 {
 }
 
 .container {
-  max-width: 520px;
+  max-width: 800px;
   margin: 25px auto;
   padding: 24px 15px 40px 15px;
   padding-top: 24px;
@@ -284,6 +284,12 @@ h6 {
   margin-top: 12px;
 }
 
+.forms__fields-group--triple .forms__fields-item {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 32%;
+  flex: 0 0 32%;
+}
+
 .forms__fields-group.checkboxes-group {
   -webkit-box-pack: start;
   -ms-flex-pack: start;
@@ -317,8 +323,9 @@ h6 {
 
 .forms__fields-group--birthdate,
 .forms__fields-group .forms__fields-group--birthdate {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .forms__fields-group--birthdate .field__uncompleted {
@@ -338,6 +345,9 @@ h6 {
   display: inline-block;
   width: 2.5em;
   margin-right: 5px;
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
 }
 
 .forms__fields-group-margin {
@@ -651,6 +661,15 @@ input[name*="year"] {
 
 .text-field--zodiac {
   position: relative;
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.text-field--age {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 1 auto;
+  flex: 0 1 auto;
 }
 
 .text-field--tags {
@@ -2181,9 +2200,17 @@ input[type="radio"]+.checkbox__value .checkbox__icon::before {
   }
 }
 
+@media (max-width: 799px) {
+  .forms__fields-group--triple .forms__fields-item {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 48%;
+    flex: 0 0 48%;
+  }
+}
+
 @media (max-width: 767px) {
   .checkboxes-group .checkbox {
-    margin-left: 30px;
+    margin-left: 15px;
   }
 }
 
@@ -2194,6 +2221,18 @@ input[type="radio"]+.checkbox__value .checkbox__icon::before {
 }
 
 @media (max-width: 569px) {
+  .forms__fields-group--birthdate {
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+  }
+
+  .forms__fields-group--birthdate .forms__fields-item {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+  }
+
   .load-image__content {
     -webkit-box-pack: center;
     -ms-flex-pack: center;
@@ -2298,6 +2337,13 @@ input[type="radio"]+.checkbox__value .checkbox__icon::before {
   .load-image__img {
     width: 230px;
     height: 230px;
+  }
+
+  .forms__fields-item,
+  .forms__fields-group--triple .forms__fields-item {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
   }
 
   .forms__fields-item--dates {

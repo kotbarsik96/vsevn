@@ -1169,7 +1169,7 @@ class AddFieldEducationSec extends AddField {
         return `
         <div class="forms__fields-group">
             <div
-                class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                class="text-field text-field--standard forms__fields-item">
                 <label for="education-sec-title-${this.counter}" class="field-label">Название учебного
                     заведения</label>
                 <input type="text" class="text-field__input" id="education-sec-title-${this.counter}"
@@ -1178,10 +1178,8 @@ class AddFieldEducationSec extends AddField {
                 <p class="field__uncompleted">Пожалуйста, укажите название учебного заведения
                 </p>
             </div>
-        </div>
-        <div class="forms__fields-group">
             <div
-                class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                class="text-field text-field--standard forms__fields-item">
                 <label for="education-sec-speciality-${this.counter}" class="field-label">Специальность</label>
                 <input type="text" class="text-field__input" id="education-sec-speciality-${this.counter}"
                     name="education-sec-speciality-${this.counter}" placeholder="Специальность"
@@ -1236,7 +1234,7 @@ class AddFieldEducationSec extends AddField {
             <p class="field__uncompleted">Пожалуйста, укажите период обучения.</p>
         </div>
         <div class="forms__fields-group">
-            <div class="multiselect multiselect--standard forms__fields-item forms__fields-item--full">
+            <div class="multiselect multiselect--standard forms__fields-item">
                 <label class="field-label">
                     Форма обучения
                 </label>
@@ -1272,25 +1270,9 @@ class AddFieldEducationSec extends AddField {
                         Очно-заочная
                     </label>
                 </div>
+                <p class="field__uncompleted">Пожалуйста, укажите форму обучения.</p>
             </div>
-            <p class="field__uncompleted">Пожалуйста, укажите форму обучения.</p>
-        </div>
-        <div class="forms__fields-group">
-            <div
-                class="text-field text-field--standard forms__fields-item forms__fields-item--full">
-                <label for="education-sec-qualification-${this.counter}" class="field-label">Квалификация,
-                    профессия</label>
-                <input type="text" class="text-field__input" id="education-sec-qualification-${this.counter}"
-                    name="education-sec-qualification-${this.counter}" placeholder="Квалификация, профессия"
-                    data-complete-length="1, 25" aria-label="Квалификация,
-                    профессия">
-                <p class="field__uncompleted">
-                    Пожалуйста, укажите квалификацию, профессию
-                </p>
-            </div>
-        </div>
-        <div class="forms__fields-group">
-            <div class="multiselect multiselect--standard forms__fields-item forms__fields-item--full">
+            <div class="multiselect multiselect--standard forms__fields-item">
                 <label class="field-label">
                     Наличие красного диплома
                 </label>
@@ -1323,6 +1305,20 @@ class AddFieldEducationSec extends AddField {
                 </div>
             </div>
             <p class="field__uncompleted">Пожалуйста, укажите наличие красного диплома.</p>
+        </div>
+        <div class="forms__fields-group">
+            <div
+                class="text-field text-field--standard forms__fields-item forms__fields-item--full">
+                <label for="education-sec-qualification-${this.counter}" class="field-label">Квалификация,
+                    профессия</label>
+                <input type="text" class="text-field__input" id="education-sec-qualification-${this.counter}"
+                    name="education-sec-qualification-${this.counter}" placeholder="Квалификация, профессия"
+                    data-complete-length="1, 25" aria-label="Квалификация,
+                    профессия">
+                <p class="field__uncompleted">
+                    Пожалуйста, укажите квалификацию, профессию
+                </p>
+            </div>
         </div>
         `;
     }
@@ -1403,7 +1399,7 @@ class AddFieldEducationHigher extends AddField {
             <p class="field__uncompleted">Пожалуйста, укажите период обучения.</p>
         </div>
         <div class="forms__fields-group">
-            <div class="multiselect multiselect--standard forms__fields-item forms__fields-item--full">
+            <div class="multiselect multiselect--standard forms__fields-item">
                 <label class="field-label">
                     Форма обучения
                 </label>
@@ -1443,10 +1439,7 @@ class AddFieldEducationHigher extends AddField {
                     </label>
                 </div>
             </div>
-            <p class="field__uncompleted">Пожалуйста, укажите форму обучения.</p>
-        </div>
-        <div class="forms__fields-group">
-            <div class="multiselect multiselect--standard forms__fields-item forms__fields-item--full">
+            <div class="multiselect multiselect--standard forms__fields-item">
                 <label class="field-label">
                     Квалификация высшего образования
                 </label>
@@ -1489,7 +1482,7 @@ class AddFieldEducationHigher extends AddField {
             <p class="field__uncompleted">Пожалуйста, укажите квалификацию.</p>
         </div>
         <div class="forms__fields-group">
-            <div class="multiselect multiselect--standard forms__fields-item forms__fields-item--full">
+            <div class="multiselect multiselect--standard forms__fields-item multiselect--standard forms__fields-item--full">
                 <label class="field-label">
                     Наличие красного диплома
                 </label>
@@ -1534,21 +1527,19 @@ class AddFieldWorkplace extends AddField {
         return `
             <div class="forms__fields-group">
                 <div
-                    class="text-field text-field--standard forms__fields-item forms__fields-item--full">
-                    <label for="company-title-${this.counter}" class="field-label">Название компании</label>
-                    <input type="text" class="text-field__input" id="company-title-${this.counter}" name="company-title-${this.counter}"
+                    class="text-field text-field--standard forms__fields-item">
+                    <label for="company-title" class="field-label">Название компании</label>
+                    <input type="text" class="text-field__input" id="company-title" name="company-title"
                         placeholder="Название компании" data-complete-length="1, 25"
                         aria-label="Название компании">
                     <p class="field__uncompleted">
                         Пожалуйста, укажите название компании.
                     </p>
                 </div>
-            </div>
-            <div class="forms__fields-group">
                 <div
-                    class="text-field text-field--standard forms__fields-item forms__fields-item--full">
-                    <label for="company-post-${this.counter}" class="field-label">Должность</label>
-                    <input type="text" class="text-field__input" id="company-post-${this.counter}" name="company-post-${this.counter}"
+                    class="text-field text-field--standard forms__fields-item">
+                    <label for="company-post" class="field-label">Должность</label>
+                    <input type="text" class="text-field__input" id="company-post" name="company-post"
                         placeholder="Должность" data-complete-length="1, 25" aria-label="Должность">
                     <p class="field__uncompleted">
                         Пожалуйста, укажите должность.
