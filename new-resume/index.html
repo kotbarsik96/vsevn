@@ -3251,40 +3251,36 @@
                                 лет
                             </div>
                         </div>
-                        <div class="forms__fields-group">
-                            <div class="multiselect multiselect--standard forms__fields-item forms__fields-item--full" data-completion-required>
-                                <label class="field-label">
-                                    Статус
+                        <div class="forms__fields-group checkboxes-group" data-completion-required>
+                            <div class="checkboxes-group__item checkbox checkbox--inline">
+                                <input class="checkboxes-group__checkbox" type="radio" name="contact-method"
+                                    id="work">
+                                <label class="checkbox__value" for="work">
+                                    <span class="checkbox__icon"></span>
+                                    Работаю, но активно ищу работу
                                 </label>
-                                <div class="selectBox">
-                                    <div class="selectBox_wrapper">
-                                        <div class="selectBox_value-text">Статус</div>
-                                        <div class="overSelect"></div>
-                                    </div>
-                                    <div class="selctexit_btn">
-                                        <div class="exitlin_wrapper">
-                                            <div class="exit_line"></div>
-                                            <div class="exit_line"></div>
-                                        </div>
-                                        <div class="selctexit_btn_hint">
-                                            Очистить поле?
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="checkboxes">
-                                    <label class="multiselect__label">
-                                        <input class="checrkradio_hidden" type="radio" name="employer-status"
-                                            value="no-work" data-mselect-value="Работаю, но активно ищу работу">
-                                        Работаю, но активно ищу работу
-                                    </label>
-                                    <label class="multiselect__label">
-                                        <input class="checrkradio_hidden" type="radio" name="employer-status"
-                                            value="works" data-mselect-value="Безработный(ая)">
-                                        Безработный(ая)
-                                    </label>
-                                </div>
                             </div>
-                            <p class="field__uncompleted">Пожалуйста, укажите статус.</p>
+                            <div class="checkboxes-group__item checkbox checkbox--inline">
+                                <input class="checkboxes-group__checkbox" type="radio" name="contact-method"
+                                    id="no-work">
+                                <label class="checkbox__value" for="no-work">
+                                    <span class="checkbox__icon"></span>
+                                    Безработный(ая)
+                                </label>
+                            </div>
+                            <div class="text-field text-field--standard forms__fields-item forms__fields-item--full text-field--optional"
+                                data-optional="telegram-link">
+                                <label for="telegram-link" class="field-label">Ссылка на аккаунт Telegram</label>
+                                <input type="text" class="text-field__input" id="telegram-link" name="telegram-link"
+                                    placeholder="Ссылка на аккаунт Telegram" data-complete-length="1, 25"
+                                    aria-label="Ссылка на аккаунт Telegram">
+                                <p class="field__uncompleted">
+                                    Пожалуйста, укажите название ссылку на аккаунт Telegram.
+                                </p>
+                            </div>
+                            <p class="field__uncompleted">Пожалуйста, укажите минимум один из удобных способов
+                                связи.
+                            </p>
                         </div>
                         <div class="forms__fields-group">
                             <div class="multiselect multiselect--standard forms__fields-item forms__fields-item--full">

@@ -89,6 +89,7 @@ function createElement(tagName, className, htmlContent) {
     return block;
 }
 
+
 // найдет ближайший элемент по отношению к node
 function findClosest(node, selector) {
     let element = node.querySelector(selector);
@@ -101,6 +102,41 @@ function findClosest(node, selector) {
     }
     return element;
 }
+
+/* ========================================== HEADER ========================================== */
+document.querySelector('.header > nav > img').addEventListener('click', e => {
+    let headerWrapper = document.querySelector('.header_wrapper');
+    headerWrapper.classList.toggle('menu_active');
+    headerWrapper.classList.contains('menu_active')
+        ? document.body.classList.add('body--locked-scroll')
+        : document.body.classList.remove('body--locked-scroll');
+});
+document.querySelector('.exit_menu').addEventListener('click', e => {
+    document.querySelector('.header_wrapper').classList.remove('menu_active');
+    document.body.classList.remove('body--locked-scroll');
+});
+
+loginList = document.querySelectorAll('.header-nav_wrapper > ul:nth-child(2) > li a');
+for (u = 0; u < loginList.length; u++) {
+    loginList[u].onclick = function () {
+        document.querySelector('.header-nav_wrapper').classList.add('header_log');
+    }
+}
+
+document.querySelector('.sign_contaiener > a:nth-child(2)').onclick = function () {
+    document.querySelector('.header-nav_wrapper').classList.remove('header_log');
+}
+
+document.querySelector('.profile-exit').onclick = function () {
+    document.querySelector('.profile_container').classList.remove('profile_active');
+    document.querySelector('.header-nav_wrapper').classList.remove('header_log');
+}
+
+document.querySelector('.sign_contaiener > a:nth-child(1)').onclick = function () {
+    document.querySelector('.profile_container').classList.toggle('profile_active');
+}
+
+/* ====================================== HEADER (конец) ====================================== */
 
 class FullImagePopup {
     constructor(node) {
