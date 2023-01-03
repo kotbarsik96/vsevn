@@ -3177,9 +3177,6 @@
                                 <label for="surname" class="field-label">Фамилия</label>
                                 <input type="text" class="text-field__input" id="surname" name="surname"
                                     placeholder="Фамилия" data-complete-length="1, 25" aria-label="Фамилия">
-                                <p class="field__uncompleted">
-                                    Пожалуйста, укажите фамилию
-                                </p>
                             </div>
                         </div>
                         <div class="forms__fields-group">
@@ -3202,14 +3199,14 @@
                                     <input class="field__selection-input" name="gender" type="radio" id="gender-male">
                                     <label class="field__selection-label" for="gender-male">
                                         <span class="field__selection-icon icon-man"></span>
-                                        Мужской
+                                        <span class="field__selection-text">Мужской</span>
                                     </label>
                                 </div>
                                 <div class="field__wrapper field__selection-option">
                                     <input class="field__selection-input" name="gender" type="radio" id="gender-female">
                                     <label class="field__selection-label" for="gender-female">
                                         <span class="field__selection-icon icon-woman"></span>
-                                        Женский
+                                        <span class="field__selection-text">Женский</span>
                                     </label>
                                 </div>
                             </div>
@@ -3251,8 +3248,7 @@
                         </div>
                         <div class="forms__fields-group checkboxes-group" data-completion-required>
                             <div class="checkboxes-group__item checkbox checkbox--inline">
-                                <input class="checkboxes-group__checkbox" type="radio" name="contact-method"
-                                    id="work">
+                                <input class="checkboxes-group__checkbox" type="radio" name="contact-method" id="work">
                                 <label class="checkbox__value" for="work">
                                     <span class="checkbox__icon"></span>
                                     Работаю, но активно ищу работу
@@ -3266,18 +3262,8 @@
                                     Безработный(ая)
                                 </label>
                             </div>
-                            <div class="text-field text-field--standard forms__fields-item forms__fields-item--full text-field--optional"
-                                data-optional="telegram-link">
-                                <label for="telegram-link" class="field-label">Ссылка на аккаунт Telegram</label>
-                                <input type="text" class="text-field__input" id="telegram-link" name="telegram-link"
-                                    placeholder="Ссылка на аккаунт Telegram" data-complete-length="1, 25"
-                                    aria-label="Ссылка на аккаунт Telegram">
-                                <p class="field__uncompleted">
-                                    Пожалуйста, укажите название ссылку на аккаунт Telegram.
-                                </p>
-                            </div>
-                            <p class="field__uncompleted">Пожалуйста, укажите минимум один из удобных способов
-                                связи.
+                            <p class="field__uncompleted">
+                                Пожалуйста, укажите статус
                             </p>
                         </div>
                         <div class="forms__fields-group">
@@ -3352,11 +3338,13 @@
                                 </div>
                                 <div class="checkboxes">
                                     <label class="multiselect__label">
-                                        <input class="checrkradio_hidden" type="radio" name="has-children" value="yes" data-mselect-value="Есть">
+                                        <input class="checrkradio_hidden" type="radio" name="has-children" value="yes"
+                                            data-mselect-value="Есть">
                                         Есть
                                     </label>
                                     <label class="multiselect__label">
-                                        <input class="checrkradio_hidden" type="radio" name="has-children" value="no" data-mselect-value="Нет">
+                                        <input class="checrkradio_hidden" type="radio" name="has-children" value="no"
+                                            data-mselect-value="Нет">
                                         Нет
                                     </label>
                                 </div>
@@ -3366,7 +3354,7 @@
                     </section>
                     <section class="forms__container">
                         <h3 class="forms__title">Образование</h3>
-                        <div class="forms__container">
+                        <div class="forms__container forms__container--mt">
                             <div class="add-field add-field--education" data-add-field="school"
                                 data-add-fields-range="1, 2">
                                 <div class="add-field__icon icon-plus"></div>
@@ -3486,8 +3474,7 @@
                         <h4 class="forms__subtitle">Сначала добавьте сведения о последнем месте (местах) работы.</h4>
                         <div class="add-field__container bordered-field">
                             <div class="forms__fields-group">
-                                <div
-                                    class="text-field text-field--standard forms__fields-item">
+                                <div class="text-field text-field--standard forms__fields-item">
                                     <label for="company-title" class="field-label">Название компании</label>
                                     <input type="text" class="text-field__input" id="company-title" name="company-title"
                                         placeholder="Название компании" data-complete-length="1, 25"
@@ -3496,8 +3483,7 @@
                                         Пожалуйста, укажите название компании.
                                     </p>
                                 </div>
-                                <div
-                                    class="text-field text-field--standard forms__fields-item">
+                                <div class="text-field text-field--standard forms__fields-item">
                                     <label for="company-post" class="field-label">Должность</label>
                                     <input type="text" class="text-field__input" id="company-post" name="company-post"
                                         placeholder="Должность" data-complete-length="1, 25" aria-label="Должность">

@@ -7,20 +7,24 @@
 
 function documentHandlers() {
     document.addEventListener("click", closeMultiselects);
+    document.addEventListener("click", closeTextSelects);
 
     function closeMultiselects(event) {
         let targ = event.target;
         let isMultiselect = targ.classList.contains("multiselect")
-            || targ.closest(".multiselect")
-            || targ.classList.contains("text-field--select")
-            || targ.closest(".text-field--select");
+            || targ.closest(".multiselect");
         if (isMultiselect) return;
 
         let multiselects = findInittedInput(".multiselect", true);
         multiselects.forEach(msClass => msClass.hide());
+    }
+    function closeTextSelects(event) {
+        let targ = event.target;
+        let isTextSelect = targ.classList.contains("text-field__input");
+        if (isTextSelect) return;
 
         let textSelects = findInittedInput(".text-field--select", true);
-        textSelects.forEach(sClass => sClass.hideOptions());
+        textSelects.forEach(tSelect => tSelect.hideOptions());
     }
 }
 documentHandlers();
@@ -29,6 +33,24 @@ function dispatchCompletionCheckEvent(preventEvent) {
     const completionCheckEvent = new CustomEvent("completion-check");
     if (!preventEvent) this.rootElem.dispatchEvent(completionCheckEvent);
 }
+
+// кнопки add-field--education, которым подбирается одинаковая высота
+function justifyAddButtonsHeight() {
+    doJustify();
+    window.addEventListener("resize", doJustify);
+
+    function doJustify() {
+        const selectors = [".add-field--education"];
+        selectors.forEach(selector => {
+            const buttons = Array.from(document.querySelectorAll(selector));
+            buttons.forEach(btn => btn.style.removeProperty("min-height"));
+            const heights = buttons.map(btn => btn.offsetHeight);
+            const maxHeight = Math.max(...heights);
+            buttons.forEach(btn => btn.style.minHeight = `${maxHeight}px`);
+        });
+    }
+}
+justifyAddButtonsHeight();
 
 // высчитать размер файла и вернуть его либо в килобайтах, либо в мегабайтах
 function calcSize(sizeBytes) {
@@ -422,11 +444,13 @@ class MultiselectChildren extends MultiselectAddField {
     }
     onYesSelect() {
         this.addFieldButton = super.createAddFieldButton("Указать возраст ребенка", "children");
-
         this.rootElem.after(this.addFieldButton);
     }
     onNoSelect() {
-        if (this.addFieldButton) this.addFieldButton.remove();
+        if (this.addFieldButton) {
+            this.addFieldButton.remove();
+            this.addFieldButton = null;
+        }
     }
     checkCompletion(preventEvent) {
         if (!this.checked) {
@@ -807,16 +831,23 @@ class TextFieldSelect {
             this.setRange();
         }
 
-        this.getLabels();
+        this.getLabelsAndInputs();
         this.input.addEventListener("focus", this.showOptions);
         this.input.addEventListener("input", this.onInput);
+        this.input.addEventListener("click", () => {
+            let textSelects = findInittedInput(".text-field--select", true);
+            textSelects.forEach(tSelect => {
+                if (tSelect.rootElem !== this.rootElem) tSelect.hideOptions();
+            });
+        });
     }
     onInput() {
         this.showMatches();
         this.checkCompletion();
     }
-    getLabels() {
+    getLabelsAndInputs() {
         this.labels = Array.from(this.rootElem.querySelectorAll(".multiselect__label"));
+        this.inputs = this.labels.map(label => label.querySelector("input"));
         this.labels.forEach(label => {
             label.addEventListener("click", this.setValue);
         });
@@ -838,6 +869,17 @@ class TextFieldSelect {
             this.labels.forEach(label => label.classList.remove("__removed"));
             return;
         }
+        const smallestValue = this.inputs.map(inp => inp.value)
+            .sort((val_1, val_2) => {
+                if (val_1.length < val_2.length) return 1;
+                if (val_1.length > val_2.length) return -1;
+                return 0;
+            })[0];
+        if (val.length === smallestValue.length) {
+            this.labels.forEach(label => label.classList.remove("__removed"));
+            return;
+        }
+
 
         this.labels.forEach(label => {
             const input = label.querySelector("input");
@@ -878,7 +920,7 @@ class TextFieldSelect {
         let checkboxesInner = createCheckboxesInner();
         checkboxes.insertAdjacentHTML("afterbegin", checkboxesInner);
 
-        this.getLabels();
+        this.getLabelsAndInputs();
 
         function createCheckboxesInner() {
             let inner = "";

@@ -255,6 +255,11 @@ h6 {
   margin-top: 24px;
 }
 
+.forms__container.forms__container--mt,
+.forms__container--mt {
+  margin-top: 10px;
+}
+
 .forms__title {
   font-size: 1.125rem;
   line-height: 1.4;
@@ -600,6 +605,13 @@ input[name*="year"] {
   max-height: 200px;
 }
 
+.field__selection-text {
+  display: inline-block;
+  -webkit-transform: translate(0, -2px);
+  -ms-transform: translate(0, -2px);
+  transform: translate(0, -2px);
+}
+
 .field__selection-icon {
   font-size: 25px;
   width: 20px;
@@ -708,7 +720,7 @@ input[name*="year"] {
   color: #fff;
 }
 
-.zodiac-icon + .text-field__input {
+.zodiac-icon+.text-field__input {
   padding-left: 40px;
 }
 
@@ -908,8 +920,13 @@ input[name*="year"] {
   padding: 11px 10px 15px;
   font-size: 19px;
   width: 100%;
-  margin-top: 4px;
   background: transparent;
+}
+
+.text-field__input,
+.text-field__input-multi,
+.selectBox {
+  margin-top: 4px;
 }
 
 .text-field__input-multi {
@@ -945,16 +962,33 @@ input[name*="year"] {
   display: block;
 }
 
-.multiselect {
-  margin-top: 4px;
-}
-
 .multiselect .selectBox {
   padding: 4px 4px 3px 4px;
 }
 
 .multiselect.__uncompleted .selectBox {
   border-color: var(--uncomplete_border_color);
+}
+
+.selectBox_wrapper {
+  font-size: 19px;
+}
+
+.selbActive .selectBox_wrapper .selectBox_value-text {
+  -webkit-transform: translate(0, -1px);
+  -ms-transform: translate(0, -1px);
+  transform: translate(0, -1px);
+}
+
+.selbActive .selectBox_wrapper .selectBox_value-text.__moz-fix {
+  -webkit-transform: translate(0, -2px);
+  -ms-transform: translate(0, -2px);
+  transform: translate(0, -2px);
+}
+
+.multiselect__label,
+.checkboxes>label {
+  font-size: 19px;
 }
 
 .multiselect .field__uncompleted {
@@ -2212,6 +2246,12 @@ input[type="radio"]+.checkbox__value .checkbox__icon::before {
   .checkboxes-group .checkbox {
     margin-left: 15px;
   }
+
+  .forms__fields-group--triple .forms__fields-item {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 48%;
+    flex: 0 0 48%;
+  }
 }
 
 @media (max-width: 629px) {
@@ -2327,6 +2367,17 @@ input[type="radio"]+.checkbox__value .checkbox__icon::before {
   }
 
   .checkbox--inline {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+  }
+
+  #work-start-year,
+  #work-end-year {
+    text-align: left;
+  }
+
+  .forms__fields-group--triple .forms__fields-item {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 100%;
     flex: 0 0 100%;
