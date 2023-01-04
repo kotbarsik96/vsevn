@@ -574,9 +574,9 @@ class TextField {
             input.value = valueNew;
         }
     }
-    createRegexp(){
+    createRegexp() {
         const regexp = this.input.dataset.regexp;
-        if(!regexp) return;
+        if (!regexp) return;
 
         this.regexp = new RegExp(regexp);
     }
@@ -608,7 +608,7 @@ class TextField {
             isCompleted = isRightNumber;
         }
         // проверка на совпадение с regexp
-        if(this.regexp) {
+        if (this.regexp) {
             const isMatch = Boolean(value.match(this.regexp));
             isCompleted = isMatch;
         }
@@ -2672,6 +2672,14 @@ class CutImage {
         }
 
         const src = canvasCut.toDataURL("image/png");
+        if (doShow) {
+            let modalImage = new Image();
+            modalImage.onload = () => {
+                modalImage.dataset.popupFullimage = "";
+                new FullImagePopup(modalImage).onImgClick();
+            }
+            modalImage.src = src;
+        }
 
         canvasOrig.remove();
         canvasCut.remove();

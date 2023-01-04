@@ -159,9 +159,7 @@ h6 {
 .container {
   max-width: 800px;
   margin: 25px auto;
-  padding: 24px 15px 40px 15px;
-  padding-top: 24px;
-  padding-bottom: 40px;
+  padding: 24px 15px;
   background: #fffef4;
 }
 
@@ -1775,7 +1773,7 @@ input[type="radio"]+.checkbox__value .checkbox__icon::before {
 /* Загрузка фото */
 
 .forms__load-image {
-  margin-top: 20px;
+  margin-top: 40px;
 }
 
 .load-image {
@@ -1945,6 +1943,19 @@ input[type="radio"]+.checkbox__value .checkbox__icon::before {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 50%;
   flex: 0 0 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 .load-image__img {
@@ -1970,9 +1981,6 @@ input[type="radio"]+.checkbox__value .checkbox__icon::before {
   -webkit-box-align: start;
   -ms-flex-align: start;
   align-items: flex-start;
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 51%;
-  flex: 0 0 51%;
 }
 
 .load-image__data-value {
