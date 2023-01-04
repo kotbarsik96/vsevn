@@ -486,6 +486,7 @@ class TextField {
         if (this.mask) this.createMask();
         this.getCompleteConditions();
         this.input.addEventListener("change", this.onChange);
+        this.input.addEventListener("focus", () => this.rootElem.classList.remove("__completed"));
         this.input.addEventListener("blur", this.onChange);
         this.input.addEventListener("input", this.onInput);
         if (this.inputRefresh)
@@ -531,10 +532,16 @@ class TextField {
 
         this.checkCompletion();
         this.inputWrapper.classList.add("__active");
+
+        if(!this.isRequired && !this.input.value) {
+            this.rootElem.classList.remove("__uncompleted");
+        }
     }
     refresh() {
         this.input.value = "";
         this.input.dispatchEvent(new Event("input"));
+        this.rootElem.classList.remove("__completed");
+        if(!this.isRequired) this.rootElem.classList.remove("__uncompleted");
     }
     // если у поля есть маска заполнения
     createMask() {
@@ -582,6 +589,12 @@ class TextField {
     }
     onChange() {
         this.checkCompletion();
+        if(!this.isCompleted) {
+            this.rootElem.classList.remove("__completed");
+        }
+        if(this.isCompleted) {
+            this.rootElem.classList.add("__completed");
+        }
     }
     checkCompletion(preventEvent = false) {
         const conditions = this.completeCondition;
@@ -613,9 +626,16 @@ class TextField {
             isCompleted = isMatch;
         }
 
-        if (isCompleted) this.rootElem.classList.remove("__uncompleted");
-        else if (this.isRequired || this.mask || this.regexp)
+        if (isCompleted) {
+            this.rootElem.classList.remove("__uncompleted");
+        }
+        else if (this.isRequired || this.mask || this.regexp) {
             this.rootElem.classList.add("__uncompleted");
+            this.rootElem.classList.remove("__completed");
+        }
+        if(!this.isRequired && !this.input.value) {
+            this.rootElem.classList.remove("__uncompleted");
+        }
 
         dispatchCompletionCheckEvent.call(this, preventEvent);
 
