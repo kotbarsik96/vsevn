@@ -459,11 +459,9 @@ class MultiselectChildren extends MultiselectAddField {
             return this.isCompleted;
         }
 
-        if (this.checked.value === "no") super.checkCompletion(preventEvent);
-        else if (this.checked.value === "yes") {
-            super.checkCompletion(preventEvent);
-        }
+        super.checkCompletion(preventEvent);
 
+        console.log(this.isCompleted);
         if (this.isCompleted) this.rootElem.classList.remove("__uncompleted");
         return this.isCompleted;
     }
@@ -473,17 +471,24 @@ class MultiselectChildren extends MultiselectAddField {
 class TextField {
     constructor(node) {
         this.onChange = this.onChange.bind(this);
+        this.onInput = this.onInput.bind(this);
+        this.refresh = this.refresh.bind(this);
         this.typeNumberOnly = this.typeNumberOnly.bind(this);
 
         this.rootElem = node;
         this.isRequired = this.rootElem.hasAttribute("data-completion-required");
         this.input = this.rootElem.querySelector(".text-field__input");
+        this.inputWrapper = this.rootElem.querySelector(".text-field__input-wrapper");
+        this.inputRefresh = this.rootElem.querySelector(".text-field__input-close");
         this.ariaLabel = this.input.getAttribute("aria-label");
 
         if (this.input.dataset.mask) this.createMask();
         this.getCompleteConditions();
         this.input.addEventListener("change", this.onChange);
         this.input.addEventListener("blur", this.onChange);
+        this.input.addEventListener("input", this.onInput);
+        if (this.inputRefresh)
+            this.inputRefresh.addEventListener("click", this.refresh);
         if (this.input.hasAttribute("data-numbers-only"))
             this.input.addEventListener("input", this.typeNumberOnly);
     }
@@ -515,6 +520,19 @@ class TextField {
         }
         // если не указаны никакие условия
         else this.completeCondition = { minLength: 0 };
+    }
+    onInput() {
+        const val = this.input.value;
+        if (!val) {
+            this.inputWrapper.classList.remove("__active");
+            return;
+        }
+
+        this.inputWrapper.classList.add("__active");
+    }
+    refresh() {
+        this.input.value = "";
+        this.input.dispatchEvent(new Event("input"));
     }
     // если у поля есть маска заполнения
     createMask() {
@@ -820,10 +838,15 @@ class TextFieldSelect {
         this.showMatches = this.showMatches.bind(this);
         this.setValue = this.setValue.bind(this);
         this.onInput = this.onInput.bind(this);
+        this.refresh = this.refresh.bind(this);
 
         this.rootElem = node;
         this.isRequired = this.rootElem.hasAttribute("data-completion-required");
         this.input = this.rootElem.querySelector(".text-field__input");
+        this.inputWrapper = this.rootElem.querySelector(".text-field__input-wrapper");
+        this.inputRefresh = this.rootElem.querySelector(".text-field__input-close");
+        this.input.addEventListener("input", this.onInput);
+        this.inputRefresh.addEventListener("click", this.refresh);
         this.valuesRange = this.input.dataset.textSelectRange;
         this.name = this.input.getAttribute("name");
         if (this.valuesRange) {
@@ -844,6 +867,18 @@ class TextFieldSelect {
     onInput() {
         this.showMatches();
         this.checkCompletion();
+
+        const val = this.input.value;
+        if (!val) {
+            this.inputWrapper.classList.remove("__active");
+            return;
+        }
+
+        this.inputWrapper.classList.add("__active");
+    }
+    refresh() {
+        this.input.value = "";
+        this.input.dispatchEvent(new Event("input"));
     }
     getLabelsAndInputs() {
         this.labels = Array.from(this.rootElem.querySelectorAll(".multiselect__label"));
@@ -994,6 +1029,7 @@ class TextFieldTags extends TextField {
         tag.querySelector(".tags-list__item-remove").addEventListener("click", this.removeTag);
         this.addedTags.push({ tag, value, id: this.counter });
         this.input.value = "";
+        this.input.dispatchEvent(new Event("input"));
         this.checkCompletion();
     }
     removeTag(event) {
@@ -1110,9 +1146,18 @@ class AddFieldSchool extends AddField {
             <div
                 class="text-field text-field--standard forms__fields-item forms__fields-item--full">
                 <label for="education-school_city-${this.counter}" class="field-label">Город</label>
-                <input type="text" class="text-field__input" id="education-school_city-${this.counter}"
-                    name="education-school_city" placeholder="Город"
-                    data-complete-length="1, 25" aria-label="Город">
+                <div class="text-field__input-wrapper">
+                    <input type="text" class="text-field__input" id="education-school_city-${this.counter}" name="education-school_city" placeholder="Город" data-complete-length="1, 25" aria-label="Город">
+                    <div class="selctexit_btn text-field__input-close">
+                        <div class="exitlin_wrapper">
+                            <div class="exit_line"></div>
+                            <div class="exit_line"></div>
+                        </div>
+                        <div class="selctexit_btn_hint">
+                            Очистить поле?
+                        </div>
+                    </div>
+                </div>
                 <p class="field__uncompleted">Пожалуйста, укажите город</p>
             </div>
         </div>
@@ -1156,9 +1201,20 @@ class AddFieldSchool extends AddField {
             <div class="text-field text-field--standard forms__fields-item">
                 <label for="school-number_title-${this.counter}" class="field-label">Номер и название
                     школы</label>
-                <input type="text" class="text-field__input" id="school-number_title-${this.counter}"
-                    name="school-number_title-${this.counter}" placeholder="Например: ООШ №20"
-                    data-complete-length="1, 25" aria-label="Номер и название школы">
+                <div class="text-field__input-wrapper">
+                    <input type="text" class="text-field__input" id="school-number_title-${this.counter}"
+                        name="school-number_title-${this.counter}" placeholder="Например: ООШ №20"
+                        data-complete-length="1, 25" aria-label="Номер и название школы">
+                    <div class="selctexit_btn text-field__input-close">
+                        <div class="exitlin_wrapper">
+                            <div class="exit_line"></div>
+                            <div class="exit_line"></div>
+                        </div>
+                        <div class="selctexit_btn_hint">
+                            Очистить поле?
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="forms__fields-item field">
                 <div class="multiselect multiselect--standard forms__fields-item forms__fields-item--full" data-aria-label="Наличие медали">
@@ -1214,18 +1270,40 @@ class AddFieldEducationSec extends AddField {
                 class="text-field text-field--standard forms__fields-item">
                 <label for="education-sec-title-${this.counter}" class="field-label">Название учебного
                     заведения</label>
-                <input type="text" class="text-field__input" id="education-sec-title-${this.counter}"
+                <div class="text-field__input-wrapper">
+                    <input type="text" class="text-field__input" id="education-sec-title-${this.counter}"
                     name="education-sec-title-${this.counter}" placeholder="Название учебного заведения"
                     data-complete-length="1, 25" aria-label="Название учебного заведения">
+                    <div class="selctexit_btn text-field__input-close">
+                        <div class="exitlin_wrapper">
+                            <div class="exit_line"></div>
+                            <div class="exit_line"></div>
+                        </div>
+                        <div class="selctexit_btn_hint">
+                            Очистить поле?
+                        </div>
+                    </div>
+                </div>
                 <p class="field__uncompleted">Пожалуйста, укажите название учебного заведения
                 </p>
             </div>
             <div
                 class="text-field text-field--standard forms__fields-item">
                 <label for="education-sec-speciality-${this.counter}" class="field-label">Специальность</label>
-                <input type="text" class="text-field__input" id="education-sec-speciality-${this.counter}"
+                <div class="text-field__input-wrapper">
+                    <input type="text" class="text-field__input" id="education-sec-speciality-${this.counter}"
                     name="education-sec-speciality-${this.counter}" placeholder="Специальность"
                     data-complete-length="1, 25" aria-label="Специальность">
+                    <div class="selctexit_btn text-field__input-close">
+                        <div class="exitlin_wrapper">
+                            <div class="exit_line"></div>
+                            <div class="exit_line"></div>
+                        </div>
+                        <div class="selctexit_btn_hint">
+                            Очистить поле?
+                        </div>
+                    </div>
+                </div>
                 <p class="field__uncompleted">
                     Пожалуйста, укажите специальность
                 </p>
@@ -1353,10 +1431,21 @@ class AddFieldEducationSec extends AddField {
                 class="text-field text-field--standard forms__fields-item forms__fields-item--full">
                 <label for="education-sec-qualification-${this.counter}" class="field-label">Квалификация,
                     профессия</label>
-                <input type="text" class="text-field__input" id="education-sec-qualification-${this.counter}"
+                <div class="text-field__input-wrapper">
+                    <input type="text" class="text-field__input" id="education-sec-qualification-${this.counter}"
                     name="education-sec-qualification-${this.counter}" placeholder="Квалификация, профессия"
                     data-complete-length="1, 25" aria-label="Квалификация,
                     профессия">
+                    <div class="selctexit_btn text-field__input-close">
+                        <div class="exitlin_wrapper">
+                            <div class="exit_line"></div>
+                            <div class="exit_line"></div>
+                        </div>
+                        <div class="selctexit_btn_hint">
+                            Очистить поле?
+                        </div>
+                    </div>
+                </div>
                 <p class="field__uncompleted">
                     Пожалуйста, укажите квалификацию, профессию
                 </p>
@@ -1376,9 +1465,20 @@ class AddFieldEducationHigher extends AddField {
                 class="text-field text-field--standard forms__fields-item forms__fields-item--full">
                 <label for="education-higher-title-${this.counter}" class="field-label">Название учебного
                     заведения</label>
-                <input type="text" class="text-field__input" id="education-higher-title-${this.counter}"
+                <div class="text-field__input-wrapper">
+                    <input type="text" class="text-field__input" id="education-higher-title-${this.counter}"
                     name="education-higher-title-${this.counter}" placeholder="Название учебного заведения"
                     data-complete-length="1, 25" aria-label="Название учебного заведения">
+                    <div class="selctexit_btn text-field__input-close">
+                        <div class="exitlin_wrapper">
+                            <div class="exit_line"></div>
+                            <div class="exit_line"></div>
+                        </div>
+                        <div class="selctexit_btn_hint">
+                            Очистить поле?
+                        </div>
+                    </div>
+                </div>
                 <p class="field__uncompleted">Пожалуйста, укажите название учебного заведения
                 </p>
             </div>
@@ -1388,9 +1488,20 @@ class AddFieldEducationHigher extends AddField {
                 class="text-field text-field--standard forms__fields-item forms__fields-item--full">
                 <label for="education-higher-speciality-${this.counter}"
                     class="field-label">Специальность</label>
-                <input type="text" class="text-field__input" id="education-higher-speciality-${this.counter}"
+                <div class="text-field__input-wrapper">
+                    <input type="text" class="text-field__input" id="education-higher-speciality-${this.counter}"
                     name="education-higher-speciality-${this.counter}" placeholder="Специальность"
                     data-complete-length="1, 25" aria-label="Специальность">
+                    <div class="selctexit_btn text-field__input-close">
+                        <div class="exitlin_wrapper">
+                            <div class="exit_line"></div>
+                            <div class="exit_line"></div>
+                        </div>
+                        <div class="selctexit_btn_hint">
+                            Очистить поле?
+                        </div>
+                    </div>
+                </div>
                 <p class="field__uncompleted">
                     Пожалуйста, укажите специальность
                 </p>
@@ -1414,7 +1525,7 @@ class AddFieldEducationHigher extends AddField {
                             name="education-higher-start-year-${this.counter}" id="education-higher-start-year-${this.counter}"
                             placeholder="гггг">
                     </div>
-                    <input type="hidden" class="text-field__input" id="birthdate-${this.counter}"
+                     <input type="hidden" class="text-field__input" id="birthdate-${this.counter}"
                         name="birthdate-${this.counter}" placeholder="Начало обучения"
                         data-complete-length="1, 25" aria-label="Начало обучения">
                 </div>
@@ -1571,9 +1682,20 @@ class AddFieldWorkplace extends AddField {
                 <div
                     class="text-field text-field--standard forms__fields-item">
                     <label for="company-title" class="field-label">Название компании</label>
-                    <input type="text" class="text-field__input" id="company-title" name="company-title"
+                    <div class="text-field__input-wrapper">
+                        <input type="text" class="text-field__input" id="company-title" name="company-title"
                         placeholder="Название компании" data-complete-length="1, 25"
                         aria-label="Название компании">
+                        <div class="selctexit_btn text-field__input-close">
+                        <div class="exitlin_wrapper">
+                            <div class="exit_line"></div>
+                            <div class="exit_line"></div>
+                        </div>
+                        <div class="selctexit_btn_hint">
+                            Очистить поле?
+                        </div>
+                    </div>
+                    </div>
                     <p class="field__uncompleted">
                         Пожалуйста, укажите название компании.
                     </p>
@@ -1581,8 +1703,19 @@ class AddFieldWorkplace extends AddField {
                 <div
                     class="text-field text-field--standard forms__fields-item">
                     <label for="company-post" class="field-label">Должность</label>
-                    <input type="text" class="text-field__input" id="company-post" name="company-post"
+                    <div class="text-field__input-wrapper">
+                        <input type="text" class="text-field__input" id="company-post" name="company-post"
                         placeholder="Должность" data-complete-length="1, 25" aria-label="Должность">
+                        <div class="selctexit_btn text-field__input-close">
+                        <div class="exitlin_wrapper">
+                            <div class="exit_line"></div>
+                            <div class="exit_line"></div>
+                        </div>
+                        <div class="selctexit_btn_hint">
+                            Очистить поле?
+                        </div>
+                    </div>
+                    </div>
                     <p class="field__uncompleted">
                         Пожалуйста, укажите должность.
                     </p>
@@ -1670,9 +1803,20 @@ class AddFieldWorkplace extends AddField {
                     </div>
                 </div>
                 <div class="text-field--select forms__fields-item">
-                    <input type="text" class="text-field__input" id="work-start-year-${this.counter}"
+                    <div class="text-field__input-wrapper">
+                        <input type="text" class="text-field__input" id="work-start-year-${this.counter}"
                         name="work-start-year-${this.counter}" placeholder="Год" data-complete-length="1, 25"
                         aria-label="Год начала работы" data-text-select-range="1990, currentYear">
+                        <div class="selctexit_btn text-field__input-close">
+                        <div class="exitlin_wrapper">
+                            <div class="exit_line"></div>
+                            <div class="exit_line"></div>
+                        </div>
+                        <div class="selctexit_btn_hint">
+                            Очистить поле?
+                        </div>
+                    </div>
+                    </div>
                     <div class="checkboxes">
         
                     </div>
@@ -1768,9 +1912,20 @@ class AddFieldWorkplace extends AddField {
                     </div>
                 </div>
                 <div class="text-field--select forms__fields-item" data-optional="work-end-period-${this.counter}">
-                    <input type="text" class="text-field__input" id="work-end-year-${this.counter}"
+                    <div class="text-field__input-wrapper">
+                        <input type="text" class="text-field__input" id="work-end-year-${this.counter}"
                         name="work-end-year-${this.counter}" placeholder="Год" data-complete-length="1, 25"
                         aria-label="Год начала работы" data-text-select-range="1990, currentYear">
+                        <div class="selctexit_btn text-field__input-close">
+                            <div class="exitlin_wrapper">
+                                <div class="exit_line"></div>
+                                <div class="exit_line"></div>
+                            </div>
+                            <div class="selctexit_btn_hint">
+                                Очистить поле?
+                            </div>
+                        </div>
+                    </div>
                     <div class="checkboxes"></div>
                 </div>
                 <p class="field__uncompleted">Пожалуйста, укажите конец работы.</p>

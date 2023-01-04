@@ -6,7 +6,7 @@
   --uncomplete_text_color: #a6201e;
   --dim_color: #59667b;
   --input_border_color: #e3dcb2;
-  font-size: 16px;
+  font-size: 19px;
 }
 
 input {
@@ -285,7 +285,7 @@ h6 {
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  gap: 5px 15px;
+  gap: 5px;
   margin-top: 12px;
 }
 
@@ -322,8 +322,8 @@ h6 {
 
 .forms__fields-group--flex .forms__fields-item {
   -webkit-box-flex: 0;
-  -ms-flex: 0 0 48%;
-  flex: 0 0 48%;
+  -ms-flex: 0 0 49%;
+  flex: 0 0 49%;
 }
 
 .forms__fields-group--birthdate,
@@ -363,8 +363,8 @@ h6 {
 
 .forms__fields-item {
   -webkit-box-flex: 0;
-  -ms-flex: 0 0 48%;
-  flex: 0 0 48%;
+  -ms-flex: 0 0 49%;
+  flex: 0 0 49%;
   position: relative;
 }
 
@@ -569,8 +569,9 @@ input[name*="year"] {
 }
 
 .field__selection-input:checked+.field__selection-label {
-  background: var(--action_color_dim);
-  border: 1px solid var(--input_border_color);
+  background: #ffdd00;
+  -webkit-box-shadow: 0px 0px 25px -15px inset #000;
+  box-shadow: 0px 0px 25px -15px inset #000;
 }
 
 .field__selection-input:checked+.field__selection-label>.field__selection-icon::before {
@@ -610,6 +611,7 @@ input[name*="year"] {
   -webkit-transform: translate(0, -2px);
   -ms-transform: translate(0, -2px);
   transform: translate(0, -2px);
+  font-size: 19px;
 }
 
 .field__selection-icon {
@@ -667,6 +669,49 @@ input[name*="year"] {
   text-align: center;
 }
 
+.selctexit_btn {
+  position: relative;
+}
+
+.selctexit_btn:hover {
+  background: #fede31;
+}
+
+.selctexit_btn:hover .exit_line {
+  background: #ff0000;
+}
+
+.text-field__input-wrapper,
+.text-field__input-multi {
+  border: 1px solid var(--input_border_color);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 100%;
+  padding: 4px 4px 3px 4px;
+}
+
+.text-field__input {
+  padding: 8px 10px 11px;
+  font-size: 19px;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+
+.text-field__input-wrapper.__active .text-field__input {
+  background: #FCF8DF;
+}
+
+.text-field__input-wrapper.__active .text-field__input-close {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 .text-field--optional {
   padding-top: 12px;
 }
@@ -682,10 +727,30 @@ input[name*="year"] {
   -webkit-box-flex: 0;
   -ms-flex: 0 1 auto;
   flex: 0 1 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.text-field--age .text-field__input-wrapper {
+  margin-right: 10px;
+  -ms-flex-preferred-size: 0;
+  flex-basis: 0;
 }
 
 .text-field--tags {
   position: relative;
+}
+
+.text-field--tags .text-field__input-close {
+  position: relative;
+  right: 40px;
+  border-left: 3px solid #fff;
 }
 
 .text-field--tags .text-field__input {
@@ -838,6 +903,10 @@ input[name*="year"] {
   justify-content: center;
 }
 
+.text-field--select .text-field__input-wrapper.__active + .checkboxes {
+  width: calc(100% - 42px);
+}
+
 /* Текстовое поле с селектами */
 
 .text-select {
@@ -914,16 +983,7 @@ input[name*="year"] {
   flex: 0 0 100%;
 }
 
-.text-field__input,
-.text-field__input-multi {
-  border: 1px solid var(--input_border_color);
-  padding: 11px 10px 15px;
-  font-size: 19px;
-  width: 100%;
-  background: transparent;
-}
-
-.text-field__input,
+.text-field__input-wrapper,
 .text-field__input-multi,
 .selectBox {
   margin-top: 4px;
@@ -936,12 +996,15 @@ input[name*="year"] {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  margin-top: 4px;
 }
 
 .text-field__input-subfield {
   background: transparent;
   text-align: center;
   font-size: inherit;
+  padding: 8px 0 11px 0;
+  font-size: 19px;
 }
 
 /* Текст, появляющийся в случае незаполненных полей */

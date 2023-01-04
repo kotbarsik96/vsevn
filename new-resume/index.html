@@ -3165,31 +3165,86 @@
                         <div class="forms__fields-group forms__fields-group--triple">
                             <div class="text-field text-field--standard forms__fields-item">
                                 <label for="name" class="field-label">Имя</label>
-                                <input type="text" class="text-field__input" id="name" name="name" placeholder="Имя"
-                                    data-complete-length="1, 25" aria-label="Имя">
+                                <div class="text-field__input-wrapper">
+                                    <input type="text" class="text-field__input" id="name" name="name" placeholder="Имя"
+                                        data-complete-length="1, 25" aria-label="Имя">
+                                    <div class="selctexit_btn text-field__input-close">
+                                        <div class="exitlin_wrapper">
+                                            <div class="exit_line"></div>
+                                            <div class="exit_line"></div>
+                                        </div>
+                                        <div class="selctexit_btn_hint">
+                                            Очистить поле?
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="text-field text-field--standard forms__fields-item">
                                 <label for="patronymic" class="field-label">Отчество</label>
-                                <input type="text" class="text-field__input" id="patronymic" name="patronymic"
-                                    placeholder="Отчество" data-complete-length="1, 25" aria-label="Отчество">
+                                <div class="text-field__input-wrapper">
+                                    <input type="text" class="text-field__input" id="patronymic" name="patronymic"
+                                        placeholder="Отчество" data-complete-length="1, 25" aria-label="Отчество">
+                                    <div class="selctexit_btn text-field__input-close">
+                                        <div class="exitlin_wrapper">
+                                            <div class="exit_line"></div>
+                                            <div class="exit_line"></div>
+                                        </div>
+                                        <div class="selctexit_btn_hint">
+                                            Очистить поле?
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="text-field text-field--standard forms__fields-item">
                                 <label for="surname" class="field-label">Фамилия</label>
-                                <input type="text" class="text-field__input" id="surname" name="surname"
-                                    placeholder="Фамилия" data-complete-length="1, 25" aria-label="Фамилия">
+                                <div class="text-field__input-wrapper">
+                                    <input type="text" class="text-field__input" id="surname" name="surname"
+                                        placeholder="Фамилия" data-complete-length="1, 25" aria-label="Фамилия">
+                                    <div class="selctexit_btn text-field__input-close">
+                                        <div class="exitlin_wrapper">
+                                            <div class="exit_line"></div>
+                                            <div class="exit_line"></div>
+                                        </div>
+                                        <div class="selctexit_btn_hint">
+                                            Очистить поле?
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="forms__fields-group">
                             <div class="text-field text-field--standard forms__fields-item">
                                 <label for="phone-number" class="field-label">Телефон</label>
-                                <input type="text" class="text-field__input" id="phone-number" name="phone-number"
-                                    placeholder="Телефон" data-mask="+7 (___) ___ - __ - __" data-numbers-only
-                                    aria-label="Телефон">
+                                <div class="text-field__input-wrapper">
+                                    <input type="text" class="text-field__input" id="phone-number" name="phone-number"
+                                        placeholder="Телефон" data-mask="+7 (___) ___ - __ - __" data-numbers-only
+                                        aria-label="Телефон">
+                                    <div class="selctexit_btn text-field__input-close">
+                                        <div class="exitlin_wrapper">
+                                            <div class="exit_line"></div>
+                                            <div class="exit_line"></div>
+                                        </div>
+                                        <div class="selctexit_btn_hint">
+                                            Очистить поле?
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="text-field text-field--standard forms__fields-item">
                                 <label for="email" class="field-label">Email</label>
-                                <input type="text" class="text-field__input" id="email" name="email" placeholder="Email"
-                                    aria-label="Email" data-complete-length="4, 25">
+                                <div class="text-field__input-wrapper">
+                                    <input type="text" class="text-field__input" id="email" name="email"
+                                        placeholder="Email" aria-label="Email" data-complete-length="4, 25">
+                                    <div class="selctexit_btn text-field__input-close">
+                                        <div class="exitlin_wrapper">
+                                            <div class="exit_line"></div>
+                                            <div class="exit_line"></div>
+                                        </div>
+                                        <div class="selctexit_btn_hint">
+                                            Очистить поле?
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="forms__fields-group">
@@ -3210,7 +3265,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <p class="forms__fields-uncompleted">Пожалуйста, укажите пол.</p>
+                            <p class="field__uncompleted">Пожалуйста, укажите пол.</p>
                         </div>
                         <div class="forms__fields-group forms__fields-group--birthdate">
                             <div class="text-field--birthdate forms__fields-item">
@@ -3236,13 +3291,36 @@
                             </p>
                             <div class="text-field text-field--standard text-field--zodiac forms__fields-item">
                                 <label for="zodiac" class="field-label">Знак зодиака</label>
-                                <input type="text" disabled class="text-field__input" id="zodiac" name="zodiac"
-                                    placeholder="Знак зодиака" aria-label="Знак зодиака" data-complete-length="1, 25">
+                                <div class="text-field__input-wrapper">
+                                    <input type="text" disabled class="text-field__input" id="zodiac" name="zodiac"
+                                        placeholder="Знак зодиака" aria-label="Знак зодиака"
+                                        data-complete-length="1, 25">
+                                    <div class="selctexit_btn text-field__input-close">
+                                        <div class="exitlin_wrapper">
+                                            <div class="exit_line"></div>
+                                            <div class="exit_line"></div>
+                                        </div>
+                                        <div class="selctexit_btn_hint">
+                                            Очистить поле?
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="text-field text-field--standard text-field--age forms__fields-item">
                                 <label for="age" class="field-label">Возраст</label>
-                                <input type="text" disabled class="text-field__input" id="age" name="age"
-                                    placeholder="__" data-complete-length="1, 25" aria-label="Возраст">
+                                <div class="text-field__input-wrapper">
+                                    <input type="text" disabled class="text-field__input" id="age" name="age"
+                                        placeholder="__" data-complete-length="1, 25" aria-label="Возраст">
+                                    <div class="selctexit_btn text-field__input-close">
+                                        <div class="exitlin_wrapper">
+                                            <div class="exit_line"></div>
+                                            <div class="exit_line"></div>
+                                        </div>
+                                        <div class="selctexit_btn_hint">
+                                            Очистить поле?
+                                        </div>
+                                    </div>
+                                </div>
                                 лет
                             </div>
                         </div>
@@ -3317,7 +3395,8 @@
                             <p class="field__uncompleted">Пожалуйста, укажите семейное положение.</p>
                         </div>
                         <div class="forms__fields-group">
-                            <div class="multiselect multiselect--children forms__fields-item forms__fields-item--full">
+                            <div class="multiselect multiselect--children forms__fields-item forms__fields-item--full"
+                                data-completion-required>
                                 <label class="field-label">
                                     Наличие детей
                                 </label>
@@ -3392,26 +3471,59 @@
                         <div class="forms__fields-group forms__fields-group--triple">
                             <div class="text-field text-field--standard forms__fields-item">
                                 <label for="region" class="field-label">Регион проживания</label>
-                                <input type="text" class="text-field__input" id="region" name="region"
-                                    placeholder="Регион проживания" data-complete-length="1, 25"
-                                    aria-label="Регион проживания">
+                                <div class="text-field__input-wrapper">
+                                    <input type="text" class="text-field__input" id="region" name="region"
+                                        placeholder="Регион проживания" data-complete-length="1, 25"
+                                        aria-label="Регион проживания">
+                                    <div class="selctexit_btn text-field__input-close">
+                                        <div class="exitlin_wrapper">
+                                            <div class="exit_line"></div>
+                                            <div class="exit_line"></div>
+                                        </div>
+                                        <div class="selctexit_btn_hint">
+                                            Очистить поле?
+                                        </div>
+                                    </div>
+                                </div>
                                 <p class="field__uncompleted">
                                     Пожалуйста, укажите регион проживания
                                 </p>
                             </div>
                             <div class="text-field text-field--standard forms__fields-item">
                                 <label for="locality" class="field-label">Населенный пункт проживания</label>
-                                <input type="text" class="text-field__input" id="locality" name="locality"
-                                    placeholder="Населенный пункт" data-complete-length="1, 25"
-                                    aria-label="Населенный пункт проживания">
+                                <div class="text-field__input-wrapper">
+                                    <input type="text" class="text-field__input" id="locality" name="locality"
+                                        placeholder="Населенный пункт" data-complete-length="1, 25"
+                                        aria-label="Населенный пункт проживания">
+                                    <div class="selctexit_btn text-field__input-close">
+                                        <div class="exitlin_wrapper">
+                                            <div class="exit_line"></div>
+                                            <div class="exit_line"></div>
+                                        </div>
+                                        <div class="selctexit_btn_hint">
+                                            Очистить поле?
+                                        </div>
+                                    </div>
+                                </div>
                                 <p class="field__uncompleted">
                                     Пожалуйста, укажите населенный пункт проживания
                                 </p>
                             </div>
                             <div class="text-field text-field--standard forms__fields-item">
                                 <label for="street" class="field-label">Улица</label>
-                                <input type="text" class="text-field__input" id="street" name="street"
-                                    placeholder="Улица" data-complete-length="1, 25" aria-label="Улица">
+                                <div class="text-field__input-wrapper">
+                                    <input type="text" class="text-field__input" id="street" name="street"
+                                        placeholder="Улица" data-complete-length="1, 25" aria-label="Улица">
+                                    <div class="selctexit_btn text-field__input-close">
+                                        <div class="exitlin_wrapper">
+                                            <div class="exit_line"></div>
+                                            <div class="exit_line"></div>
+                                        </div>
+                                        <div class="selctexit_btn_hint">
+                                            Очистить поле?
+                                        </div>
+                                    </div>
+                                </div>
                                 <p class="field__uncompleted">
                                     Пожалуйста, укажите улицу.
                                 </p>
@@ -3420,16 +3532,38 @@
                         <div class="forms__fields-group forms__fields-group--triple">
                             <div class="text-field text-field--standard forms__fields-item">
                                 <label for="house" class="field-label">Дом</label>
-                                <input type="text" class="text-field__input" id="house" name="house" placeholder="Дом"
-                                    data-complete-length="1, 25" aria-label="Дом">
+                                <div class="text-field__input-wrapper">
+                                    <input type="text" class="text-field__input" id="house" name="house"
+                                        placeholder="Дом" data-complete-length="1, 25" aria-label="Дом">
+                                    <div class="selctexit_btn text-field__input-close">
+                                        <div class="exitlin_wrapper">
+                                            <div class="exit_line"></div>
+                                            <div class="exit_line"></div>
+                                        </div>
+                                        <div class="selctexit_btn_hint">
+                                            Очистить поле?
+                                        </div>
+                                    </div>
+                                </div>
                                 <p class="field__uncompleted">
                                     Пожалуйста, укажите дом.
                                 </p>
                             </div>
                             <div class="text-field text-field--standard forms__fields-item">
                                 <label for="district" class="field-label">Район</label>
-                                <input type="text" class="text-field__input" id="district" name="district"
-                                    placeholder="Район" data-complete-length="1, 25" aria-label="Район">
+                                <div class="text-field__input-wrapper">
+                                    <input type="text" class="text-field__input" id="district" name="district"
+                                        placeholder="Район" data-complete-length="1, 25" aria-label="Район">
+                                    <div class="selctexit_btn text-field__input-close">
+                                        <div class="exitlin_wrapper">
+                                            <div class="exit_line"></div>
+                                            <div class="exit_line"></div>
+                                        </div>
+                                        <div class="selctexit_btn_hint">
+                                            Очистить поле?
+                                        </div>
+                                    </div>
+                                </div>
                                 <p class="field__uncompleted">
                                     Пожалуйста, укажите район проживания.
                                 </p>
@@ -3468,6 +3602,56 @@
                             </div>
                             <p class="field__uncompleted">Пожалуйста, укажите гражданство.</p>
                         </div>
+                        <div class="forms__fields-group">
+                            <p class="field__name">Готовность к командировкам</p>
+                            <div class="field__selection">
+                                <div class="field__wrapper field__selection-option">
+                                    <input class="field__selection-input" name="assignment" type="radio"
+                                        id="assignment_not-ready">
+                                    <label class="field__selection-label" for="assignment_not-ready">
+                                        <span class="field__selection-text">Не готов</span>
+                                    </label>
+                                </div>
+                                <div class="field__wrapper field__selection-option">
+                                    <input class="field__selection-input" name="assignment" type="radio"
+                                        id="assignment_ready">
+                                    <label class="field__selection-label" for="assignment_ready">
+                                        <span class="field__selection-text">Готов</span>
+                                    </label>
+                                </div>
+                                <div class="field__wrapper field__selection-option">
+                                    <input class="field__selection-input" name="assignment" type="radio" id="sometimes">
+                                    <label class="field__selection-label" for="sometimes">
+                                        <span class="field__selection-text">Иногда</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <p class="field__uncompleted">
+                                Пожалуйста, укажите готовность к командировкам.
+                            </p>
+                        </div>
+                        <div class="forms__fields-group">
+                            <p class="field__name">Переезд</p>
+                            <div class="field__selection">
+                                <div class="field__wrapper field__selection-option">
+                                    <input class="field__selection-input" name="relocation" type="radio"
+                                        id="relocation_yes">
+                                    <label class="field__selection-label" for="relocation_yes">
+                                        <span class="field__selection-text">Возможен</span>
+                                    </label>
+                                </div>
+                                <div class="field__wrapper field__selection-option">
+                                    <input class="field__selection-input" name="relocation" type="radio"
+                                        id="relocation_no">
+                                    <label class="field__selection-label" for="relocation_no">
+                                        <span class="field__selection-text">Невозможен</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <p class="field__uncompleted">
+                                Пожалуйста, укажите готовность к переезду.
+                            </p>
+                        </div>
                     </section>
                     <section class="forms__container">
                         <h3 class="forms__title add-field__title">Последнее место работы</h3>
@@ -3476,17 +3660,40 @@
                             <div class="forms__fields-group">
                                 <div class="text-field text-field--standard forms__fields-item">
                                     <label for="company-title" class="field-label">Название компании</label>
-                                    <input type="text" class="text-field__input" id="company-title" name="company-title"
-                                        placeholder="Название компании" data-complete-length="1, 25"
-                                        aria-label="Название компании">
+                                    <div class="text-field__input-wrapper">
+                                        <input type="text" class="text-field__input" id="company-title"
+                                            name="company-title" placeholder="Название компании"
+                                            data-complete-length="1, 25" aria-label="Название компании">
+                                        <div class="selctexit_btn text-field__input-close">
+                                            <div class="exitlin_wrapper">
+                                                <div class="exit_line"></div>
+                                                <div class="exit_line"></div>
+                                            </div>
+                                            <div class="selctexit_btn_hint">
+                                                Очистить поле?
+                                            </div>
+                                        </div>
+                                    </div>
                                     <p class="field__uncompleted">
                                         Пожалуйста, укажите название компании.
                                     </p>
                                 </div>
                                 <div class="text-field text-field--standard forms__fields-item">
                                     <label for="company-post" class="field-label">Должность</label>
-                                    <input type="text" class="text-field__input" id="company-post" name="company-post"
-                                        placeholder="Должность" data-complete-length="1, 25" aria-label="Должность">
+                                    <div class="text-field__input-wrapper">
+                                        <input type="text" class="text-field__input" id="company-post"
+                                            name="company-post" placeholder="Должность" data-complete-length="1, 25"
+                                            aria-label="Должность">
+                                        <div class="selctexit_btn text-field__input-close">
+                                            <div class="exitlin_wrapper">
+                                                <div class="exit_line"></div>
+                                                <div class="exit_line"></div>
+                                            </div>
+                                            <div class="selctexit_btn_hint">
+                                                Очистить поле?
+                                            </div>
+                                        </div>
+                                    </div>
                                     <p class="field__uncompleted">
                                         Пожалуйста, укажите должность.
                                     </p>
@@ -3574,9 +3781,20 @@
                                     </div>
                                 </div>
                                 <div class="text-field--select forms__fields-item">
-                                    <input type="text" class="text-field__input" id="work-start-year"
-                                        name="work-start-year" placeholder="Год" data-complete-length="1, 25"
-                                        aria-label="Год начала работы" data-text-select-range="1990, currentYear">
+                                    <div class="text-field__input-wrapper">
+                                        <input type="text" class="text-field__input" id="work-start-year"
+                                            name="work-start-year" placeholder="Год" data-complete-length="1, 25"
+                                            aria-label="Год начала работы" data-text-select-range="1990, currentYear">
+                                        <div class="selctexit_btn text-field__input-close">
+                                            <div class="exitlin_wrapper">
+                                                <div class="exit_line"></div>
+                                                <div class="exit_line"></div>
+                                            </div>
+                                            <div class="selctexit_btn_hint">
+                                                Очистить поле?
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="checkboxes">
 
                                     </div>
@@ -3674,9 +3892,20 @@
                                     </div>
                                 </div>
                                 <div class="text-field--select forms__fields-item" data-optional="work-end-period">
-                                    <input type="text" class="text-field__input" id="work-end-year" name="work-end-year"
-                                        placeholder="Год" data-complete-length="1, 25" aria-label="Год начала работы"
-                                        data-text-select-range="1990, currentYear">
+                                    <div class="text-field__input-wrapper">
+                                        <input type="text" class="text-field__input" id="work-end-year"
+                                            name="work-end-year" placeholder="Год" data-complete-length="1, 25"
+                                            aria-label="Год начала работы" data-text-select-range="1990, currentYear">
+                                        <div class="selctexit_btn text-field__input-close">
+                                            <div class="exitlin_wrapper">
+                                                <div class="exit_line"></div>
+                                                <div class="exit_line"></div>
+                                            </div>
+                                            <div class="selctexit_btn_hint">
+                                                Очистить поле?
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="checkboxes">
 
                                     </div>
@@ -3686,9 +3915,20 @@
                             <div class="forms__fields-group">
                                 <div class="text-field text-field--tags forms__fields-item forms__fields-item--full">
                                     <label for="responsibilities" class="field-label">Обязанности</label>
-                                    <input type="text" class="text-field__input" id="responsibilities"
-                                        name="responsibilities" placeholder="Введите обязанности"
-                                        data-complete-length="1, 25" aria-label="Обязанности">
+                                    <div class="text-field__input-wrapper">
+                                        <input type="text" class="text-field__input" id="responsibilities"
+                                            name="responsibilities" placeholder="Введите обязанности"
+                                            data-complete-length="1, 25" aria-label="Обязанности">
+                                        <div class="selctexit_btn text-field__input-close">
+                                            <div class="exitlin_wrapper">
+                                                <div class="exit_line"></div>
+                                                <div class="exit_line"></div>
+                                            </div>
+                                            <div class="selctexit_btn_hint">
+                                                Очистить поле?
+                                            </div>
+                                        </div>
+                                    </div>
                                     <button class="text-field__add-button icon-plus"></button>
                                     <p class="field__uncompleted">Пожалуйста, укажите обязанности</p>
                                 </div>
@@ -3765,9 +4005,20 @@
                             <div class="text-field text-field--standard forms__fields-item forms__fields-item--full text-field--optional"
                                 data-optional="telegram-link">
                                 <label for="telegram-link" class="field-label">Ссылка на аккаунт Telegram</label>
-                                <input type="text" class="text-field__input" id="telegram-link" name="telegram-link"
-                                    placeholder="Ссылка на аккаунт Telegram" data-complete-length="1, 25"
-                                    aria-label="Ссылка на аккаунт Telegram">
+                                <div class="text-field__input-wrapper">
+                                    <input type="text" class="text-field__input" id="telegram-link" name="telegram-link"
+                                        placeholder="Ссылка на аккаунт Telegram" data-complete-length="1, 25"
+                                        aria-label="Ссылка на аккаунт Telegram">
+                                    <div class="selctexit_btn text-field__input-close">
+                                        <div class="exitlin_wrapper">
+                                            <div class="exit_line"></div>
+                                            <div class="exit_line"></div>
+                                        </div>
+                                        <div class="selctexit_btn_hint">
+                                            Очистить поле?
+                                        </div>
+                                    </div>
+                                </div>
                                 <p class="field__uncompleted">
                                     Пожалуйста, укажите название ссылку на аккаунт Telegram.
                                 </p>
