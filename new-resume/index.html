@@ -3229,12 +3229,13 @@
                                         </div>
                                     </div>
                                 </div>
+                                <p class="field__uncompleted">Номер телефона - 10 цифр</p>
                             </div>
                             <div class="text-field text-field--standard forms__fields-item">
                                 <label for="email" class="field-label">Email</label>
                                 <div class="text-field__input-wrapper">
                                     <input type="text" class="text-field__input" id="email" name="email"
-                                        placeholder="Email" aria-label="Email" data-complete-length="4, 25">
+                                        placeholder="Email" aria-label="Email" data-complete-length="4, 25" data-regexp=".+@([\S])+\.([\S])+">
                                     <div class="selctexit_btn text-field__input-close">
                                         <div class="exitlin_wrapper">
                                             <div class="exit_line"></div>
@@ -3245,6 +3246,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <p class="field__uncompleted">Неверно указан email</p>
                             </div>
                         </div>
                         <div class="forms__fields-group">
@@ -3395,8 +3397,7 @@
                             <p class="field__uncompleted">Пожалуйста, укажите семейное положение.</p>
                         </div>
                         <div class="forms__fields-group">
-                            <div class="multiselect multiselect--children forms__fields-item forms__fields-item--full"
-                                data-completion-required>
+                            <div class="multiselect multiselect--children forms__fields-item forms__fields-item--full">
                                 <label class="field-label">
                                     Наличие детей
                                 </label>

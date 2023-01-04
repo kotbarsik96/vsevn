@@ -2392,10 +2392,6 @@ input::-webkit-inner-spin-button {
   .warn_popup_number {
     font-size: 28px;
   }
-
-  .multiselect {
-    min-width: 48% !important;
-  }
 }
 
 @media (max-width: 799px) {

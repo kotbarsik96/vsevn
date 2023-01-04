@@ -461,7 +461,6 @@ class MultiselectChildren extends MultiselectAddField {
 
         super.checkCompletion(preventEvent);
 
-        console.log(this.isCompleted);
         if (this.isCompleted) this.rootElem.classList.remove("__uncompleted");
         return this.isCompleted;
     }
@@ -481,8 +480,10 @@ class TextField {
         this.inputWrapper = this.rootElem.querySelector(".text-field__input-wrapper");
         this.inputRefresh = this.rootElem.querySelector(".text-field__input-close");
         this.ariaLabel = this.input.getAttribute("aria-label");
+        this.mask = this.input.dataset.mask;
+        this.createRegexp();
 
-        if (this.input.dataset.mask) this.createMask();
+        if (this.mask) this.createMask();
         this.getCompleteConditions();
         this.input.addEventListener("change", this.onChange);
         this.input.addEventListener("blur", this.onChange);
@@ -528,6 +529,7 @@ class TextField {
             return;
         }
 
+        this.checkCompletion();
         this.inputWrapper.classList.add("__active");
     }
     refresh() {
@@ -572,6 +574,12 @@ class TextField {
             input.value = valueNew;
         }
     }
+    createRegexp(){
+        const regexp = this.input.dataset.regexp;
+        if(!regexp) return;
+
+        this.regexp = new RegExp(regexp);
+    }
     onChange() {
         this.checkCompletion();
     }
@@ -599,9 +607,15 @@ class TextField {
 
             isCompleted = isRightNumber;
         }
+        // проверка на совпадение с regexp
+        if(this.regexp) {
+            const isMatch = Boolean(value.match(this.regexp));
+            isCompleted = isMatch;
+        }
 
         if (isCompleted) this.rootElem.classList.remove("__uncompleted");
-        else if (this.isRequired) this.rootElem.classList.add("__uncompleted");
+        else if (this.isRequired || this.mask || this.regexp)
+            this.rootElem.classList.add("__uncompleted");
 
         dispatchCompletionCheckEvent.call(this, preventEvent);
 
@@ -1933,9 +1947,20 @@ class AddFieldWorkplace extends AddField {
             <div class="forms__fields-group">
                 <div class="text-field text-field--tags forms__fields-item forms__fields-item--full">
                     <label for="responsibilities-${this.counter}" class="field-label">Обязанности</label>
-                    <input type="text" class="text-field__input" id="responsibilities-${this.counter}"
-                        name="responsibilities-${this.counter}" placeholder="Введите обязанности"
-                        data-complete-length="1, 25" aria-label="Обязанности">
+                    <div class="text-field__input-wrapper">
+                        <input type="text" class="text-field__input" id="responsibilities"
+                            name="responsibilities" placeholder="Введите обязанности"
+                            data-complete-length="1, 25" aria-label="Обязанности">
+                        <div class="selctexit_btn text-field__input-close">
+                            <div class="exitlin_wrapper">
+                                <div class="exit_line"></div>
+                                <div class="exit_line"></div>
+                            </div>
+                            <div class="selctexit_btn_hint">
+                                Очистить поле?
+                            </div>
+                        </div>
+                    </div>
                     <button class="text-field__add-button icon-plus"></button>
                     <p class="field__uncompleted">Пожалуйста, укажите обязанности</p>
                 </div>
