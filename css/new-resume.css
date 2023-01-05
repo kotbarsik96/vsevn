@@ -711,7 +711,7 @@ input[name*="year"] {
 }
 
 .text-field__input {
-  padding: 6px 10px 11px;
+  padding: 6px 10px 12px;
   font-size: 19px;
   width: 100%;
   height: 100%;
@@ -765,7 +765,7 @@ input[name*="year"] {
 
 .text-field--tags .text-field__input-close {
   position: relative;
-  right: 40px;
+  right: 41px;
   border-left: 3px solid #fff;
 }
 
@@ -777,8 +777,8 @@ input[name*="year"] {
   cursor: pointer;
   display: inline-block;
   position: absolute;
-  top: 55px;
-  right: 10px;
+  top: 56px;
+  right: 5px;
   -webkit-transform: translate(0, -72%);
   -ms-transform: translate(0, -72%);
   transform: translate(0, -72%);
@@ -793,8 +793,8 @@ input[name*="year"] {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: 38px;
+  height: 39px;
 }
 
 .text-field__add-button::before {
@@ -1066,6 +1066,17 @@ input[name*="year"] {
   font-size: 19px;
 }
 
+.selbActive .selectBox_wrapper,
+.selbActive .selctexit_btn {
+  background: #fede31;
+  -webkit-box-shadow: 0px 0px 25px -15px inset #000;
+  box-shadow: 0px 0px 25px -15px inset #000;
+}
+
+.selbActive .exit_line {
+  background: var(--uncomplete_border_color);
+}
+
 .selectBox_wrapper .selectBox_value-text {
   -webkit-transform: translate(0, -2px);
   -ms-transform: translate(0, -2px);
@@ -1181,6 +1192,9 @@ input[name*="year"] {
   height: 3px;
   width: 0;
   background: var(--action_color_2);
+  -webkit-transition: background .3s;
+  -o-transition: background .3s;
+  transition: background .3s;
 }
 
 .range__subscale {
@@ -1243,17 +1257,21 @@ input[name*="year"] {
   height: 20px;
 }
 
-.range__toggler.__moving {
+.range.__moving .range__toggler {
   width: 20px;
   height: 20px;
   -webkit-box-shadow: 0px 0px 0px 18px rgba(106, 165, 39, 0.129);
   box-shadow: 0px 0px 0px 18px rgba(106, 165, 39, 0.129);
 }
 
-.range__toggler.__moving::before {
+.range.__moving .range__toggler::before {
   -webkit-transform: scale(1);
   -ms-transform: scale(1);
   transform: scale(1);
+}
+
+.range.__moving .range__scale {
+  background: #e7c800;
 }
 
 .range__anim-bar {

@@ -226,20 +226,20 @@ class Range {
             if (event.target === toggler) {
                 document.addEventListener("pointermove", onMove);
                 document.addEventListener("pointerup", onUp);
-                toggler.classList.add("__moving");
+                this.range.classList.add("__moving");
             }
             // курсор на шкале
             else {
                 const x = event.clientX - shift;
                 if (x >= 0 && x <= maxRangeWidth) {
-                    toggler.style.left = `${x}px`;
+                    this.moveToggler(x);
                     toggler.dispatchEvent(new Event("pointerdown"));
+                    onMove(event);
                 }
             }
         }
         function onMove(event) {
             let x = event.clientX - shift;
-
             if (x < 0) x = 0;
             else if (x > maxRangeWidth) x = maxRangeWidth;
 
@@ -253,14 +253,13 @@ class Range {
 
 
             this.moveToggler(x);
-            this.valueInput.value =
-                Math.round(this.rangeData.step * x) + this.rangeData.minValue;
-            this.valueInput.dispatchEvent(new Event("change"));
+            const value = Math.round(this.rangeData.step * x) + this.rangeData.minValue;
+            this.setValue(value);
         }
         function onUp() {
             document.removeEventListener("pointermove", onMove);
             document.removeEventListener("pointerup", onUp);
-            toggler.classList.remove("__moving");
+            this.range.classList.remove("__moving");
         }
     }
     checkInputValue(event) {
@@ -533,7 +532,7 @@ class TextField {
         this.checkCompletion();
         this.inputWrapper.classList.add("__active");
 
-        if(!this.isRequired && !this.input.value) {
+        if (!this.isRequired && !this.input.value) {
             this.rootElem.classList.remove("__uncompleted");
         }
     }
@@ -541,7 +540,7 @@ class TextField {
         this.input.value = "";
         this.input.dispatchEvent(new Event("input"));
         this.rootElem.classList.remove("__completed");
-        if(!this.isRequired) this.rootElem.classList.remove("__uncompleted");
+        if (!this.isRequired) this.rootElem.classList.remove("__uncompleted");
     }
     // если у поля есть маска заполнения
     createMask() {
@@ -589,10 +588,10 @@ class TextField {
     }
     onChange() {
         this.checkCompletion();
-        if(!this.isCompleted) {
+        if (!this.isCompleted) {
             this.rootElem.classList.remove("__completed");
         }
-        if(this.isCompleted) {
+        if (this.isCompleted) {
             this.rootElem.classList.add("__completed");
         }
     }
@@ -633,7 +632,7 @@ class TextField {
             this.rootElem.classList.add("__uncompleted");
             this.rootElem.classList.remove("__completed");
         }
-        if(!this.isRequired && !this.input.value) {
+        if (!this.isRequired && !this.input.value) {
             this.rootElem.classList.remove("__uncompleted");
         }
 
@@ -815,6 +814,9 @@ class TextFieldBirthDate extends TextFieldDate {
                 .find(fd => fd.input.getAttribute("name") === "zodiac");
             this.ageInput = this.ageClass.input;
             this.zodiacInput = this.zodiacClass.input;
+
+            this.ageInput.dispatchEvent(new Event("input"));
+            this.zodiacInput.dispatchEvent(new Event("input"));
         }, 150);
     }
     checkCompletion(preventEvent) {
@@ -872,6 +874,8 @@ class TextFieldSelect {
         this.showMatches = this.showMatches.bind(this);
         this.setValue = this.setValue.bind(this);
         this.onInput = this.onInput.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.onFocus = this.onFocus.bind(this);
         this.refresh = this.refresh.bind(this);
 
         this.rootElem = node;
@@ -889,7 +893,8 @@ class TextFieldSelect {
         }
 
         this.getLabelsAndInputs();
-        this.input.addEventListener("focus", this.showOptions);
+        this.input.addEventListener("focus", this.onFocus);
+        this.input.addEventListener("blur", this.onChange);
         this.input.addEventListener("input", this.onInput);
         this.input.addEventListener("click", () => {
             let textSelects = findInittedInput(".text-field--select", true);
@@ -909,6 +914,18 @@ class TextFieldSelect {
         }
 
         this.inputWrapper.classList.add("__active");
+    }
+    onChange() {
+        setTimeout(() => {
+            const value = this.input.value;
+            if (this.inputs.find(inp => inp.value == value)) {
+                this.rootElem.classList.add("__completed");
+            }
+        }, 100);
+    }
+    onFocus() {
+        this.showOptions();
+        this.rootElem.classList.remove("__completed");
     }
     refresh() {
         this.input.value = "";
@@ -1020,6 +1037,7 @@ class TextFieldSelect {
             if (this.isRequired) this.rootElem.classList.add("__uncompleted");
         }
         dispatchCompletionCheckEvent.call(this, preventEvent);
+        this.rootElem.classList.remove("__completed");
 
         return this.isCompleted;
     }
@@ -1072,11 +1090,19 @@ class TextFieldTags extends TextField {
         this.addedTags = this.addedTags
             .filter(tagData => tagData.id !== tagId);
         tag.remove();
+        if (!this.addedTags.length) {
+            this.tagsListBlock.remove();
+            this.tagsListBlock = null;
+        }
         this.checkCompletion();
     }
     createTagsListBlock() {
         this.tagsListBlock = createElement("ul", "tags-list");
         this.rootElem.append(this.tagsListBlock);
+    }
+    onChange(event) {
+        super.onChange(event);
+        this.rootElem.classList.remove("__completed");
     }
     checkCompletion() {
         if (this.addedTags.length > 0) {
@@ -1086,6 +1112,8 @@ class TextFieldTags extends TextField {
             this.isCompleted = false;
             if (this.isRequired) this.rootElem.classList.add("__uncompleted");
         }
+
+        this.rootElem.classList.remove("__completed");
 
         return this.isCompleted;
     }

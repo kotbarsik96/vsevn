@@ -1617,7 +1617,7 @@ input::-webkit-inner-spin-button {
   -ms-flex: 0 0 38px;
   flex: 0 0 38px;
   width: 38px;
-  margin-left: 3px;
+  margin-left: 4px;
   background: #fcf8df;
   display: none;
   cursor: pointer;
