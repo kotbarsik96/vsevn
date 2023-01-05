@@ -480,9 +480,10 @@ class TextField {
         this.inputRefresh = this.rootElem.querySelector(".text-field__input-close");
         this.ariaLabel = this.input.getAttribute("aria-label");
         this.mask = this.input.dataset.mask;
+        this.isNumberOnly = this.input.hasAttribute("data-numbers-only");
         this.createRegexp();
 
-        if (this.mask) this.createMask();
+        this.createMask();
         this.getCompleteConditions();
         this.input.addEventListener("change", this.onChange);
         this.input.addEventListener("focus", () => this.rootElem.classList.remove("__completed"));
@@ -490,7 +491,7 @@ class TextField {
         this.input.addEventListener("input", this.onInput);
         if (this.inputRefresh)
             this.inputRefresh.addEventListener("click", this.refresh);
-        if (this.input.hasAttribute("data-numbers-only"))
+        if (this.isNumberOnly)
             this.input.addEventListener("input", this.typeNumberOnly);
     }
     getCompleteConditions() {
@@ -544,40 +545,15 @@ class TextField {
     }
     // если у поля есть маска заполнения
     createMask() {
-        const mask = this.input.dataset.mask;
-        if (!mask) return;
+        if(!this.mask) return;
+        onKeydown = onKeydown.bind(this);
 
-        this.mask = mask;
-        this.input.removeAttribute("data-mask");
-        checkInputMask = checkInputMask.bind(this);
-        this.mask = mask;
-        const input = this.input;
-        if (!input.hasAttribute("placeholder")) input.setAttribute("placeholder", mask);
+        this.input.addEventListener("keydown", onKeydown);
 
-        input.addEventListener("focus", checkInputMask);
-        input.addEventListener("pointerdown", checkInputMask);
-        input.addEventListener("input", checkInputMask);
-        function checkInputMask(event) {
-            const positions = mask.split("");
-            let valueNew = "";
-
-            if (event.type === "input") {
-                if (event.data) {
-                    const val = input.value.split("");
-                    const spliced = val.splice(input.selectionStart - 1, 1);
-                    input.value = val.join("") + spliced;
-                }
-            }
-            for (let i = 0; i < positions.length; i++) {
-                if (positions[i] === "_") {
-                    if (input.value[i]) {
-                        valueNew += input.value[i];
-                        continue;
-                    } else break;
-                }
-                valueNew += positions[i];
-            }
-            input.value = valueNew;
+        function onKeydown(event){
+            console.log(event);
+            alert(event.key);
+            alert(event.code);
         }
     }
     createRegexp() {
@@ -643,8 +619,20 @@ class TextField {
     }
     typeNumberOnly(event) {
         const inputtedValue = event.data;
-        if (parseInt(inputtedValue) >= 0) return;
-        event.target.value = event.target.value.replace(inputtedValue, "_");
+        if (parseInt(inputtedValue) >= 0 && event.inputType !== "insertFromPaste") return;
+        if (event.inputType === "insertFromPaste") {
+            setTimeout(() => {
+                event.target.value = event.target.value.replace(/\D/g, "");
+                if (!event.target.value) {
+                    this.inputWrapper.classList.remove("__active");
+                    this.rootElem.classList.remove("__uncompleted");
+                }
+            }, 100);
+        }
+        event.target.value = event.target.value.replace(inputtedValue, "");
+        if (!event.target.value) {
+            this.checkCompletion();
+        }
     }
 }
 
