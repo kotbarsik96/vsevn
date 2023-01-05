@@ -347,7 +347,6 @@ h6 {
   text-align: center;
   display: inline-block;
   width: 2.5em;
-  margin-right: 5px;
   -webkit-box-flex: 1;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -670,6 +669,7 @@ input[name*="year"] {
 .selctexit_btn {
   position: relative;
   margin-left: 4px;
+  min-height: 40px;
 }
 
 .selctexit_btn:hover {
@@ -680,14 +680,16 @@ input[name*="year"] {
   background: #ff0000;
 }
 
-.text-field.__completed .text-field__input-wrapper .text-field__input,
-.text-field.__completed .text-field__input-wrapper.__active .text-field__input,
-.text-field.__completed .text-field__input-wrapper .text-field__input-close {
+[class*="text-field"].__completed .text-field__input-wrapper .text-field__input,
+[class*="text-field"].__completed .text-field__input-wrapper.__active .text-field__input,
+[class*="text-field"].__completed .text-field__input-wrapper .text-field__input-close,
+[class*="text-field"].__completed .text-field__input-wrapper--multi .text-field__input-multi {
   background: #fede31;
 }
 
-.text-field.__completed .text-field__input,
-.text-field.__completed .text-field__input-close {
+[class*="text-field"].__completed .text-field__input,
+[class*="text-field"].__completed .text-field__input-close,
+[class*="text-field"].__completed .text-field__input-wrapper--multi .text-field__input-multi {
   -webkit-box-shadow: 0px 0px 25px -15px inset #000;
   box-shadow: 0px 0px 25px -15px inset #000;
 }
@@ -696,8 +698,7 @@ input[name*="year"] {
   background: var(--uncomplete_border_color);
 }
 
-.text-field__input-wrapper,
-.text-field__input-multi {
+.text-field__input-wrapper {
   border: 1px solid var(--input_border_color);
   display: -webkit-box;
   display: -ms-flexbox;
@@ -718,11 +719,13 @@ input[name*="year"] {
   background: transparent;
 }
 
-.text-field__input-wrapper.__active .text-field__input {
+.text-field__input-wrapper.__active .text-field__input,
+.text-field__input-wrapper.__active .text-field__input-multi {
   background: #FCF8DF;
 }
 
-.text-field__input-wrapper.__active .text-field__input-close {
+.text-field__input-wrapper.__active .text-field__input-close,
+.text-field.__completed .text-field__input-close {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -891,8 +894,8 @@ input[name*="year"] {
 
 .forms__fields-item--dates .text-field--date {
   -webkit-box-flex: 0;
-  -ms-flex: 0 0 137px;
-  flex: 0 0 137px;
+  -ms-flex: 0 0 125px;
+  flex: 0 0 125px;
 }
 
 .checkboxes::-webkit-scrollbar {
@@ -1000,27 +1003,27 @@ input[name*="year"] {
 }
 
 .text-field__input-wrapper,
-.text-field__input-multi,
 .selectBox {
   margin-top: 4px;
 }
 
 .text-field__input-multi {
+  cursor: text;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  margin-top: 4px;
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
 }
 
 .text-field__input-multi-delimiter {
   display: inline-block;
-  -webkit-transform: translate(0, -1px);
-  -ms-transform: translate(0, -1px);
-  transform: translate(0, -1px);
-  margin: 0 2px;
+  font-size: 19px;
+  padding: 6px 3px 12px 3px;
 }
 
 .text-field__input-subfield {
@@ -1029,6 +1032,24 @@ input[name*="year"] {
   font-size: inherit;
   padding: 6px 0 12px 0;
   font-size: 19px;
+}
+
+.text-field--phone .text-field__input-subfield {
+  text-align: left;
+}
+
+.text-field--phone .text-field__input-wrapper {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+
+.text-field__input-subfield[maxlength="2"] {
+  width: 1.25em !important;
+}
+
+.text-field__input-subfield[maxlength="3"] {
+  width: 1.5em !important;
 }
 
 /* Текст, появляющийся в случае незаполненных полей */

@@ -479,11 +479,9 @@ class TextField {
         this.inputWrapper = this.rootElem.querySelector(".text-field__input-wrapper");
         this.inputRefresh = this.rootElem.querySelector(".text-field__input-close");
         this.ariaLabel = this.input.getAttribute("aria-label");
-        this.mask = this.input.dataset.mask;
         this.isNumberOnly = this.input.hasAttribute("data-numbers-only");
         this.createRegexp();
 
-        this.createMask();
         this.getCompleteConditions();
         this.input.addEventListener("change", this.onChange);
         this.input.addEventListener("focus", () => this.rootElem.classList.remove("__completed"));
@@ -495,15 +493,10 @@ class TextField {
             this.input.addEventListener("input", this.typeNumberOnly);
     }
     getCompleteConditions() {
-        const mask = this.mask;
         const completeLength = this.input.dataset.completeLength;
         const hasCompleteMatch = this.input.hasAttribute("data-complete-match");
 
-        if (mask) {
-            let maxLength;
-            let minLength = mask.length;
-            this.completeCondition = { minLength, maxLength };
-        } else if (completeLength) {
+        if (completeLength) {
             const values = completeLength.split(", ");
             this.completeCondition = { minLength: values[0], maxLength: values[1] };
         } else if (hasCompleteMatch) {
@@ -543,19 +536,6 @@ class TextField {
         this.rootElem.classList.remove("__completed");
         if (!this.isRequired) this.rootElem.classList.remove("__uncompleted");
     }
-    // если у поля есть маска заполнения
-    createMask() {
-        if(!this.mask) return;
-        onKeydown = onKeydown.bind(this);
-
-        this.input.addEventListener("keydown", onKeydown);
-
-        function onKeydown(event){
-            console.log(event);
-            alert(event.key);
-            alert(event.code);
-        }
-    }
     createRegexp() {
         const regexp = this.input.dataset.regexp;
         if (!regexp) return;
@@ -580,7 +560,6 @@ class TextField {
             if (conditions.match.includes(value)) isCompleted = true;
             else isCompleted = false;
         }
-        // проверка на длину из data-mask или data-complete-length
         else if (conditions.minLength >= 0) {
             let isRightNumber = false;
             // если указан верхний порог
@@ -589,9 +568,6 @@ class TextField {
             }
             // если верхнего порога нет
             else isRightNumber = value.length >= conditions.minLength;
-
-            // если в input с data-mask есть незаполненные места
-            if (this.input.value.includes("_")) isRightNumber = false;
 
             isCompleted = isRightNumber;
         }
@@ -604,7 +580,7 @@ class TextField {
         if (isCompleted) {
             this.rootElem.classList.remove("__uncompleted");
         }
-        else if (this.isRequired || this.mask || this.regexp) {
+        else if (this.isRequired || this.regexp) {
             this.rootElem.classList.add("__uncompleted");
             this.rootElem.classList.remove("__completed");
         }
@@ -643,12 +619,13 @@ class TextFieldMulti extends TextField {
         this.typeNumberOnly = this.typeNumberOnly.bind(this);
         this.setValue = this.setValue.bind(this);
         this.onKeydown = this.onKeydown.bind(this);
+        this.onInput = this.onInput.bind(this);
 
         this.inputs = Array.from(this.rootElem.querySelectorAll(".text-field__input-subfield"));
         this.inputs.forEach(input => {
             if (input.hasAttribute("data-numbers-only"))
                 input.addEventListener("input", this.typeNumberOnly);
-            input.addEventListener("input", this.setValue);
+            input.addEventListener("input", this.onInput);
             input.addEventListener("change", this.onChange);
             input.addEventListener("blur", this.onChange);
             input.addEventListener("keydown", this.onKeydown);
@@ -658,6 +635,15 @@ class TextFieldMulti extends TextField {
                 input.style.width = `${maxlength - (maxlength * 0.3)}em`;
             }
         });
+
+        if(this.inputRefresh) this.inputRefresh.addEventListener("click", this.refresh);
+    }
+    onInput(event){
+        this.setValue(event);
+        this.checkCompletion();
+
+        if(this.input.value) this.inputWrapper.classList.add("__active");
+        else this.inputWrapper.classList.remove("__active");
     }
     setValue(event) {
         const targInput = event.target;
@@ -690,12 +676,23 @@ class TextFieldMulti extends TextField {
             }
         }
     }
+    typeNumberOnly(event) {
+        event.target.value = event.target.value.replace(/\D/g, "");
+        this.input.value = this.input.value.replace(/\D/g, "");
+    }
+    refresh(){
+        this.inputs.forEach(input => {
+            input.value = "";
+            input.dispatchEvent(new Event("input"));
+        });
+    }
 }
 
 class TextFieldDate extends TextFieldMulti {
     constructor(node) {
         super(node);
         this.onLastInputKeydown = this.onLastInputKeydown.bind(this);
+        this.typeNumberOnly = this.typeNumberOnly.bind(this);
 
         this.inputDay = this.inputs[0];
         this.inputMonth = this.inputs[1];
@@ -704,6 +701,7 @@ class TextFieldDate extends TextFieldMulti {
             .find(fg => fg.rootElem.querySelector("[class*='text-field--']") === this.rootElem);
         this.inputs.forEach((input, index, arr) => {
             if (index === arr.length - 1) input.addEventListener("keydown", this.onLastInputKeydown);
+            input.addEventListener("input", this.typeNumberOnly);
         });
     }
     onLastInputKeydown(event) {
@@ -802,9 +800,6 @@ class TextFieldBirthDate extends TextFieldDate {
                 .find(fd => fd.input.getAttribute("name") === "zodiac");
             this.ageInput = this.ageClass.input;
             this.zodiacInput = this.zodiacClass.input;
-
-            this.ageInput.dispatchEvent(new Event("input"));
-            this.zodiacInput.dispatchEvent(new Event("input"));
         }, 150);
     }
     checkCompletion(preventEvent) {
@@ -834,7 +829,10 @@ class TextFieldBirthDate extends TextFieldDate {
         this.ageClass.checkCompletion(true);
         this.zodiacClass.checkCompletion(true);
 
-        if (this.ageInput) this.ageInput.value = age;
+        if (this.ageInput) {
+            this.ageInput.value = age;
+            this.ageClass.rootElem.classList.add("__completed");
+        }
         if (this.zodiacInput) {
             const zodiacIconInner = `<svg><use xlink:href="#${zodiac.iconName}"></use></svg>`;
             const zodiacIcon = createElement("span", "zodiac-icon", zodiacIconInner);
@@ -843,6 +841,8 @@ class TextFieldBirthDate extends TextFieldDate {
             oldZodiacIcons.forEach(zi => zi ? zi.remove() : false);
             this.zodiacInput.before(zodiacIcon);
             this.zodiacInput.value = zodiacValue;
+
+            this.zodiacClass.rootElem.classList.add("__completed");
         }
     }
     unsetZodiacAndAge() {
@@ -850,6 +850,56 @@ class TextFieldBirthDate extends TextFieldDate {
         this.zodiacInput.value = "";
         let zodiacIcon = findClosest(this.zodiacInput, ".zodiac-icon");
         if (zodiacIcon) zodiacIcon.remove();
+
+        this.ageClass.rootElem.classList.remove("__completed");
+        this.zodiacClass.rootElem.classList.remove("__completed");
+    }
+}
+
+class TextFieldPhone extends TextFieldMulti {
+    constructor(node) {
+        super(node);
+        this.findClosestEmpty = this.findClosestEmpty.bind(this);
+
+        this.rootElem.addEventListener("click", this.findClosestEmpty);
+        this.inputs.forEach(input => {
+            input.addEventListener("input", this.typeNumberOnly);
+        });
+    }
+    findClosestEmpty(event) {
+        if (this.inputs.includes(event.target)) {
+            if (event.target.value) return;
+        };
+
+        const closestEmpty = this.inputs.find(input => {
+            return input.value.length < input.getAttribute("maxlength");
+        }) || this.inputs[this.inputs.length - 1];
+        if (closestEmpty) closestEmpty.focus();
+    }
+
+    checkCompletion() {
+        const uncompleted = this.inputs.filter(input => {
+            return input.value.length < input.getAttribute("maxlength");
+        });
+        if (uncompleted.length < 1) {
+            this.isCompleted = true;
+            this.rootElem.classList.add("__completed");
+            this.rootElem.classList.remove("__uncompleted");
+        } else {
+            this.isCompleted = false;
+            this.rootElem.classList.remove("__completed");
+            this.rootElem.classList.add("__uncompleted");
+        }
+
+        const allInputsEmpty = Boolean(
+            this.inputs.find(input => input.value.length > 0)
+        ) === false;
+
+        if (allInputsEmpty && !this.isRequired) {
+            this.rootElem.classList.remove("__uncompleted");
+        }
+
+        return this.isCompleted;
     }
 }
 
@@ -1216,30 +1266,34 @@ class AddFieldSchool extends AddField {
             <div class="forms__fields-item field forms__fields-item--dates">
                 <div class="text-field--date forms__fields-item">
                     <label for="school-start-day-${this.counter}" class="field-label">Начало обучения</label>
-                    <div class="text-field__input-multi">
-                        <input class="text-field__input-subfield" maxlength="2" type="text"
-                            name="school-start-day-${this.counter}" id="school-start-day-${this.counter}" placeholder="дд">
-                        <span class="text-field__input-multi-delimiter">.</span>
-                        <input class="text-field__input-subfield" maxlength="2" type="text"
-                            name="school-start-month-${this.counter}" id="school-start-month-${this.counter}" placeholder="мм">
-                        <span class="text-field__input-multi-delimiter">.</span>
-                        <input class="text-field__input-subfield" maxlength="4" type="text"
-                            name="school-start-year-${this.counter}" id="school-start-year-${this.counter}" placeholder="гггг">
+                    <div class="text-field__input-wrapper text-field__input-wrapper--multi">
+                        <div class="text-field__input-multi">
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="school-start-day-${this.counter}" id="school-start-day-${this.counter}" placeholder="дд">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="school-start-month-${this.counter}" id="school-start-month-${this.counter}" placeholder="мм">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="4" type="text"
+                                name="school-start-year-${this.counter}" id="school-start-year-${this.counter}" placeholder="гггг">
+                        </div>
                     </div>
                     <input type="hidden" class="text-field__input" id="school-start-date-${this.counter}"
                         name="school-start-date-${this.counter}" data-complete-length="1, 25" aria-label="Начало обучения">
                 </div>
                 <div class="text-field--date forms__fields-item">
                     <label for="school-end-day-${this.counter}" class="field-label">Окончание</label>
-                    <div class="text-field__input-multi">
-                        <input class="text-field__input-subfield" maxlength="2" type="text"
-                            name="school-end-day-${this.counter}" id="school-end-day-${this.counter}" placeholder="дд">
-                        <span class="text-field__input-multi-delimiter">.</span>
-                        <input class="text-field__input-subfield" maxlength="2" type="text"
-                            name="school-end-month-${this.counter}" id="school-end-month-${this.counter}" placeholder="мм">
-                        <span class="text-field__input-multi-delimiter">.</span>
-                        <input class="text-field__input-subfield" maxlength="4" type="text"
-                            name="school-end-year-${this.counter}" id="school-end-year-${this.counter}" placeholder="гггг">
+                    <div class="text-field__input-wrapper text-field__input-wrapper--multi">
+                        <div class="text-field__input-multi">
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="school-end-day-${this.counter}" id="school-end-day-${this.counter}" placeholder="дд">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="school-end-month-${this.counter}" id="school-end-month-${this.counter}" placeholder="мм">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="4" type="text"
+                                name="school-end-year-${this.counter}" id="school-end-year-${this.counter}" placeholder="гггг">
+                        </div>
                     </div>
                     <input type="hidden" class="text-field__input" id="school-end-date-${this.counter}"
                         name="school-end-date-${this.counter}" data-complete-length="1, 25" aria-label="Дата окончания обучения">
@@ -1364,18 +1418,20 @@ class AddFieldEducationSec extends AddField {
             <div class="forms__fields-item field forms__fields-item--dates">
                 <div class="text-field--date forms__fields-item">
                     <label for="school-start-day-${this.counter}" class="field-label">Начало обучения</label>
-                    <div class="text-field__input-multi">
-                        <input class="text-field__input-subfield" maxlength="2" type="text"
-                            name="education-sec-start-day-${this.counter}" id="education-sec-start-day-${this.counter}"
-                            placeholder="дд">
-                        <span class="text-field__input-multi-delimiter">.</span>
-                        <input class="text-field__input-subfield" maxlength="2" type="text"
-                            name="education-sec-start-month-${this.counter}" id="education-sec-start-month-${this.counter}"
-                            placeholder="мм">
-                        <span class="text-field__input-multi-delimiter">.</span>
-                        <input class="text-field__input-subfield" maxlength="4" type="text"
-                            name="education-sec-start-year-${this.counter}" id="education-sec-start-year-${this.counter}"
-                            placeholder="гггг">
+                    <div class="text-field__input-wrapper text-field__input-wrapper--multi">
+                        <div class="text-field__input-multi">
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="education-sec-start-day-${this.counter}" id="education-sec-start-day-${this.counter}"
+                                placeholder="дд">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="education-sec-start-month-${this.counter}" id="education-sec-start-month-${this.counter}"
+                                placeholder="мм">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="4" type="text"
+                                name="education-sec-start-year-${this.counter}" id="education-sec-start-year-${this.counter}"
+                                placeholder="гггг">
+                        </div>
                     </div>
                     <input type="hidden" class="text-field__input" id="birthdate-${this.counter}"
                         name="birthdate-${this.counter}" placeholder="Дата рождения"
@@ -1383,18 +1439,20 @@ class AddFieldEducationSec extends AddField {
                 </div>
                 <div class="text-field--date forms__fields-item">
                     <label for="education-sec-end-day-${this.counter}" class="field-label">Окончание</label>
-                    <div class="text-field__input-multi">
-                        <input class="text-field__input-subfield" maxlength="2" type="text"
-                            name="education-sec-end-day-${this.counter}" id="education-sec-end-day-${this.counter}"
-                            placeholder="дд">
-                        <span class="text-field__input-multi-delimiter">.</span>
-                        <input class="text-field__input-subfield" maxlength="2" type="text"
-                            name="education-sec-end-month-${this.counter}" id="education-sec-end-month-${this.counter}"
-                            placeholder="мм">
-                        <span class="text-field__input-multi-delimiter">.</span>
-                        <input class="text-field__input-subfield" maxlength="4" type="text"
-                            name="education-sec-end-year-${this.counter}" id="education-sec-end-year-${this.counter}"
-                            placeholder="гггг">
+                    <div class="text-field__input-wrapper text-field__input-wrapper--multi">
+                        <div class="text-field__input-multi">
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="education-sec-end-day-${this.counter}" id="education-sec-end-day-${this.counter}"
+                                placeholder="дд">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="education-sec-end-month-${this.counter}" id="education-sec-end-month-${this.counter}"
+                                placeholder="мм">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="4" type="text"
+                                name="education-sec-end-year-${this.counter}" id="education-sec-end-year-${this.counter}"
+                                placeholder="гггг">
+                        </div>
                     </div>
                     <input type="hidden" class="text-field__input" id="birthdate-${this.counter}"
                         name="birthdate-${this.counter}" placeholder="Дата рождения"
@@ -1562,18 +1620,20 @@ class AddFieldEducationHigher extends AddField {
             <div class="forms__fields-item field forms__fields-item--dates">
                 <div class="text-field--date forms__fields-item">
                     <label for="school-start-day-${this.counter}" class="field-label">Начало обучения</label>
-                    <div class="text-field__input-multi">
-                        <input class="text-field__input-subfield" maxlength="2" type="text"
-                            name="education-higher-start-day-${this.counter}" id="education-higher-start-day-${this.counter}"
-                            placeholder="дд">
-                        <span class="text-field__input-multi-delimiter">.</span>
-                        <input class="text-field__input-subfield" maxlength="2" type="text"
-                            name="education-higher-start-month-${this.counter}"
-                            id="education-higher-start-month-${this.counter}" placeholder="мм">
-                        <span class="text-field__input-multi-delimiter">.</span>
-                        <input class="text-field__input-subfield" maxlength="4" type="text"
-                            name="education-higher-start-year-${this.counter}" id="education-higher-start-year-${this.counter}"
-                            placeholder="гггг">
+                    <div class="text-field__input-wrapper text-field__input-wrapper--multi">
+                        <div class="text-field__input-multi">
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="education-higher-start-day-${this.counter}" id="education-higher-start-day-${this.counter}"
+                                placeholder="дд">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="education-higher-start-month-${this.counter}"
+                                id="education-higher-start-month-${this.counter}" placeholder="мм">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="4" type="text"
+                                name="education-higher-start-year-${this.counter}" id="education-higher-start-year-${this.counter}"
+                                placeholder="гггг">
+                        </div>
                     </div>
                      <input type="hidden" class="text-field__input" id="birthdate-${this.counter}"
                         name="birthdate-${this.counter}" placeholder="Начало обучения"
@@ -1581,18 +1641,20 @@ class AddFieldEducationHigher extends AddField {
                 </div>
                 <div class="text-field--date forms__fields-item">
                     <label for="education-higher-end-day-${this.counter}" class="field-label">Окончание</label>
-                    <div class="text-field__input-multi">
-                        <input class="text-field__input-subfield" maxlength="2" type="text"
-                            name="education-higher-end-day-${this.counter}" id="education-higher-end-day-${this.counter}"
-                            placeholder="дд">
-                        <span class="text-field__input-multi-delimiter">.</span>
-                        <input class="text-field__input-subfield" maxlength="2" type="text"
-                            name="education-higher-end-month-${this.counter}" id="education-higher-end-month-${this.counter}"
-                            placeholder="мм">
-                        <span class="text-field__input-multi-delimiter">.</span>
-                        <input class="text-field__input-subfield" maxlength="4" type="text"
-                            name="education-higher-end-year-${this.counter}" id="education-higher-end-year-${this.counter}"
-                            placeholder="гггг">
+                    <div class="text-field__input-wrapper text-field__input-wrapper--multi">
+                        <div class="text-field__input-multi">
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="education-higher-end-day-${this.counter}" id="education-higher-end-day-${this.counter}"
+                                placeholder="дд">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="2" type="text"
+                                name="education-higher-end-month-${this.counter}" id="education-higher-end-month-${this.counter}"
+                                placeholder="мм">
+                            <span class="text-field__input-multi-delimiter">.</span>
+                            <input class="text-field__input-subfield" maxlength="4" type="text"
+                                name="education-higher-end-year-${this.counter}" id="education-higher-end-year-${this.counter}"
+                                placeholder="гггг">
+                        </div>
                     </div>
                     <input type="hidden" class="text-field__input" id="education-higher-${this.counter}"
                         name="education-higher-${this.counter}" placeholder="Окончание обучения"
@@ -2850,6 +2912,7 @@ let inittingNewResumeSelectors = [
     { selector: ".multiselect--children", classInstance: MultiselectChildren, instanceFlag: "new-resume" },
     { selector: ".text-field--standard", classInstance: TextField, instanceFlag: "new-resume" },
     { selector: ".text-field--multi", classInstance: TextFieldMulti, instanceFlag: "new-resume" },
+    { selector: ".text-field--phone", classInstance: TextFieldPhone, instanceFlag: "new-resume" },
     { selector: ".text-field--date", classInstance: TextFieldDate, instanceFlag: "new-resume" },
     { selector: ".text-field--birthdate", classInstance: TextFieldBirthDate, instanceFlag: "new-resume" },
     { selector: ".text-field--select", classInstance: TextFieldSelect, instanceFlag: "new-resume" },

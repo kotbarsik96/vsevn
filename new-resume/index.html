@@ -3213,12 +3213,26 @@
                             </div>
                         </div>
                         <div class="forms__fields-group">
-                            <div class="text-field text-field--standard forms__fields-item">
+                            <div class="text-field text-field--phone forms__fields-item">
                                 <label for="phone-number" class="field-label">Телефон</label>
-                                <div class="text-field__input-wrapper">
-                                    <input type="text" class="text-field__input" id="phone-number" name="phone-number"
-                                        placeholder="Телефон" data-mask="+7 (___) ___ - __ - __" data-numbers-only
-                                        aria-label="Телефон">
+                                <div class="text-field__input-wrapper text-field__input-wrapper--multi">
+                                    <div class="text-field__input-multi">
+                                        <span class="text-field__input-multi-delimiter">+7</span>
+                                        <span class="text-field__input-multi-delimiter">(</span>
+                                        <input class="text-field__input-subfield" type="text" placeholder="___"
+                                            maxlength="3">
+                                        <span class="text-field__input-multi-delimiter">)</span>
+                                        <input class="text-field__input-subfield" type="text" placeholder="___"
+                                            maxlength="3">
+                                        <span class="text-field__input-multi-delimiter">-</span>
+                                        <input class="text-field__input-subfield" type="text" placeholder="__"
+                                            maxlength="2">
+                                        <span class="text-field__input-multi-delimiter">-</span>
+                                        <input class="text-field__input-subfield text-field__input-subfield--last"
+                                            type="text" placeholder="__" maxlength="2">
+                                        <input type="hidden" class="text-field__input" id="phone-number"
+                                            name="phone-number">
+                                    </div>
                                     <div class="selctexit_btn text-field__input-close">
                                         <div class="exitlin_wrapper">
                                             <div class="exit_line"></div>
@@ -3271,17 +3285,19 @@
                             <p class="field__uncompleted">Пожалуйста, укажите пол.</p>
                         </div>
                         <div class="forms__fields-group forms__fields-group--birthdate">
-                            <div class="text-field--birthdate forms__fields-item">
+                            <div class="text-field text-field--birthdate forms__fields-item">
                                 <label for="birthday" class="field-label">Дата рождения</label>
-                                <div class="text-field__input-multi">
-                                    <input class="text-field__input-subfield" maxlength="2" type="text" name="birthday"
-                                        id="birthday" placeholder="дд">
-                                    <span class="text-field__input-multi-delimiter">.</span>
-                                    <input class="text-field__input-subfield" maxlength="2" type="text"
-                                        name="birthmonth" id="birthmonth" placeholder="мм">
-                                    <span class="text-field__input-multi-delimiter">.</span>
-                                    <input class="text-field__input-subfield" maxlength="4" type="text" name="birthyear"
-                                        id="birthyear" placeholder="гггг">
+                                <div class="text-field__input-wrapper text-field__input-wrapper--multi">
+                                    <div class="text-field__input-multi">
+                                        <input class="text-field__input-subfield" maxlength="2" type="text"
+                                            name="birthday" id="birthday" placeholder="дд">
+                                        <span class="text-field__input-multi-delimiter">.</span>
+                                        <input class="text-field__input-subfield" maxlength="2" type="text"
+                                            name="birthmonth" id="birthmonth" placeholder="мм">
+                                        <span class="text-field__input-multi-delimiter">.</span>
+                                        <input class="text-field__input-subfield" maxlength="4" type="text"
+                                            name="birthyear" id="birthyear" placeholder="гггг">
+                                    </div>
                                 </div>
                                 <input type="hidden" class="text-field__input" id="birthdate" name="birthdate"
                                     data-complete-length="1, 25">
@@ -3298,15 +3314,6 @@
                                     <input type="text" disabled class="text-field__input" id="zodiac" name="zodiac"
                                         placeholder="Знак зодиака" aria-label="Знак зодиака"
                                         data-complete-length="1, 25">
-                                    <div class="selctexit_btn text-field__input-close">
-                                        <div class="exitlin_wrapper">
-                                            <div class="exit_line"></div>
-                                            <div class="exit_line"></div>
-                                        </div>
-                                        <div class="selctexit_btn_hint">
-                                            Очистить поле?
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="text-field text-field--standard text-field--age forms__fields-item">
@@ -3314,15 +3321,6 @@
                                 <div class="text-field__input-wrapper">
                                     <input type="text" disabled class="text-field__input" id="age" name="age"
                                         placeholder="__" data-complete-length="1, 25" aria-label="Возраст">
-                                    <div class="selctexit_btn text-field__input-close">
-                                        <div class="exitlin_wrapper">
-                                            <div class="exit_line"></div>
-                                            <div class="exit_line"></div>
-                                        </div>
-                                        <div class="selctexit_btn_hint">
-                                            Очистить поле?
-                                        </div>
-                                    </div>
                                 </div>
                                 лет
                             </div>
@@ -3893,7 +3891,8 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="text-field text-field--select forms__fields-item" data-optional="work-end-period">
+                                <div class="text-field text-field--select forms__fields-item"
+                                    data-optional="work-end-period">
                                     <div class="text-field__input-wrapper">
                                         <input type="text" class="text-field__input" id="work-end-year"
                                             name="work-end-year" placeholder="Год" data-complete-length="1, 25"
