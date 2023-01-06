@@ -475,13 +475,18 @@ class TextField {
 
         this.rootElem = node;
         this.isRequired = this.rootElem.hasAttribute("data-completion-required");
-        this.input = this.rootElem.querySelector(".text-field__input");
+
         this.inputWrapper = this.rootElem.querySelector(".text-field__input-wrapper");
+
+        // если TextFieldMulti - проинициализируется все равно, просто в конструкторе TextFieldMulti
+        if(this instanceof TextFieldMulti == false) this.init();
+    }
+    init() {
+        this.input = this.rootElem.querySelector(".text-field__input");
         this.inputRefresh = this.rootElem.querySelector(".text-field__input-close");
         this.ariaLabel = this.input.getAttribute("aria-label");
         this.isNumberOnly = this.input.hasAttribute("data-numbers-only");
         this.createRegexp();
-
         this.getCompleteConditions();
         this.input.addEventListener("change", this.onChange);
         this.input.addEventListener("focus", () => this.rootElem.classList.remove("__completed"));
@@ -606,12 +611,30 @@ class TextField {
 class TextFieldMulti extends TextField {
     constructor(node) {
         super(node);
+        this.onInputTrapFocus = this.onInputTrapFocus.bind(this);
         this.typeNumberOnly = this.typeNumberOnly.bind(this);
         this.setValue = this.setValue.bind(this);
         this.onKeydown = this.onKeydown.bind(this);
         this.onInput = this.onInput.bind(this);
         this.onFocus = this.onFocus.bind(this);
 
+        this.inputTrap = this.rootElem.querySelector(".text-field__input-trap");
+        if (this.inputTrap) {
+            this.inputTrap.addEventListener("focus", this.onInputTrapFocus);
+            return;
+        }
+
+        this.init();
+    }
+    onInputTrapFocus() {
+        const layout = this.createLayout();
+        this.inputTrap.insertAdjacentHTML("afterend", layout);
+        this.inputTrap.remove();
+        this.init();
+        this.inputs[0].focus();
+    }
+    init() {
+        super.init();
         this.inputs = Array.from(this.rootElem.querySelectorAll(".text-field__input-subfield"));
         this.inputs.forEach(input => {
             if (input.hasAttribute("data-numbers-only"))
@@ -746,7 +769,7 @@ class TextFieldDate extends TextFieldMulti {
     onChange(event) {
         super.onChange(event);
         this.inputs.forEach(input => {
-            if(input.selectionStart === 0) return;
+            if (input.selectionStart === 0) return;
             if (input.getAttribute("maxlength") == 2 && input.value.length < 2)
                 input.value = "0" + input.value;
         });
@@ -885,7 +908,9 @@ class TextFieldPhone extends TextFieldMulti {
     constructor(node) {
         super(node);
         this.findClosestEmpty = this.findClosestEmpty.bind(this);
-
+    }
+    init() {
+        super.init();
         this.rootElem.addEventListener("click", this.findClosestEmpty);
         this.inputs.forEach(input => {
             input.addEventListener("input", this.typeNumberOnly);
@@ -902,6 +927,8 @@ class TextFieldPhone extends TextFieldMulti {
         if (closestEmpty) closestEmpty.focus();
     }
     checkCompletion(preventEvent) {
+        if (!this.inputs) return;
+
         const uncompleted = this.inputs.filter(input => {
             return input.value.length < input.getAttribute("maxlength");
         });
@@ -924,6 +951,36 @@ class TextFieldPhone extends TextFieldMulti {
         dispatchCompletionCheckEvent.call(this, preventEvent);
 
         return this.isCompleted;
+    }
+    createLayout() {
+        return `
+            <div class="text-field__input-multi">
+                <span class="text-field__input-multi-delimiter">+7</span>
+                <span class="text-field__input-multi-delimiter">(</span>
+                <input class="text-field__input-subfield" type="text" placeholder="___"
+                    maxlength="3">
+                <span class="text-field__input-multi-delimiter">)</span>
+                <input class="text-field__input-subfield" type="text" placeholder="___"
+                    maxlength="3">
+                <span class="text-field__input-multi-delimiter">-</span>
+                <input class="text-field__input-subfield" type="text" placeholder="__"
+                    maxlength="2">
+                <span class="text-field__input-multi-delimiter">-</span>
+                <input class="text-field__input-subfield"
+                    type="text" placeholder="__" maxlength="2">
+                <input type="hidden" class="text-field__input" id="phone-number"
+                    name="phone-number">
+            </div>
+            <div class="selctexit_btn text-field__input-close">
+                <div class="exitlin_wrapper">
+                    <div class="exit_line"></div>
+                    <div class="exit_line"></div>
+                </div>
+                <div class="selctexit_btn_hint">
+                    Очистить поле?
+                </div>
+            </div>
+        `;
     }
 }
 
