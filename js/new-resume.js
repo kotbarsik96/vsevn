@@ -287,7 +287,7 @@ class Range {
         const xtrunc = parseInt(x);
         if (xtrunc === 0) this.toggler.style.cssText += "transform: translate(-50%, 0%)";
         if (xtrunc >= parseInt(this.rangeData.width)) {
-            this.toggler.style.cssText += "transform: translate(50%, 0%)";
+            this.toggler.style.cssText += "transform: translate(30%, 0%)";
             this.rangeScale.style.width = `${x + this.toggler.offsetWidth}px`;
         }
         if (xtrunc !== 0 && xtrunc !== parseInt(this.rangeData.width)) {
@@ -524,11 +524,8 @@ class TextField {
         }
 
         this.checkCompletion();
-        this.inputWrapper.classList.add("__active");
-
-        if (!this.isRequired && !this.input.value) {
-            this.rootElem.classList.remove("__uncompleted");
-        }
+        if (this.input.value) this.inputWrapper.classList.add("__active");
+        else this.inputWrapper.classList.remove("__active");
     }
     refresh() {
         this.input.value = "";
@@ -544,21 +541,25 @@ class TextField {
     }
     onChange() {
         this.checkCompletion();
-        if (!this.isCompleted) {
-            this.rootElem.classList.remove("__completed");
+        if (!this.input.value) this.inputWrapper.classList.remove("__active");
+
+        if ((this.regexp) && !this.isCompleted) {
+            if (this.input.value || this.isRequired) this.rootElem.classList.add("__uncompleted");
+            else this.rootElem.classList.remove("__uncompleted");
         }
+
         if (this.isCompleted) {
+            this.rootElem.classList.remove("__uncompleted");
             this.rootElem.classList.add("__completed");
         }
     }
     checkCompletion(preventEvent = false) {
         const conditions = this.completeCondition;
         let value = this.input.value;
-        let isCompleted = false;
         // проверка на совпадение с data-complete-match
         if (conditions.match) {
-            if (conditions.match.includes(value)) isCompleted = true;
-            else isCompleted = false;
+            if (conditions.match.includes(value)) this.isCompleted = true;
+            else this.isCompleted = false;
         }
         else if (conditions.minLength >= 0) {
             let isRightNumber = false;
@@ -569,29 +570,18 @@ class TextField {
             // если верхнего порога нет
             else isRightNumber = value.length >= conditions.minLength;
 
-            isCompleted = isRightNumber;
+            this.isCompleted = isRightNumber;
         }
         // проверка на совпадение с regexp
         if (this.regexp) {
             const isMatch = Boolean(value.match(this.regexp));
-            isCompleted = isMatch;
+            this.isCompleted = isMatch;
         }
 
-        if (isCompleted) {
-            this.rootElem.classList.remove("__uncompleted");
-        }
-        else if (this.isRequired || this.regexp) {
-            this.rootElem.classList.add("__uncompleted");
-            this.rootElem.classList.remove("__completed");
-        }
-        if (!this.isRequired && !this.input.value) {
-            this.rootElem.classList.remove("__uncompleted");
-        }
+        if (this.isCompleted) this.rootElem.classList.remove("__uncompleted");
 
         dispatchCompletionCheckEvent.call(this, preventEvent);
-
-        this.isCompleted = isCompleted;
-        return isCompleted;
+        return this.isCompleted;
     }
     typeNumberOnly(event) {
         const inputtedValue = event.data;
@@ -620,12 +610,14 @@ class TextFieldMulti extends TextField {
         this.setValue = this.setValue.bind(this);
         this.onKeydown = this.onKeydown.bind(this);
         this.onInput = this.onInput.bind(this);
+        this.onFocus = this.onFocus.bind(this);
 
         this.inputs = Array.from(this.rootElem.querySelectorAll(".text-field__input-subfield"));
         this.inputs.forEach(input => {
             if (input.hasAttribute("data-numbers-only"))
                 input.addEventListener("input", this.typeNumberOnly);
             input.addEventListener("input", this.onInput);
+            input.addEventListener("focus", this.onFocus);
             input.addEventListener("change", this.onChange);
             input.addEventListener("blur", this.onChange);
             input.addEventListener("keydown", this.onKeydown);
@@ -636,14 +628,27 @@ class TextFieldMulti extends TextField {
             }
         });
 
-        if(this.inputRefresh) this.inputRefresh.addEventListener("click", this.refresh);
+        if (this.inputRefresh) this.inputRefresh.addEventListener("click", this.refresh);
     }
-    onInput(event){
+    onInput(event) {
         this.setValue(event);
         this.checkCompletion();
 
-        if(this.input.value) this.inputWrapper.classList.add("__active");
+        if (this.input.value) this.inputWrapper.classList.add("__active");
         else this.inputWrapper.classList.remove("__active");
+    }
+    onFocus() {
+        this.rootElem.classList.remove("__completed");
+        this.rootElem.classList.remove("__uncompleted");
+    }
+    onChange(event) {
+        super.onChange(event);
+        if (!this.isCompleted) {
+            if (this.isRequired) this.rootElem.classList.add("__uncompleted");
+            else if (this.input.value) this.rootElem.classList.add("__uncompleted");
+        } else {
+            this.rootElem.classList.add("__completed");
+        }
     }
     setValue(event) {
         const targInput = event.target;
@@ -680,7 +685,7 @@ class TextFieldMulti extends TextField {
         event.target.value = event.target.value.replace(/\D/g, "");
         this.input.value = this.input.value.replace(/\D/g, "");
     }
-    refresh(){
+    refresh() {
         this.inputs.forEach(input => {
             input.value = "";
             input.dispatchEvent(new Event("input"));
@@ -708,6 +713,7 @@ class TextFieldDate extends TextFieldMulti {
         this.moveToLeft(event);
     }
     checkCompletion(preventEvent = false) {
+        this.currentYear = new Date().getFullYear();
         let biggestMonths = [1, 3, 5, 7, 8, 10, 12];
 
         this.day = parseInt(this.inputDay.value);
@@ -716,7 +722,7 @@ class TextFieldDate extends TextFieldMulti {
 
         let isCorrectDay = this.day >= 1 && this.day <= 31;
         let isCorrectMonth = this.month >= 1 && this.month <= 12;
-        let isCorrectYear = this.year >= 1900;
+        let isCorrectYear = this.year >= 1900 && this.year <= this.currentYear;
 
         if (this.month === 2 && this.year % 4 === 0) {
             if (this.year % 4 === 0) isCorrectDay = this.day >= 1 && this.day <= 29;
@@ -729,8 +735,21 @@ class TextFieldDate extends TextFieldMulti {
         else this.isCompleted = false;
 
         dispatchCompletionCheckEvent.call(this, preventEvent);
-        this.toggleUncompleteClass();
+
+        const hasNotEmptyInput = Boolean(this.inputs.find(inp => inp.value));
+        if (!this.isRequried && !hasNotEmptyInput) {
+            this.rootElem.classList.remove("__uncompleted");
+        }
+
         return this.isCompleted;
+    }
+    onChange(event) {
+        super.onChange(event);
+        this.inputs.forEach(input => {
+            if(input.selectionStart === 0) return;
+            if (input.getAttribute("maxlength") == 2 && input.value.length < 2)
+                input.value = "0" + input.value;
+        });
     }
     toggleUncompleteClass() {
         if (this.isCompleted) this.rootElem.classList.remove("__uncompleted");
@@ -787,8 +806,8 @@ class TextFieldBirthDate extends TextFieldDate {
 
         this.minYearSpan = this.uncompletedText.querySelector(".birthdate-min-year");
         this.maxYearSpan = this.uncompletedText.querySelector(".birthdate-max-year");
-        this.minYear = this.currentYear - 99;
-        this.maxYear = this.currentYear - 10;
+        this.minYear = this.currentYear - 90;
+        this.maxYear = this.currentYear - 14;
         this.minYearSpan.textContent = this.minYear.toString();
         this.maxYearSpan.textContent = this.maxYear.toString();
     }
@@ -804,9 +823,15 @@ class TextFieldBirthDate extends TextFieldDate {
     }
     checkCompletion(preventEvent) {
         super.checkCompletion(preventEvent);
+
+        const userYear = parseInt(this.inputs[2].value);
+        if (userYear < this.minYear || userYear > this.maxYear) this.isCompleted = false;
+
         if (!this.isCompleted) {
             this.unsetZodiacAndAge();
             return;
+        } else {
+            this.rootElem.classList.remove("__uncompleted");
         }
 
         this.setZodiacAndAge();
@@ -876,19 +901,16 @@ class TextFieldPhone extends TextFieldMulti {
         }) || this.inputs[this.inputs.length - 1];
         if (closestEmpty) closestEmpty.focus();
     }
-
-    checkCompletion() {
+    checkCompletion(preventEvent) {
         const uncompleted = this.inputs.filter(input => {
             return input.value.length < input.getAttribute("maxlength");
         });
         if (uncompleted.length < 1) {
             this.isCompleted = true;
             this.rootElem.classList.add("__completed");
-            this.rootElem.classList.remove("__uncompleted");
         } else {
             this.isCompleted = false;
             this.rootElem.classList.remove("__completed");
-            this.rootElem.classList.add("__uncompleted");
         }
 
         const allInputsEmpty = Boolean(
@@ -898,6 +920,8 @@ class TextFieldPhone extends TextFieldMulti {
         if (allInputsEmpty && !this.isRequired) {
             this.rootElem.classList.remove("__uncompleted");
         }
+
+        dispatchCompletionCheckEvent.call(this, preventEvent);
 
         return this.isCompleted;
     }

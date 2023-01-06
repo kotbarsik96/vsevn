@@ -331,14 +331,6 @@ h6 {
   display: flex;
 }
 
-.forms__fields-group--birthdate .field__uncompleted {
-  grid-column: 1 / -1;
-}
-
-.forms__fields-group--birthdate .text-field--birthdate {
-  grid-column: 1 / -1;
-}
-
 .forms__fields-group--birthdate .text-field--date .text-field__input {
   width: auto;
 }
@@ -350,6 +342,12 @@ h6 {
   -webkit-box-flex: 1;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+}
+
+.forms__fields-group--birthdate .field__uncompleted {
+  -webkit-box-ordinal-group: 4;
+  -ms-flex-order: 3;
+  order: 3;
 }
 
 .forms__fields-group-margin {
@@ -669,7 +667,11 @@ input[name*="year"] {
 .selctexit_btn {
   position: relative;
   margin-left: 4px;
-  min-height: 40px;
+  height: 40px;
+  width: 40px;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 40px;
+  flex: 0 0 40px;
 }
 
 .selctexit_btn:hover {
@@ -717,6 +719,7 @@ input[name*="year"] {
   width: 100%;
   height: 100%;
   background: transparent;
+  max-height: 40px;
 }
 
 .text-field__input-wrapper.__active .text-field__input,
@@ -768,8 +771,9 @@ input[name*="year"] {
 
 .text-field--tags .text-field__input-close {
   position: relative;
-  right: 41px;
+  right: 39px;
   border-left: 3px solid #fff;
+  margin: 0 4px;
 }
 
 .text-field--tags .text-field__input {
@@ -780,7 +784,7 @@ input[name*="year"] {
   cursor: pointer;
   display: inline-block;
   position: absolute;
-  top: 56px;
+  top: 57px;
   right: 5px;
   -webkit-transform: translate(0, -72%);
   -ms-transform: translate(0, -72%);
@@ -796,8 +800,8 @@ input[name*="year"] {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  width: 38px;
-  height: 39px;
+  width: 39.5px;
+  height: 39.5px;
 }
 
 .text-field__add-button::before {
@@ -1242,8 +1246,6 @@ input[name*="year"] {
   transition-timing-function: ease-in-out;
   -ms-touch-action: none;
   touch-action: none;
-  -webkit-box-shadow: #000;
-  box-shadow: #000;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1272,8 +1274,6 @@ input[name*="year"] {
 }
 
 .range__toggler:hover {
-  -webkit-box-shadow: 0px 0px 0px 9px rgba(106, 165, 39, 0.129);
-  box-shadow: 0px 0px 0px 9px rgba(106, 165, 39, 0.129);
   width: 20px;
   height: 20px;
 }
@@ -1281,8 +1281,7 @@ input[name*="year"] {
 .range.__moving .range__toggler {
   width: 20px;
   height: 20px;
-  -webkit-box-shadow: 0px 0px 0px 18px rgba(106, 165, 39, 0.129);
-  box-shadow: 0px 0px 0px 18px rgba(106, 165, 39, 0.129);
+  /* box-shadow: 0px 0px 0px 18px rgba(106, 165, 39, 0.129); */
 }
 
 .range.__moving .range__toggler::before {
