@@ -479,7 +479,7 @@ class TextField {
         this.inputWrapper = this.rootElem.querySelector(".text-field__input-wrapper");
 
         // если TextFieldMulti - проинициализируется все равно, просто в конструкторе TextFieldMulti
-        if(this instanceof TextFieldMulti == false) this.init();
+        if (this instanceof TextFieldMulti == false) this.init();
     }
     init() {
         this.input = this.rootElem.querySelector(".text-field__input");
@@ -677,14 +677,17 @@ class TextFieldMulti extends TextField {
         const targInput = event.target;
 
         let value = "";
+        const maxlength = targInput.getAttribute("maxlength");
         this.inputs.forEach(inp => value += inp.value);
         this.input.value = value;
 
-        if (targInput.value.length >= targInput.getAttribute("maxlength")) {
-            const currentIndex = this.inputs.indexOf(targInput);
-            const nextInput = this.inputs[currentIndex + 1];
-            if (nextInput) nextInput.focus();
-        }
+        setTimeout(() => {
+            if (targInput.value.length >= maxlength && targInput.selectionStart == maxlength) {
+                const currentIndex = this.inputs.indexOf(targInput);
+                const nextInput = this.inputs[currentIndex + 1];
+                if (nextInput) nextInput.focus();
+            }
+        }, 50);
     }
     onKeydown(event) {
         super.onChange(event);
@@ -702,6 +705,21 @@ class TextFieldMulti extends TextField {
             if (event.code === "ArrowLeft" && input.selectionStart === 0 && prevInput) {
                 prevInput.focus();
             }
+        }
+
+        this.replaceNextValueSymbol(event);
+    }
+    replaceNextValueSymbol(event) {
+        const input = event.target;
+        if (event.key.length > 1 || input.selectionStart !== input.selectionEnd) return;
+        const selStart = input.selectionStart;
+
+        const maxlength = input.getAttribute("maxlength");
+        if (input.value.length == maxlength) {
+            input.value = input.value.slice(0, selStart);
+            setTimeout(() => {
+                input.selectionStart = input.selectionEnd = selStart + 1;
+            }, 0);
         }
     }
     typeNumberOnly(event) {
@@ -721,6 +739,7 @@ class TextFieldDate extends TextFieldMulti {
         super(node);
         this.onLastInputKeydown = this.onLastInputKeydown.bind(this);
         this.typeNumberOnly = this.typeNumberOnly.bind(this);
+        this.onKeydown = this.onKeydown.bind(this);
 
         this.inputDay = this.inputs[0];
         this.inputMonth = this.inputs[1];
@@ -795,7 +814,7 @@ class TextFieldDate extends TextFieldMulti {
                 && prevInput
                 && notFullPrevInput;
 
-            if (needToMoveLeft) {
+            if (needToMoveLeft && !totalValue.match(/\D/g)) {
                 this.inputs[2].value = totalValue.slice(-4);
                 this.inputs[1].value = totalValue.slice(-6, -4);
                 this.inputs[0].value = totalValue.slice(-8, -6);

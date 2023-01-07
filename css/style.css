@@ -1465,6 +1465,13 @@ input::-webkit-inner-spin-button {
   transform: translate(0, -2px);
 }
 
+.selbActive .selectBox_wrapper .selectBox_value-text.__moz-fix,
+.selectBox_value-text.__moz-fix {
+  -webkit-transform: translate(0, -3px);
+  -ms-transform: translate(0, -3px);
+  transform: translate(0, -3px);
+}
+
 .selbActive select {
   border: 1px solid#FCF8DF !important;
   color: #000 !important;
@@ -1604,12 +1611,6 @@ input::-webkit-inner-spin-button {
   text-overflow: ellipsis;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-}
-
-.selectBox_value-text.__moz-fix {
-  -webkit-transform: translate(0, -3px);
-  -ms-transform: translate(0, -3px);
-  transform: translate(0, -3px);
 }
 
 .selctexit_btn {
