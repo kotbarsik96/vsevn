@@ -926,7 +926,7 @@ input[name*="year"] {
   justify-content: center;
 }
 
-.text-field--select .text-field__input-wrapper.__active + .checkboxes {
+.text-field--select .text-field__input-wrapper.__active+.checkboxes {
   width: calc(100% - 42px);
 }
 
@@ -2343,10 +2343,11 @@ input[type="radio"]+.checkbox__value .checkbox__icon::before {
   -ms-transform: translate(0, -100%);
   transform: translate(0, -100%);
   border-radius: 3px;
-  border: none;
+  border: 1px solid #66580038;
   padding: 4px 8px 9px;
-  background: var(--dim_color);
-  color: #fff;
+  background: #FCF8DF;
+  font-weight: 600;
+  color: #665800;
   font-size: 14px;
   pointer-events: none;
   max-width: 80vw;
