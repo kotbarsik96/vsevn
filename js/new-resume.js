@@ -2837,8 +2837,8 @@ class CutImage {
 
         // нарисовать все изображение
         const canvasOrig = createElement("canvas");
-        canvasOrig.width = document.documentElement.clientWidth || window.innerWidth;
-        canvasOrig.height = document.documentElement.clientHeight || window.innerHeight;
+        canvasOrig.width = this.origSizes.width * 2;
+        canvasOrig.height = this.origSizes.height * 2;
         canvasOrig.style.cssText = "position: absolute; z-index: -99; opacity: 0";
         document.body.append(canvasOrig);
         const ctxOrig = canvasOrig.getContext("2d");

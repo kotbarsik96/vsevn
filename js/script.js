@@ -176,6 +176,7 @@ class FullImagePopup {
             fullImageBody.prepend(img);
             this.setImgSize();
             window.addEventListener("resize", this.setImgSize);
+            img.style.transform = "scale(0.9)";
         }
     }
     onImgClick() {

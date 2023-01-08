@@ -2443,6 +2443,11 @@ input[type="radio"]+.checkbox__value .checkbox__icon::before {
     align-items: center;
   }
 
+  .load-image__cut-block.cut-square .load-image__move-y-buttons {
+    left: auto;
+    right: -35px;
+  }
+
   .load-image__small-container {
     padding: 35px 0;
   }
