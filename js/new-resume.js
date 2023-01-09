@@ -2521,7 +2521,7 @@ class CutImage {
         this.img.ondragstart = () => false;
         this.img.addEventListener("pointerdown", (event) => {
             const onUp = (upEvent) => {
-                if (upEvent.clientX === x || upEvent.clientY === y) this.createFullSize(true);
+                if (upEvent.clientX === x && upEvent.clientY === y) this.createFullSize(true);
                 this.img.removeEventListener("pointerup", onUp);
             }
 
@@ -2842,18 +2842,25 @@ class CutImage {
         canvasOrig.style.cssText = "position: absolute; z-index: -99; opacity: 0";
         document.body.append(canvasOrig);
         const ctxOrig = canvasOrig.getContext("2d");
-        ctxOrig.drawImage(this.origImg, 0, 0, this.img.width * this.scalePopup, this.img.height * this.scalePopup);
+        ctxOrig.drawImage(this.origImg, 0, 0, this.origImg.width, this.origImg.height);
 
         // из всего изображения найти только выделенный квадрат/круг
-        const ctxSize = this.previewSize * this.scalePopup;
+        const previewCoefX = this.img.width / this.previewSize;
+
+        const fullimageSize = this.origImg.width / previewCoefX;
+        const ctxSize = fullimageSize;
         const canvasCut = createElement("canvas");
-        canvasCut.width = this.previewSize * this.scalePopup;
-        canvasCut.height = this.previewSize * this.scalePopup;
+        canvasCut.width = ctxSize;
+        canvasCut.height = ctxSize;
         canvasCut.style.cssText = "position: absolute; z-index: -99; opacity: 0";
         document.body.append(canvasCut);
         const ctxCut = canvasCut.getContext("2d");
-        const sx = (imgWrapperCoords.left - imgCoords.left) * this.scalePopup;
-        const sy = (imgWrapperCoords.top - imgCoords.top) * this.scalePopup;
+
+        const previewDiffX = imgWrapperCoords.left - imgCoords.left;
+        const previewDiffY = imgWrapperCoords.top - imgCoords.top;
+        const sx = previewDiffX * (this.origImg.width / this.img.width);
+        const sy = previewDiffY * (this.origImg.height / this.img.height);
+
         if (this.isCircle) {
             const x = canvasCut.width / 2;
             const y = canvasCut.height / 2;
