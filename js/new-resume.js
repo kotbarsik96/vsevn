@@ -1,10 +1,3 @@
-/* 
-    ВЕРНУТЬ:
-    валидацию полей: отображение сообщения под незаполненным полем, а также под незаполненными группами полей;
-    пропуск отправления по валидации;
-    data-complete-length="min, max" (необходимая длина для заполнения поля);
-*/
-
 function documentHandlers() {
     document.addEventListener("click", closeMultiselects);
     document.addEventListener("click", closeTextSelects);
@@ -621,17 +614,25 @@ class TextFieldMulti extends TextField {
         this.inputTrap = this.rootElem.querySelector(".text-field__input-trap");
         if (this.inputTrap) {
             this.inputTrap.addEventListener("focus", this.onInputTrapFocus);
+            this.isFirstFocus = true;
             return;
         }
 
         this.init();
     }
     onInputTrapFocus() {
-        const layout = this.createLayout();
-        this.inputTrap.insertAdjacentHTML("afterend", layout);
-        this.inputTrap.remove();
-        this.init();
-        this.inputs[0].focus();
+        if (this.isFirstFocus) {
+            const layout = this.createLayout();
+            this.inputTrap.insertAdjacentHTML("afterend", layout);
+            this.inputTrap.remove();
+            this.init();
+            this.inputs[0].focus();
+            this.isFirstFocus = false;
+        } else {
+            this.removedLayoutElems.forEach(el => el.classList.remove("__removed"));
+            this.inputTrap.remove();
+            this.inputs[0].focus();
+        }
     }
     init() {
         super.init();
@@ -664,6 +665,15 @@ class TextFieldMulti extends TextField {
         this.rootElem.classList.remove("__completed");
         this.rootElem.classList.remove("__uncompleted");
     }
+    setTrap() {
+        this.removedLayoutElems = [];
+        this.rootElem.querySelectorAll(".text-field__input-multi")
+            .forEach(el => this.removedLayoutElems.push(el));
+        this.removedLayoutElems.push(this.rootElem.querySelector(".text-field__input-close"));
+
+        this.removedLayoutElems.forEach(el => el.classList.add("__removed"));
+        this.inputWrapper.append(this.inputTrap);
+    }
     onChange(event) {
         super.onChange(event);
         if (!this.isCompleted) {
@@ -671,6 +681,11 @@ class TextFieldMulti extends TextField {
             else if (this.input.value) this.rootElem.classList.add("__uncompleted");
         } else {
             this.rootElem.classList.add("__completed");
+        }
+
+        if (this.inputTrap) {
+            const hasNotEmptyInput = Boolean(this.inputs.find(inp => inp.value));
+            if (!hasNotEmptyInput) this.setTrap();
         }
     }
     setValue(event) {

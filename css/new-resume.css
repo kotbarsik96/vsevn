@@ -285,6 +285,7 @@ h6 {
   justify-content: space-between;
   gap: 5px;
   margin-top: 12px;
+  width: 100%;
 }
 
 .forms__fields-group--triple .forms__fields-item {
@@ -367,6 +368,7 @@ h6 {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 100%;
   flex: 0 0 100%;
+  max-width: 100%;
 }
 
 /* Поле с несколькими input */
@@ -495,7 +497,7 @@ input[name*="year"] {
   -ms-flex-pack: justify;
   justify-content: space-between;
   margin: 10px 10px 0 0;
-  max-width: 250px;
+  max-width: 100%;
   position: relative;
 }
 
@@ -806,6 +808,10 @@ input[name*="year"] {
 
 .text-field__add-button::before {
   color: #fff;
+  display: inline-block;
+  -webkit-transform: translate(0, -2px);
+  -ms-transform: translate(0, -2px);
+  transform: translate(0, -2px);
 }
 
 .zodiac-icon+.text-field__input {
