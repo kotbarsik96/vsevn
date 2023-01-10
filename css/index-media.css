@@ -156,6 +156,26 @@
   .filters_wrapper .foundation-clear_filter {
     grid-column: 1 / -1;
   }
+
+  .selctexit_btn_hint {
+    display: none;
+    position: absolute;
+    top: 120%;
+    left: auto;
+    right: 0;
+    border: 2px solid #ffe856;
+    color: #665800;
+    background: #fff9e0;
+    z-index: 100;
+    padding: 10px 25px 14px 25px;
+    white-space: nowrap;
+    font-size: 20px;
+  }
+
+  .selctexit_btn_hint::before {
+    left: auto;
+    right: 7px;
+  }
 }
 
 @media (max-width: 992px) {

@@ -2382,6 +2382,18 @@ input[type="radio"]+.checkbox__value .checkbox__icon::before {
   }
 }
 
+@media (max-width: 949px) {
+  .selctexit_btn_hint {
+    left: auto;
+    right: 0;
+  }
+
+  .selctexit_btn_hint::before {
+    left: auto;
+    right: 7px;
+  }
+}
+
 @media (max-width: 799px) {
   .forms__fields-group--triple .forms__fields-item {
     -webkit-box-flex: 0;

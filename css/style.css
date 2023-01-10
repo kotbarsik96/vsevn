@@ -1495,6 +1495,16 @@ input::-webkit-inner-spin-button {
   font-size: 20px;
 }
 
+.selctexit_btn_hint.selctexit_btn_hint--screen-edgeside {
+  right: 0;
+  left: auto;
+}
+
+.selctexit_btn_hint.selctexit_btn_hint--screen-edgeside::before {
+  left: auto;
+  right: 7px;
+}
+
 .selctexit_btn_hint:hover {
   display: none !important;
 }
